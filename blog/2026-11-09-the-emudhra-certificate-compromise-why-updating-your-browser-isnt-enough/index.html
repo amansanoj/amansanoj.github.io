@@ -1,0 +1,79 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The eMudhra Certificate Compromise: Why Updating Your Browser Isn’t Enough — Aman Sanoj</title>
+
+<meta name="google-site-verification" content="CkwJuzxJc5bqWRrngiQGY5f-4AEhBYTfuOqg4gFG-b4">
+
+
+<link rel="icon" href="/assets/images/favicon-white.ico"><script src="/theme.js"></script><link rel="stylesheet" href="/styles.css"><script src="/site.js" defer></script>
+<link rel="canonical" href="https://amansanoj.is-a.dev/blog/2026-11-09-the-emudhra-certificate-compromise-why-updating-your-browser-isnt-enough/"></head><body><a class="skip" href="#main">Skip to Content</a><header>
+  <a class="home" href="/#">Aman Sanoj</a>
+  <nav aria-label="Main navigation"><a href="/#projects">Projects</a><a href="/#about">About</a><a href="/blog/">Blog</a><a href="mailto:me@amansanoj.com">Email</a></nav>
+</header><main id="main"><article><div class="blog-intro"><a href="/blog/">All Posts</a><h1>The eMudhra Certificate Compromise: Why Updating Your Browser Isn’t Enough</h1><time class="post-date" datetime="2026-11-09">09 November 2026</time></div><div class="post-body"><p>I run several self-hosted services through Cloudflare Tunnel. When I read about the eMudhra certificate compromise, I wanted to know whether the protections reaching browsers also reached the connector running on my server.</p>
+<p>Updating Chrome or Firefox doesn’t update <code>cloudflared</code>. Nor does it update the certificate bundles inside containers, API clients, or monitoring agents. Those applications can make different trust decisions on the same machine.</p>
+<h2>What Went Wrong</h2>
+<p>According to <a href="https://blog.cloudflare.com/emudhra-certificate-compromise/">Cloudflare’s October 20 advisory</a>, eight intermediate CA certificates operated by eMudhra, also known as emSign, had weak keys. The corresponding private keys could be recovered from public information.</p>
+<p>Someone with an intermediate CA’s private key can sign certificates for domains they don’t own, subject to the constraints on that intermediate. A client that still accepts the resulting chain may authenticate an impersonating server.</p>
+<p>That alone doesn’t let an attacker read arbitrary traffic. They also need a way to intercept or redirect a connection. But it can defeat the certificate check that would otherwise stop that interception.</p>
+<p>A simplified HTTPS certificate chain looks like this:</p>
+<pre><code class="language-text">Trusted Root CA
+    └── Intermediate CA
+            └── Certificate for example.com
+</code></pre>
+<p>The client checks the hostname, dates, signatures, and certificate constraints, and builds a chain to a trusted root. If an intermediate’s private key is compromised, a correctly signed certificate can still be fraudulent. Clients need revocation information or another distrust mechanism to reject it.</p>
+<h2>Revocation Has to Reach the Client</h2>
+<p>Certificate revocation lists (CRLs) and the Online Certificate Status Protocol (OCSP) let authorities publish certificate status. Publishing that information doesn’t guarantee every application will use it. Some clients don’t check revocation; others may continue a connection when a status check is unavailable.</p>
+<p>Browsers also distribute protections through vendor-maintained revocation and distrust mechanisms. Background services don’t necessarily receive those updates.</p>
+<p>An application might use the operating system’s trust store, a bundled certificate collection, or an administrator-supplied store. Its validation behavior also depends on its TLS library and configuration. Updating the operating system’s CA bundle may help one application while leaving another unaffected.</p>
+<p>Containers add another boundary: updating the host doesn’t replace files in an existing image or restart the processes inside it.</p>
+<h2>Updating Cloudflare Tunnel</h2>
+<p>Cloudflare’s advisory identifies <code>cloudflared</code> <strong>2026.10.2</strong> as the release Tunnel users should upgrade to for this incident. Use that release or a newer patched version, following the current advisory for your deployment.</p>
+<p>Start by checking the installed binary:</p>
+<pre><code class="language-bash">cloudflared --version
+</code></pre>
+<p>Update it through the mechanism you used to install it. For Homebrew:</p>
+<pre><code class="language-bash">brew update
+brew upgrade cloudflared
+</code></pre>
+<p>For Debian or Ubuntu with Cloudflare’s APT repository already configured:</p>
+<pre><code class="language-bash">sudo apt update
+sudo apt install --only-upgrade cloudflared
+</code></pre>
+<p>A manually downloaded binary needs to be replaced separately. Neither command guarantees that a running connector has loaded the new executable.</p>
+<p>For a typical systemd service, restart it and check its status:</p>
+<pre><code class="language-bash">sudo systemctl restart cloudflared
+sudo systemctl status cloudflared
+</code></pre>
+<p>Check the startup logs for the running connector’s version as well. The <code>cloudflared</code> found in your shell’s <code>PATH</code> may differ from the executable configured in the service.</p>
+<h3>Docker Compose</h3>
+<p>If the connector runs in a container, update the image reference in your Compose configuration to a patched release. A fixed tag or digest won’t move just because a newer release exists.</p>
+<p>Then pull the image and recreate the service:</p>
+<pre><code class="language-bash">docker compose pull cloudflared
+docker compose up -d --force-recreate cloudflared
+docker compose exec cloudflared cloudflared --version
+</code></pre>
+<p>These commands assume the service is named <code>cloudflared</code>. Recreating it briefly interrupts that connector, so account for that if it’s your only route to the host.</p>
+<p><a href="https://developers.cloudflare.com/changelog/post/2026-10-22-emudhra-certificates/">Cloudflare’s Sandbox guidance</a> also addresses outdated trust information in container environments. Rebuilt images, cached layers, and running instances need separate attention.</p>
+<h2>Check What You Actually Tested</h2>
+<p>The Sandbox guidance references a test endpoint for an affected certificate chain:</p>
+<pre><code class="language-bash">curl -f https://dv-g3b-emudhra.we-have-a-problem.com/
+</code></pre>
+<p>The expected result for a client protected against that chain is a <strong>certificate validation failure</strong>. A DNS error, timeout, or blocked connection doesn’t demonstrate that protection. An HTTP error after a successful TLS handshake doesn’t either.</p>
+<p>This checks <code>curl</code> and its TLS configuration. It doesn’t establish that <code>cloudflared</code>, a Python application, or a Node.js service will make the same decision. It also tests one chain, rather than every affected certificate.</p>
+<p>Use the vendor’s remediation guidance for each application. Don’t bypass verification with <code>-k</code> or an equivalent setting to make a failing connection work.</p>
+<h2>What I’m Checking in My Setup</h2>
+<p>For my self-hosted services, the useful checks are concrete:</p>
+<ul>
+<li>Which connector version is running, and does it match the updated installation?</li>
+<li>Which containers need a new image and recreation?</li>
+<li>Which other services make outbound HTTPS requests, and where do their trust settings come from?</li>
+</ul>
+<p>A connected tunnel or an HTTP 200 response tells me that a service is available. It doesn’t tell me whether that service will reject a forged certificate. That takes a separate check.</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://blog.cloudflare.com/emudhra-certificate-compromise/">Cloudflare: 8 eMudhra Certificates Are Compromised. Here’s What You Need to Know</a> — October 20, 2026.</li>
+<li><a href="https://blog.cloudflare.com/emudhra-patching">Cloudflare: Tracking Exploitation and Patching of eMudhra’s Weak Keys</a> — October 30, 2026.</li>
+<li><a href="https://developers.cloudflare.com/changelog/post/2026-10-22-emudhra-certificates/">Cloudflare Developers: Sandbox SDK Updates Trusted Certificates After the eMudhra Compromise</a> — October 22, 2026.</li>
+<li><a href="https://we-have-a-problem.com/">eMudhra Intermediate CA Compromise: Technical Disclosure and Verification Resources</a>.</li>
+</ul>
+<p>Originally discussed in my <a href="https://www.linkedin.com/feed/update/urn:li:activity:7520738976022917120/">LinkedIn post</a>.</p></div></article></main><footer><span>© <span id="year">2026</span> Aman Sanoj</span><label class="theme-control" for="theme"><span class="theme-icon theme-system"><svg class="icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,64v88H32V64A16,16,0,0,1,48,48H208A16,16,0,0,1,224,64Z" opacity="0.2"/><path d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24h72v16H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16H136V200h72a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40ZM48,56H208a8,8,0,0,1,8,8v80H40V64A8,8,0,0,1,48,56ZM208,184H48a8,8,0,0,1-8-8V160H216v16A8,8,0,0,1,208,184Z"/></svg></span><span class="theme-icon theme-light"><svg class="icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M184,128a56,56,0,1,1-56-56A56,56,0,0,1,184,128Z" opacity="0.2"/><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></svg></span><span class="theme-icon theme-dark"><svg class="icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M227.89,147.89A96,96,0,1,1,108.11,28.11,96.09,96.09,0,0,0,227.89,147.89Z" opacity="0.2"/><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"/></svg></span><span>Theme</span><select id="theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label><a href="/#">Back to Top</a></footer></body></html>
