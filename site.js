@@ -6,12 +6,16 @@ const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
 // Animate content units individually; nested links and icons travel with their
 // parent so their movement never compounds.
 const motionSelector = [
-  '.home', 'nav a', '.intro h1', '.intro > p', '.links a',
-  '.project-heading', '.featured > p', '.project > p', '.screenshot',
-  'main h2', '.other-projects h3', '.other-projects li', '.other-projects > a',
-  '#about > p', '#contact > p', 'footer > *', '.blog-intro > *', '.post-list > li', '.post-body > *'
+  '.home', 'nav a', 'main h1', 'main h2', 'main h3', 'main p',
+  '.links a', '.project-heading', '.screenshot', 'main li',
+  '.other-projects > a', '.blog-intro > *',
+  '.post-body > *', 'footer > *'
 ].join(', ');
-const revealElements = document.querySelectorAll(motionSelector);
+// Keep one motion layer per content unit, including future Markdown elements.
+const candidates = [...document.querySelectorAll(motionSelector)];
+const revealElements = candidates.filter(element =>
+  !candidates.some(parent => parent !== element && parent.contains(element))
+);
 const animations = new Set();
 
 // Content stays visible if JavaScript or the observer is unavailable.
@@ -22,9 +26,9 @@ if ('IntersectionObserver' in window) {
       observer.unobserve(entry.target);
       if (reducedMotion.matches) continue;
       const animation = entry.target.animate([
-        { opacity: 0, transform: 'translateY(14px)' },
+        { opacity: 0, transform: 'translateY(5px)' },
         { opacity: 1, transform: 'translateY(0)' }
-      ], { duration: 650, easing: 'cubic-bezier(.22,1,.36,1)' });
+      ], { duration: 450, easing: 'cubic-bezier(.22,1,.36,1)' });
       animations.add(animation);
       animation.onfinish = () => animations.delete(animation);
     }
@@ -71,8 +75,14 @@ document.addEventListener('pointermove', event => {
     const distance = Math.hypot(Math.max(0, Math.abs(dx) - rect.width / 2), Math.max(0, Math.abs(dy) - rect.height / 2));
     const pull = Math.max(0, 1 - distance / 100);
     const focused = item.element.matches(':focus-within');
-    item.tx = focused ? 0 : Math.max(-7, Math.min(7, dx * 0.035)) * pull;
-    item.ty = focused ? 0 : Math.max(-5, Math.min(5, dy * 0.045)) * pull;
+    const chrome = Boolean(item.element.closest('header, footer'));
+    // Large text blocks should drift as little as a compact navigation link.
+    const x = chrome ? dx * 0.035 : dx / Math.max(rect.width / 2, 80) * 2.5;
+    const y = chrome ? dy * 0.045 : dy / Math.max(rect.height / 2, 60) * 1.8;
+    const maxX = chrome ? 7 : 2.5;
+    const maxY = chrome ? 5 : 1.8;
+    item.tx = focused ? 0 : Math.max(-maxX, Math.min(maxX, x)) * pull;
+    item.ty = focused ? 0 : Math.max(-maxY, Math.min(maxY, y)) * pull;
   }
   schedule();
 }, { passive: true });
