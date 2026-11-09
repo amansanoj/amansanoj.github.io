@@ -136,29 +136,55 @@ reducedMotion.addEventListener('change', resetMotion);
 finePointer.addEventListener('change', resetMotion);
 document.addEventListener('visibilitychange', () => { if (document.hidden) resetMotion(); });
 
-// CodePen's one-time marker sweep, using native observation instead of GSAP.
-// Only the background animates; the text never fades or leaves the layout.
-const highlights = [...document.querySelectorAll('.post-body strong')];
-let highlightObserver;
-function revealHighlights() {
-  highlights.forEach(element => element.classList.add('highlight-active'));
-  highlightObserver?.disconnect();
-}
-if (reducedMotion.matches || !('IntersectionObserver' in window)) {
-  revealHighlights();
-} else {
-  highlightObserver = new IntersectionObserver(entries => {
-    for (const entry of entries) {
-      if (!entry.isIntersecting) continue;
-      entry.target.classList.add('highlight-active');
-      highlightObserver.unobserve(entry.target);
+// Magic UI Highlighter's Rough Notation engine, scoped to blog emphasis.
+if (document.querySelector('.post-body strong') && window.RoughNotation) {
+  document.fonts.ready.then(() => {
+    const annotations = new Map();
+    const pending = [...document.querySelectorAll('.post-body strong')];
+    let observer;
+    function highlight(element) {
+      if (annotations.has(element)) return;
+      const animate = !reducedMotion.matches;
+      const annotation = RoughNotation.annotate(element, {
+        type: 'highlight', color: 'var(--secondary-300)',
+        strokeWidth: 1.5, animationDuration: 500, iterations: 2,
+        padding: 2, multiline: true, animate
+      });
+      annotations.set(element, annotation);
+      annotation.show();
+      const decoration = element.previousElementSibling;
+      decoration?.setAttribute('aria-hidden', 'true');
+      decoration?.setAttribute('focusable', 'false');
+      // Resize redraws must not wipe the backing from already-dark text.
+      annotation.animate = false;
+      if (animate) setTimeout(() => element.classList.add('highlight-drawn'), 520);
+      else element.classList.add('highlight-drawn');
     }
-  }, { rootMargin: `0px 0px -${Math.max(0, innerHeight / 2 - 100)}px 0px`, threshold: 0 });
-  highlights.forEach(element => highlightObserver.observe(element));
+    function showAll() {
+      observer?.disconnect();
+      pending.forEach(element => {
+        highlight(element);
+        annotations.get(element).hide();
+        annotations.get(element).show();
+        element.classList.add('highlight-drawn');
+      });
+    }
+    if (reducedMotion.matches || !('IntersectionObserver' in window)) showAll();
+    else {
+      observer = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          highlight(entry.target);
+          observer.unobserve(entry.target);
+        }
+      }, { rootMargin: '0px', threshold: 0 });
+      pending.forEach(element => observer.observe(element));
+    }
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) showAll();
+    });
+  });
 }
-reducedMotion.addEventListener('change', () => {
-  if (reducedMotion.matches) revealHighlights();
-});
 
 // Layered-mask progressive blur adapted from Magic UI (MIT).
 // Footer content and keyboard navigation always remain unobscured.

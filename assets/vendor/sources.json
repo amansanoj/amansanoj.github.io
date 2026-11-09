@@ -10,5 +10,11 @@
     "version": "2.1.1",
     "integrity": "sha512-v4ARvrip4qBCImOE5rmPUylOEK4iiED9ZyKjcvzuezqMaiRASCHKcRIuvvxL/twvLpkfnEODCOJp5dM4eZilxQ==",
     "source": "https://registry.npmjs.org/@phosphor-icons/core/-/core-2.1.1.tgz"
+  },
+  "rough-notation": {
+    "name": "rough-notation",
+    "version": "0.5.1",
+    "integrity": "sha512-ITHofTzm13cWFVfoGsh/4c/k2Mg8geKgBCwex71UZLnNuw403tCRjYPQ68jSAd37DMbZIePXPjDgY0XdZi9HPw==",
+    "source": "https://registry.npmjs.org/rough-notation/-/rough-notation-0.5.1.tgz"
   }
 }

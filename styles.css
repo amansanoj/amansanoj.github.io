@@ -171,23 +171,9 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
 #game-start { min-height: 44px; padding: 8px 18px; border: 1px solid var(--border); border-radius: var(--radius); color: var(--foreground); background: var(--muted); font: inherit; cursor: pointer; }
 #game-start:hover { color: var(--accent); }
 
-/* Scroll highlight adapted from hexagoncircle's CodePen gOPMwvd. */
-.post-body strong {
-  font-weight: 700;
-  background-image: linear-gradient(var(--secondary-300), var(--secondary-300));
-  background-repeat: no-repeat;
-  background-size: 0% 100%;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  transition: color 250ms cubic-bezier(.25, 1, .5, 1), background-size 1s cubic-bezier(.25, 1, .5, 1);
-}
-.post-body strong.highlight-active {
-  color: var(--secondary-foreground);
-  background-size: 100% 100%;
-}
-@media (prefers-reduced-motion: reduce) {
-  .post-body strong { transition: none; }
-}
+/* Magic UI Highlighter: Rough Notation draws behind the semantic bold text. */
+.post-body strong { font-weight: 700; }
+.post-body strong.highlight-drawn { color: var(--secondary-foreground); }
 
 /* Magic UI progressive blur, reduced to a shallow bottom edge. */
 .bottom-blur { position: fixed; inset: auto 0 0; height: 56px; z-index: 5; pointer-events: none; opacity: 0; }

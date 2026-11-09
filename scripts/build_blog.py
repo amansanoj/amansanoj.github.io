@@ -35,6 +35,7 @@ def build():
     head = re.sub(r'<meta (?:name="description"|property="og:[^"]+")[^>]*>', '', head)
     head = re.sub(r'<link rel="canonical"[^>]*>', '', head)
     head = head.replace('href="assets/', 'href="/assets/').replace('href="styles.css"', 'href="/styles.css"').replace('src="theme.js"', 'src="/theme.js"').replace('src="site.js"', 'src="/site.js"')
+    head = head.replace('<script src="/site.js"', '<script src="/assets/vendor/rough-notation.iife.js" defer></script><script src="/site.js"')
     header = '<header>' + source.split('<header>', 1)[1].split('</header>', 1)[0] + '</header>'
     header = header.replace('href="#', 'href="/#')
     footer = '<footer>' + source.split('<footer>', 1)[1].split('</footer>', 1)[0] + '</footer>'
