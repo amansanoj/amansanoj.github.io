@@ -18,12 +18,20 @@ const revealElements = candidates.filter(element =>
 );
 const animations = new Set();
 
-// Content stays visible if JavaScript or the observer is unavailable.
-if ('IntersectionObserver' in window) {
+// Never fade content that has already been visible. Only prepare elements
+// below the viewport, then start their entrance just before they scroll in.
+const pendingReveals = new Set();
+function showPending() {
+  pendingReveals.forEach(element => { element.style.opacity = ''; });
+  pendingReveals.clear();
+}
+if ('IntersectionObserver' in window && finePointer.matches && !reducedMotion.matches) {
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {
       if (!entry.isIntersecting) continue;
       observer.unobserve(entry.target);
+      if (!pendingReveals.delete(entry.target)) continue;
+      entry.target.style.opacity = '';
       if (reducedMotion.matches || !finePointer.matches) continue;
       const animation = entry.target.animate([
         { opacity: 0, transform: 'translateY(5px)' },
@@ -32,8 +40,14 @@ if ('IntersectionObserver' in window) {
       animations.add(animation);
       animation.onfinish = () => animations.delete(animation);
     }
-  }, { threshold: 0.08 });
-  revealElements.forEach(element => observer.observe(element));
+  }, { threshold: 0, rootMargin: '0px 0px 40px 0px' });
+  for (const element of revealElements) {
+    if (element.getBoundingClientRect().top < innerHeight + 40) continue;
+    element.style.opacity = '0';
+    pendingReveals.add(element);
+    observer.observe(element);
+  }
+  window.addEventListener('pageshow', event => { if (event.persisted) showPending(); });
 }
 
 // Separate CSS translate from entrance transforms. Measure the resting bounds
@@ -99,6 +113,7 @@ function resetMotion() {
     item.element.style.translate = '';
   });
   if (reducedMotion.matches || !finePointer.matches) {
+    showPending();
     animations.forEach(animation => animation.cancel());
     animations.clear();
   }
