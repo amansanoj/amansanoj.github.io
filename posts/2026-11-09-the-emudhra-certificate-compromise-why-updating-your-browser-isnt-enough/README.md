@@ -113,5 +113,3 @@ A connected tunnel or an HTTP 200 response tells me that a service is available.
 - [Cloudflare: Tracking Exploitation and Patching of eMudhra’s Weak Keys](https://blog.cloudflare.com/emudhra-patching) — October 30, 2026.
 - [Cloudflare Developers: Sandbox SDK Updates Trusted Certificates After the eMudhra Compromise](https://developers.cloudflare.com/changelog/post/2026-10-22-emudhra-certificates/) — October 22, 2026.
 - [eMudhra Intermediate CA Compromise: Technical Disclosure and Verification Resources](https://we-have-a-problem.com/).
-
-Originally discussed in my [LinkedIn post](https://www.linkedin.com/feed/update/urn:li:activity:7520738976022917120/).
