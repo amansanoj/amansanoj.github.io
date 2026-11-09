@@ -188,3 +188,6 @@ body:has(:focus-visible) .bottom-blur, body:has(.lost-game[open]) .bottom-blur {
 
 .reading-progress { position: fixed; inset: 0 0 auto; height: 2px; background: var(--primary); transform: scaleX(0); transform-origin: left; pointer-events: none; z-index: 9; }
 @media print { .reading-progress { display: none; } }
+
+/* Keep the marker translucent so unchanged text stays readable in both themes. */
+.post-body .rough-annotation { opacity: .22; }
