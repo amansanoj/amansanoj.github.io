@@ -13,15 +13,19 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def cover_variants(source, target):
     tokens = json.loads((ROOT / 'assets/vendor/brand-tokens.json').read_text())
-    background = tokens['color']['hex']['light']['base']['primary']
+    background = tokens['color']['hex']['dark']['base']['primary']
     with Image.open(source) as original:
         image = ImageOps.exif_transpose(original).convert('RGBA')
-        for name, size in [('thumbnail.jpg', (600, 315)), ('og.jpg', (1200, 630))]:
-            fitted = ImageOps.contain(image, size, Image.Resampling.LANCZOS)
-            canvas = Image.new('RGB', size, background)
-            position = ((size[0] - fitted.width) // 2, (size[1] - fitted.height) // 2)
-            canvas.paste(fitted, position, fitted)
-            canvas.save(target / name, quality=90, optimize=True)
+        thumbnail_size = (max(1, image.width // 4), max(1, image.height // 4))
+        thumbnail = image.resize(thumbnail_size, Image.Resampling.LANCZOS)
+        thumbnail.save(target / 'thumbnail.webp', quality=85, method=6)
+        size = (1200, 630)
+        fitted = ImageOps.contain(image, size, Image.Resampling.LANCZOS)
+        canvas = Image.new('RGB', size, background)
+        position = ((size[0] - fitted.width) // 2, (size[1] - fitted.height) // 2)
+        canvas.paste(fitted, position, fitted)
+        canvas.save(target / 'og.jpg', quality=90, optimize=True)
+        return thumbnail_size
 
 
 def build():
@@ -63,12 +67,12 @@ def build():
         shutil.copytree(readme.parent, target, ignore=shutil.ignore_patterns('README.md', 'index.html', '.*'))
         cover = next((name for name in ['cover.jpg', 'cover.png', 'cover.webp'] if (readme.parent / name).is_file()), None)
         if cover:
-            cover_variants(readme.parent / cover, target)
+            thumbnail_width, thumbnail_height = cover_variants(readme.parent / cover, target)
         cover_html = f'<img class="post-cover" src="{cover}" alt="{escape(title, quote=True)} — cover image" fetchpriority="high">' if cover else ''
         timestamp = f'<time class="post-date" datetime="{published}">{published.strftime("%d %B %Y")}</time>'
         body = f'<article><div class="blog-intro"><a href="/blog/">All Posts</a><h1>{escape(title)}</h1>{timestamp}</div>{cover_html}<div class="post-body">{content}</div></article>'
         (target / 'index.html').write_text(page(title + ' — Aman Sanoj', f'/blog/{slug}/', body, cover))
-        preview = f'<a class="post-cover-link" href="/blog/{slug}/" aria-label="{escape(title, quote=True)}"><img class="post-cover-preview" src="/blog/{slug}/thumbnail.jpg" width="600" height="315" alt="" loading="lazy"></a>' if cover else ''
+        preview = f'<a class="post-cover-link" href="/blog/{slug}/" aria-label="{escape(title, quote=True)}"><img class="post-cover-preview" src="/blog/{slug}/thumbnail.webp" width="{thumbnail_width}" height="{thumbnail_height}" alt="" loading="lazy"></a>' if cover else ''
         entries.append(f'<li class="post-entry{" has-cover" if cover else ""}">{preview}<div class="post-entry-text">{timestamp}<h2><a href="/blog/{slug}/">{escape(title)}</a></h2></div></li>')
     body = '<div class="blog-intro"><h1>Blog</h1></div>'
     body += '<ul class="post-list">' + ''.join(entries) + '</ul>' if entries else '<p>No posts yet.</p>'
