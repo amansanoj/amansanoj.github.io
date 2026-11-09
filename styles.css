@@ -81,3 +81,6 @@ footer { flex-wrap: wrap; align-items: center; }
 @media (prefers-reduced-motion: no-preference) {
   a, .icon { transition: color 160ms ease; }
 }
+
+/* Standalone inline links need a transformable box for cursor movement. */
+.home, nav a, .other-projects > a, footer > a { display: inline-block; }

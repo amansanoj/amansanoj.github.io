@@ -3,7 +3,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
-const revealElements = document.querySelectorAll('.intro > *, #projects > h2, article, .other-projects, #about, #contact');
+// Animate content units individually; nested links and icons travel with their
+// parent so their movement never compounds.
+const motionSelector = [
+  '.home', 'nav a', '.intro h1', '.intro > p', '.links a',
+  '.project-heading', '.featured > p', '.project > p', '.screenshot',
+  'main h2', '.other-projects h3', '.other-projects li', '.other-projects > a',
+  '#about > p', '#contact > p', 'footer > *'
+].join(', ');
+const revealElements = document.querySelectorAll(motionSelector);
 const animations = new Set();
 
 // Content stays visible if JavaScript or the observer is unavailable.
@@ -26,9 +34,7 @@ if ('IntersectionObserver' in window) {
 
 // Separate CSS translate from entrance transforms. Measure the resting bounds
 // so moving an element never moves its own attraction point.
-const magnets = [...document.querySelectorAll(
-  '.home, nav a, .intro h1, .intro > p, .links a, .project-heading, .featured > p, .project > p, .screenshot, main h2'
-)].map(element => ({ element, x: 0, y: 0, tx: 0, ty: 0 }));
+const magnets = [...revealElements].map(element => ({ element, x: 0, y: 0, tx: 0, ty: 0 }));
 let frame = 0;
 let lastTime = 0;
 const enabled = () => finePointer.matches && !reducedMotion.matches;
