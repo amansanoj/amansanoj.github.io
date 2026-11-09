@@ -173,7 +173,6 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
 
 /* Magic UI Highlighter: Rough Notation draws behind the semantic bold text. */
 .post-body strong { font-weight: 700; }
-.post-body strong.highlight-drawn { color: var(--secondary-foreground); }
 
 /* Magic UI progressive blur, reduced to a shallow bottom edge. */
 .bottom-blur { position: fixed; inset: auto 0 0; height: 56px; z-index: 5; pointer-events: none; opacity: 0; }

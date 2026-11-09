@@ -146,7 +146,7 @@ if (document.querySelector('.post-body strong') && window.RoughNotation) {
       if (annotations.has(element)) return;
       const animate = !reducedMotion.matches;
       const annotation = RoughNotation.annotate(element, {
-        type: 'highlight', color: 'var(--secondary-300)',
+        type: 'highlight', color: 'var(--secondary-200)',
         strokeWidth: 1.5, animationDuration: 500, iterations: 2,
         padding: 2, multiline: true, animate
       });
@@ -155,10 +155,8 @@ if (document.querySelector('.post-body strong') && window.RoughNotation) {
       const decoration = element.previousElementSibling;
       decoration?.setAttribute('aria-hidden', 'true');
       decoration?.setAttribute('focusable', 'false');
-      // Resize redraws must not wipe the backing from already-dark text.
+      // Redraw strokes without replaying their entrance after resizing.
       annotation.animate = false;
-      if (animate) setTimeout(() => element.classList.add('highlight-drawn'), 520);
-      else element.classList.add('highlight-drawn');
     }
     function showAll() {
       observer?.disconnect();
@@ -166,7 +164,6 @@ if (document.querySelector('.post-body strong') && window.RoughNotation) {
         highlight(element);
         annotations.get(element).hide();
         annotations.get(element).show();
-        element.classList.add('highlight-drawn');
       });
     }
     if (reducedMotion.matches || !('IntersectionObserver' in window)) showAll();
