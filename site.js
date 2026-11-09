@@ -145,3 +145,25 @@ if (reducedMotion.matches || !('IntersectionObserver' in window)) {
 reducedMotion.addEventListener('change', () => {
   if (reducedMotion.matches) revealHighlights();
 });
+
+// Layered-mask progressive blur adapted from Magic UI (MIT).
+// Footer content and keyboard navigation always remain unobscured.
+if (CSS.supports('backdrop-filter', 'blur(1px)') || CSS.supports('-webkit-backdrop-filter', 'blur(1px)')) {
+  const edge = document.createElement('div');
+  edge.className = 'bottom-blur';
+  edge.setAttribute('aria-hidden', 'true');
+  for (let i = 0; i < 4; i++) edge.append(document.createElement('span'));
+  document.body.append(edge);
+  let footerVisible = true;
+  const updateEdge = () => edge.classList.toggle('is-visible',
+    !footerVisible && document.documentElement.scrollHeight > innerHeight + 80);
+  const footer = document.querySelector('footer');
+  if (footer && 'IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      footerVisible = entries[0].isIntersecting;
+      updateEdge();
+    }, { rootMargin: '0px 0px 64px 0px' }).observe(footer);
+    window.addEventListener('resize', updateEdge, { passive: true });
+    if ('ResizeObserver' in window) new ResizeObserver(updateEdge).observe(document.body);
+  }
+}

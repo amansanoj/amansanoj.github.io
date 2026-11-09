@@ -61,3 +61,9 @@ and rendered as a 1200 × 630 `og.jpg` for social sharing. OG images are fitted 
 centered, and padded with the brand’s dark-theme primary (`color.hex.dark.base.primary`).
 EXIF orientation is applied before resizing. Upload only the original cover beside
 `README.md` in `posts/`; the Action generates both variants on each deployment.
+
+The bottom-edge progressive blur adapts Magic UI’s layered-mask technique
+([source](https://github.com/magicuidesign/magicui/blob/main/apps/www/registry/magicui/progressive-blur.tsx)).
+Its MIT license is included in `assets/vendor/magicui-LICENSE.md`.
+The effect is decorative, ignores pointer input, and hides around the footer,
+keyboard focus, and the 404 game. Reduced-transparency preferences disable it.

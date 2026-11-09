@@ -188,3 +188,15 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
 @media (prefers-reduced-motion: reduce) {
   .post-body strong { transition: none; }
 }
+
+/* Magic UI progressive blur, reduced to a shallow bottom edge. */
+.bottom-blur { position: fixed; inset: auto 0 0; height: 56px; z-index: 5; pointer-events: none; opacity: 0; }
+.bottom-blur.is-visible { opacity: 1; }
+.bottom-blur > span { position: absolute; inset: 0; pointer-events: none; }
+.bottom-blur > span:nth-child(1) { backdrop-filter: blur(.5px); -webkit-backdrop-filter: blur(.5px); mask-image: linear-gradient(transparent, var(--foreground) 25%); -webkit-mask-image: linear-gradient(transparent, var(--foreground) 25%); }
+.bottom-blur > span:nth-child(2) { backdrop-filter: blur(1.5px); -webkit-backdrop-filter: blur(1.5px); mask-image: linear-gradient(transparent 25%, var(--foreground) 50%); -webkit-mask-image: linear-gradient(transparent 25%, var(--foreground) 50%); }
+.bottom-blur > span:nth-child(3) { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); mask-image: linear-gradient(transparent 50%, var(--foreground) 80%); -webkit-mask-image: linear-gradient(transparent 50%, var(--foreground) 80%); }
+.bottom-blur > span:nth-child(4) { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); mask-image: linear-gradient(transparent 80%, var(--foreground)); -webkit-mask-image: linear-gradient(transparent 80%, var(--foreground)); }
+body:has(:focus-visible) .bottom-blur, body:has(.lost-game[open]) .bottom-blur { opacity: 0; }
+@media (max-width: 550px) { .bottom-blur { height: 40px; } }
+@media (prefers-reduced-transparency: reduce), (forced-colors: active), print { .bottom-blur { display: none; } }
