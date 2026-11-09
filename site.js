@@ -121,3 +121,27 @@ function resetMotion() {
 reducedMotion.addEventListener('change', resetMotion);
 finePointer.addEventListener('change', resetMotion);
 document.addEventListener('visibilitychange', () => { if (document.hidden) resetMotion(); });
+
+// CodePen's one-time marker sweep, using native observation instead of GSAP.
+// Only the background animates; the text never fades or leaves the layout.
+const highlights = [...document.querySelectorAll('.post-body strong')];
+let highlightObserver;
+function revealHighlights() {
+  highlights.forEach(element => element.classList.add('highlight-active'));
+  highlightObserver?.disconnect();
+}
+if (reducedMotion.matches || !('IntersectionObserver' in window)) {
+  revealHighlights();
+} else {
+  highlightObserver = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      entry.target.classList.add('highlight-active');
+      highlightObserver.unobserve(entry.target);
+    }
+  }, { rootMargin: `0px 0px -${Math.max(0, innerHeight / 2 - 100)}px 0px`, threshold: 0 });
+  highlights.forEach(element => highlightObserver.observe(element));
+}
+reducedMotion.addEventListener('change', () => {
+  if (reducedMotion.matches) revealHighlights();
+});

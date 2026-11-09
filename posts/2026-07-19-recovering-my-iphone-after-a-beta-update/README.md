@@ -20,7 +20,7 @@ I booted a separate Windows SSD and installed Apple Devices. The application rec
 
 The stable release I used then isn’t a recommendation to install that version now. Restore availability depends on the device and the firmware Apple is currently signing.
 
-Once the operating system was working, I returned to Linux and restored the local backup I had made before installing the beta. That brought my data back.
+Once the operating system was working, I returned to Linux and restored the **local backup** I had made before installing the beta. That brought my data back.
 
 The backup and firmware restore were separate operations. Getting a working operating system onto the phone didn’t itself recover my personal data.
 

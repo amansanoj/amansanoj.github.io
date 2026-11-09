@@ -8,7 +8,7 @@ I changed the identifier in a request and received another student’s personal 
 
 ## Authentication Wasn’t the Missing Check
 
-This was an insecure direct object reference, or IDOR: a caller could choose an object identifier without the server enforcing the relevant access restriction.
+This was an **insecure direct object reference**, or IDOR: a caller could choose an object identifier without the server enforcing the relevant access restriction.
 
 Being logged in answered one question: did the request come from an authenticated session? It didn’t answer the next one: was that session entitled to read this particular record?
 

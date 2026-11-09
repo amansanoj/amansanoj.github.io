@@ -14,11 +14,11 @@ A lot of buyers arrived during dispersal and wanted to buy whatever was availabl
 
 ## The Counter Became Part of the App
 
-We added a point-of-sale mode so staff could enter walk-up orders at the counter. That ended up being used more than the advance ordering flow.
+We added a **point-of-sale mode** so staff could enter walk-up orders at the counter. That ended up being used more than the advance ordering flow.
 
 It also made the administrative side more important. Staff needed to distinguish a card payment from a payment due at pickup, see what remained pending, and check transaction history. Those records were what replaced the ledgers in daily use.
 
-Across four months, GardenX processed more than AED 30,000 in produce sales. That period included winter break and exam season.
+Across four months, GardenX processed more than **AED 30,000** in produce sales. That period included winter break and exam season.
 
 We cut other ideas, including subscription boxes, delivery routing, and a leaderboard. The counter workflow and payment records were more useful than adding another way to browse produce.
 

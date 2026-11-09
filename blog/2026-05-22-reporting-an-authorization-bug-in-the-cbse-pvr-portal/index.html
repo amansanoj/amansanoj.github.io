@@ -13,7 +13,7 @@
 <p>The server required a logged-in session. It wasn’t checking whether that session was allowed to access the student record identified in the request.</p>
 <p>I changed the identifier in a request and received another student’s personal data. I stopped testing and reported the issue. The vulnerability has since been fixed.</p>
 <h2>Authentication Wasn’t the Missing Check</h2>
-<p>This was an insecure direct object reference, or IDOR: a caller could choose an object identifier without the server enforcing the relevant access restriction.</p>
+<p>This was an <strong>insecure direct object reference</strong>, or IDOR: a caller could choose an object identifier without the server enforcing the relevant access restriction.</p>
 <p>Being logged in answered one question: did the request come from an authenticated session? It didn’t answer the next one: was that session entitled to read this particular record?</p>
 <p>The response included personal and exam information.</p>
 <p>The request confirmed unauthorized access to another student’s record. The total number of accessible records and any prior exploitation were not established.</p>

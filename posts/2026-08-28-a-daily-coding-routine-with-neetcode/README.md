@@ -1,6 +1,6 @@
 # A Daily Coding Routine with NeetCode
 
-I’m starting a daily coding routine using the NeetCode 250 list. The target is one problem a day, with an update after each topic.
+I’m starting a daily coding routine using the NeetCode 250 list. The target is **one problem a day**, with an update after each topic.
 
 I replaced the Premium-only LeetCode questions with free alternatives and organized the roadmap in a [GitHub gist](https://lnkd.in/d2A7wmCh).
 

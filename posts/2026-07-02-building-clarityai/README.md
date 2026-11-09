@@ -16,7 +16,7 @@ OCR adds its own errors. A misread date can change what the rest of the system t
 
 ## Making the Output Checkable
 
-We put the extracted source sentences alongside the generated output and displayed confidence scores. Users had to review the output before external links unlocked.
+We put the extracted **source sentences** alongside the generated output and displayed confidence scores. Users had to review the output before external links unlocked.
 
 Those choices gave users something to compare against the action plan. They didn’t establish that the model was correct. A displayed confidence score is especially easy to overinterpret; without calibration against representative documents, it isn’t a measured probability of correctness.
 

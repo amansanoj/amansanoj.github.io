@@ -17,7 +17,7 @@
 <p>That first decision matters. A PDF can contain selectable text, scanned page images, or both. As the <a href="https://pypdf.readthedocs.io/en/latest/user/extract-text.html">pypdf documentation</a> explains, extracting embedded text and recognizing text in an image are different jobs. pypdf itself is not an OCR engine.</p>
 <p>OCR adds its own errors. A misread date can change what the rest of the system thinks is urgent. Formatting and incomplete extraction can also lose the relationship between a heading and the paragraph beneath it.</p>
 <h2>Making the Output Checkable</h2>
-<p>We put the extracted source sentences alongside the generated output and displayed confidence scores. Users had to review the output before external links unlocked.</p>
+<p>We put the extracted <strong>source sentences</strong> alongside the generated output and displayed confidence scores. Users had to review the output before external links unlocked.</p>
 <p>Those choices gave users something to compare against the action plan. They didn’t establish that the model was correct. A displayed confidence score is especially easy to overinterpret; without calibration against representative documents, it isn’t a measured probability of correctness.</p>
 <p>We also used asynchronous Brave Search retrieval to look for local assistance. Keeping that work separate let the interface progress without waiting for every search response. But a search result still needs checking: it may refer to the wrong jurisdiction, an outdated service, or an organization that can’t help with that document.</p>
 <h2>Evaluating the Output</h2>
