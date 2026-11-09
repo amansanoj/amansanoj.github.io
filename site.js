@@ -231,3 +231,65 @@ if (postBody) {
   if ('ResizeObserver' in window) new ResizeObserver(scheduleProgress).observe(document.body);
   updateProgress();
 }
+
+// Magic UI Lens adaptation for detailed screenshots and post covers.
+for (const image of document.querySelectorAll('.screenshot img, img.post-cover')) {
+  const surface = document.createElement('span');
+  surface.className = 'image-lens' + (image.matches('.post-cover') ? ' is-cover' : '');
+  image.before(surface);
+  surface.append(image);
+  const glass = document.createElement('span');
+  glass.className = 'lens-glass';
+  glass.setAttribute('aria-hidden', 'true');
+  surface.append(glass);
+  const control = surface.closest('a') || surface;
+  const isLink = control !== surface;
+  const originalLabel = control.getAttribute('aria-label');
+  if (!isLink) control.setAttribute('role', 'region');
+  let x = 0, y = 0;
+  function hideLens() { surface.classList.remove('is-magnified'); }
+  function showLens(nextX, nextY) {
+    if (!finePointer.matches || !image.complete || !image.naturalWidth) return;
+    const rect = image.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    x = Math.max(0, Math.min(rect.width, nextX));
+    y = Math.max(0, Math.min(rect.height, nextY));
+    const diameter = Math.min(170, rect.width, rect.height);
+    const radius = diameter / 2;
+    const left = Math.max(0, Math.min(rect.width - diameter, x - radius));
+    const top = Math.max(0, Math.min(rect.height - diameter, y - radius));
+    glass.style.width = glass.style.height = `${diameter}px`;
+    glass.style.left = `${left}px`;
+    glass.style.top = `${top}px`;
+    glass.style.backgroundImage = `url("${image.currentSrc || image.src}")`;
+    glass.style.backgroundSize = `${rect.width * 1.8}px ${rect.height * 1.8}px`;
+    glass.style.backgroundPosition = `${radius - x * 1.8}px ${radius - y * 1.8}px`;
+    surface.classList.add('is-magnified');
+  }
+  function configureLens() {
+    hideLens();
+    if (!isLink) control.tabIndex = finePointer.matches ? 0 : -1;
+    if (finePointer.matches) control.setAttribute('aria-label',
+      `${originalLabel || image.alt}. Arrow keys move the magnifier; Escape closes it.`);
+    else if (originalLabel) control.setAttribute('aria-label', originalLabel);
+    else control.setAttribute('aria-label', image.alt);
+  }
+  configureLens();
+  finePointer.addEventListener('change', configureLens);
+  surface.addEventListener('pointermove', event => {
+    if (event.pointerType !== 'mouse') return;
+    const rect = image.getBoundingClientRect();
+    showLens(event.clientX - rect.left, event.clientY - rect.top);
+  });
+  surface.addEventListener('pointerleave', hideLens);
+  control.addEventListener('focus', () => showLens(image.clientWidth / 2, image.clientHeight / 2));
+  control.addEventListener('blur', hideLens);
+  control.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { hideLens(); return; }
+    if (!finePointer.matches || !event.key.startsWith('Arrow')) return;
+    event.preventDefault();
+    showLens(x + (event.key === 'ArrowRight' ? 24 : event.key === 'ArrowLeft' ? -24 : 0),
+      y + (event.key === 'ArrowDown' ? 24 : event.key === 'ArrowUp' ? -24 : 0));
+  });
+  window.addEventListener('resize', hideLens, { passive: true });
+}

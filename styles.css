@@ -186,8 +186,17 @@ body:has(:focus-visible) .bottom-blur, body:has(.lost-game[open]) .bottom-blur {
 @media (max-width: 550px) { .bottom-blur { height: 40px; } }
 @media (prefers-reduced-transparency: reduce), (forced-colors: active), print { .bottom-blur { display: none; } }
 
-.reading-progress { position: fixed; inset: 0 0 auto; height: 2px; background: var(--primary); transform: scaleX(0); transform-origin: left; pointer-events: none; z-index: 9; }
+.reading-progress { position: fixed; inset: 0 0 auto; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; pointer-events: none; z-index: 9; }
 @media print { .reading-progress { display: none; } }
 
 /* Keep the marker translucent so unchanged text stays readable in both themes. */
 .post-body .rough-annotation { opacity: .22; }
+
+/* Magic UI Lens: local magnification without moving the page. */
+.image-lens { display: block; position: relative; overflow: hidden; border-radius: var(--radius); }
+.image-lens.is-cover { width: 100%; max-width: 480px; margin: 0 auto 36px; }
+.image-lens .post-cover { margin: 0; }
+.lens-glass { display: none; position: absolute; width: 170px; height: 170px; border-radius: 50%; border: 2px solid var(--primary); background-color: var(--background); background-repeat: no-repeat; pointer-events: none; z-index: 1; }
+.image-lens.is-magnified .lens-glass { display: block; }
+.image-lens:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+@media (hover: none), (pointer: coarse), print { .lens-glass { display: none !important; } }

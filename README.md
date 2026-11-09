@@ -71,3 +71,5 @@ keyboard focus, and the 404 game. Reduced-transparency preferences disable it.
 Image entrances adapt Magic UI’s [Blur Fade](https://github.com/magicuidesign/magicui/blob/main/apps/www/registry/magicui/blur-fade.tsx) using native animation. They run once for loaded images entering from below the viewport on desktop; touch, reduced motion, and already-visible images stay immediate.
 
 Bold blog text uses Magic UI’s Highlighter approach with vendored Rough Notation. Its version and integrity are recorded in `assets/vendor/sources.json`, with its MIT license alongside the script.
+
+Detailed project screenshots and post covers adapt [Magic UI Lens](https://github.com/magicuidesign/magicui/blob/main/apps/www/registry/magicui/lens.tsx): a 1.8× magnifier on hover-capable devices, with arrow-key positioning and Escape to dismiss. Touch layouts keep their normal images. The reading-progress bar uses the accent token.
