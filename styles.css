@@ -156,3 +156,17 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
   .has-cover .post-date, .has-cover h2 { grid-column: 2; }
   .has-cover .post-summary { grid-column: 1 / -1; margin-top: 8px; }
 }
+
+.lost-game { margin-top: 32px; border-top: 1px solid var(--border); padding-top: 22px; }
+.lost-game summary { color: var(--secondary); cursor: pointer; width: fit-content; padding: 8px 0; }
+.lost-game summary:hover { color: var(--accent); }
+.lost-game summary:focus-visible, #game-court:focus-visible, #game-start:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+#game-help { font-size: 14px; }
+#game-court { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: var(--radius); touch-action: none; }
+.court-background { fill: var(--muted); }
+.court-line { stroke: var(--border); stroke-dasharray: 5 7; }
+#game-ball { fill: var(--secondary); }
+#game-paddle { fill: var(--primary); }
+.game-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 16px; font-size: 14px; }
+#game-start { min-height: 44px; padding: 8px 18px; border: 1px solid var(--border); border-radius: var(--radius); color: var(--foreground); background: var(--muted); font: inherit; cursor: pointer; }
+#game-start:hover { color: var(--accent); }
