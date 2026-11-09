@@ -33,15 +33,29 @@ if ('IntersectionObserver' in window && finePointer.matches && !reducedMotion.ma
       if (!pendingReveals.delete(entry.target)) continue;
       entry.target.style.opacity = '';
       if (reducedMotion.matches || !finePointer.matches) continue;
-      const animation = entry.target.animate([
+      const image = entry.target instanceof HTMLImageElement;
+      // A late-loading image should appear normally instead of finishing its
+      // entrance before any pixels have arrived.
+      if (image && (!entry.target.complete || !entry.target.naturalWidth)) continue;
+      const keyframes = image ? [
+        { opacity: 0, filter: 'blur(4px)', transform: 'translateY(4px)' },
+        { opacity: 1, filter: 'blur(0px)', transform: 'translateY(0)' }
+      ] : [
         { opacity: 0, transform: 'translateY(5px)' },
         { opacity: 1, transform: 'translateY(0)' }
-      ], { duration: 450, easing: 'cubic-bezier(.22,1,.36,1)' });
+      ];
+      const animation = entry.target.animate(keyframes,
+        { duration: image ? 500 : 450, easing: 'cubic-bezier(.22,1,.36,1)' });
       animations.add(animation);
       animation.onfinish = () => animations.delete(animation);
     }
   }, { threshold: 0, rootMargin: '0px 0px 40px 0px' });
-  for (const element of revealElements) {
+  // Give images their own layer; do not fade or blur a parent at the same time.
+  const entranceElements = [
+    ...revealElements.filter(element => !element.matches('img') && !element.querySelector('img')),
+    ...document.querySelectorAll('main img')
+  ];
+  for (const element of entranceElements) {
     if (element.getBoundingClientRect().top < innerHeight + 40) continue;
     element.style.opacity = '0';
     pendingReveals.add(element);

@@ -67,3 +67,5 @@ The bottom-edge progressive blur adapts Magic UI’s layered-mask technique
 Its MIT license is included in `assets/vendor/magicui-LICENSE.md`.
 The effect is decorative, ignores pointer input, and hides around the footer,
 keyboard focus, and the 404 game. Reduced-transparency preferences disable it.
+
+Image entrances adapt Magic UI’s [Blur Fade](https://github.com/magicuidesign/magicui/blob/main/apps/www/registry/magicui/blur-fade.tsx) using native animation. They run once for loaded images entering from below the viewport on desktop; touch, reduced motion, and already-visible images stay immediate.
