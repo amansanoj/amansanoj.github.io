@@ -4,17 +4,15 @@ I normally avoid developer betas on my primary phone. I made an exception for th
 
 Then I tried AirPlay. The screen went black with a persistent loading spinner, and I couldn’t get the phone back to normal operation with the restarts I tried. I eventually needed recovery tools and a full restore.
 
-This is a record of what worked in my setup, not a diagnosis of the underlying iOS failure.
-
 ## Trying to Recover from Linux
 
 My main workstation was running Linux. I tried restoring a stable iOS 26.5.2 IPSW using open-source tools, but those attempts repeatedly failed.
 
-I didn’t retain enough diagnostic evidence to explain why. The symptoms also weren’t enough to establish that the filesystem had become corrupted, even though that was how I described it at the time.
+The cause of the restore failures was unclear.
 
-Linux restore tooling does exist. The [idevicerestore project](https://github.com/libimobiledevice/idevicerestore) implements the firmware restore process and documents its dependencies and supported workflows. Its existence doesn’t mean every device, firmware combination, or failure state will be straightforward to recover.
+Linux restore tooling does exist. The [idevicerestore project](https://github.com/libimobiledevice/idevicerestore) implements the firmware restore process and documents its dependencies and supported workflows.
 
-Recovery mode and DFU mode are distinct states. I described the phone as reaching DFU during my attempts; I wouldn’t use the loading spinner alone to identify either state.
+Recovery mode and DFU mode are distinct states, with different recovery procedures. A loading spinner alone doesn’t identify either one.
 
 ## The Windows Restore Worked
 
@@ -28,7 +26,7 @@ The backup and firmware restore were separate operations. Getting a working oper
 
 ## What I’d Do Differently
 
-The backup was the part of this experiment I was glad I’d done first. I’d also prepare access to a supported recovery machine before changing the operating system on a device I depend on.
+Having a local backup made it possible to recover my data after the reset. Access to Windows and Apple Devices also gave me another recovery path when my Linux attempts failed.
 
 The [libimobiledevice backup utility](https://github.com/libimobiledevice/libimobiledevice/blob/master/tools/idevicebackup2.c) supports backup and restore operations, including options for encryption. A backup still needs a compatible restore path, and an encrypted backup needs its password. A backup from a newer system also shouldn’t be assumed to restore onto an older one.
 

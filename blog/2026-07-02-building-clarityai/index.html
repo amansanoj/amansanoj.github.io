@@ -11,7 +11,7 @@
   <nav aria-label="Main navigation"><a href="/#projects">Projects</a><a href="/#about">About</a><a href="/blog/">Blog</a><a href="mailto:me@amansanoj.com">Email</a></nav>
 </header><main id="main"><article><div class="blog-intro"><a href="/blog/">All Posts</a><h1>Building ClarityAI at the USAII Hackathon</h1><time class="post-date" datetime="2026-07-02">02 July 2026</time></div><div class="post-body"><p>AbdulRahman Maniar and I built ClarityAI for the USAII Global AI Hackathon 2026. The idea came from documents that are hard to understand when you’re already under pressure: an eviction notice, a medical bill, or a letter with a deadline buried in it.</p>
 <p>We built a progressive web app that takes a document and produces a plain-language action plan. The prototype supported English, Spanish, French, Arabic, Chinese, and Hindi.</p>
-<p>We received 70 out of 70 from the core judge but didn’t make the final panel. That was disappointing. There’s still a build worth documenting.</p>
+<p>We received 70 out of 70 from the core judge but didn’t make the final panel.</p>
 <h2>Getting Text Out of a Document</h2>
 <p>We deployed the application in Docker through Coolify. The backend routed documents through <code>pypdf</code> or <code>pytesseract</code>, depending on whether it needed PDF text extraction or OCR, then scrubbed personal data before sending the text to NVIDIA Nemotron 3 Super 120B for task extraction and urgency classification.</p>
 <p>That first decision matters. A PDF can contain selectable text, scanned page images, or both. As the <a href="https://pypdf.readthedocs.io/en/latest/user/extract-text.html">pypdf documentation</a> explains, extracting embedded text and recognizing text in an image are different jobs. pypdf itself is not an OCR engine.</p>
@@ -20,9 +20,9 @@
 <p>We put the extracted source sentences alongside the generated output and displayed confidence scores. Users had to review the output before external links unlocked.</p>
 <p>Those choices gave users something to compare against the action plan. They didn’t establish that the model was correct. A displayed confidence score is especially easy to overinterpret; without calibration against representative documents, it isn’t a measured probability of correctness.</p>
 <p>We also used asynchronous Brave Search retrieval to look for local assistance. Keeping that work separate let the interface progress without waiting for every search response. But a search result still needs checking: it may refer to the wrong jurisdiction, an outdated service, or an organization that can’t help with that document.</p>
-<h2>What the Prototype Didn’t Establish</h2>
+<h2>Evaluating the Output</h2>
 <p>Our backend was stateless, but that alone doesn’t prove that uploaded information leaves no traces. Logs, temporary files, and third-party services all need separate review. Scrubbing personal data is also a mitigation, not a guarantee that every identifying detail is removed.</p>
-<p>The next useful evaluation would be a set of representative documents with checked dates, tasks, and source passages. I’d want to measure extraction failures and unsupported conclusions separately. Testing whether the app produces an answer is much easier than testing whether someone can rely on it.</p>
+<p>Evaluation needs to distinguish extraction failures from unsupported model conclusions. A test set with checked dates, tasks, and source passages would make those errors easier to measure than simply checking whether the app returns an answer.</p>
 <h2>References</h2>
 <ul>
 <li><a href="https://pypdf.readthedocs.io/en/latest/user/extract-text.html">pypdf: Extract Text from a PDF</a></li>

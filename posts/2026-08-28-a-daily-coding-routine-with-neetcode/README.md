@@ -1,21 +1,20 @@
 # A Daily Coding Routine with NeetCode
 
-I’m starting a daily coding routine using the NeetCode 250 list. The target is one problem a day.
+I’m starting a daily coding routine using the NeetCode 250 list. The target is one problem a day, with an update after each topic.
 
-I replaced the Premium-only LeetCode questions with free alternatives and organized the roadmap in a gist. The aim is to remove the access barrier and spend the available time solving problems, rather than deciding what to try next.
+I replaced the Premium-only LeetCode questions with free alternatives and organized the roadmap in a [GitHub gist](https://lnkd.in/d2A7wmCh).
 
-## One Problem Is a Useful Starting Point
+## Working Through the Topics
 
-One problem a day is a schedule, not evidence of understanding. Getting an accepted submission tells me that the code passed the judge’s tests; it doesn’t tell me that I can explain the approach or recognize where it applies again.
+The list provides a sequence to follow instead of choosing an unrelated question each day. Replacing the paid questions makes the whole routine accessible without a LeetCode Premium subscription.
 
-For my notes, I want to record the approach, its time and space costs, and the point where I got stuck. If I need a hint or an editorial, that belongs in the record too. Otherwise it’s too easy to count a solution I’ve just read as one I could have produced independently.
+A replacement should exercise the same underlying technique as the original question. Topic labels alone don’t establish that two problems are equivalent: constraints, edge cases, and the expected complexity can change the approach.
 
-A substitute question also needs to exercise the same idea as the original. Sharing a topic label doesn’t automatically make two problems equivalent. As I work through the roadmap, I’ll need to check whether the free replacements still cover the intended patterns.
+An accepted solution checks the implementation against the judge’s tests. Explaining why it works and how its time and space costs grow is a separate part of understanding the problem.
 
-## What I’m Committing To
+This is the starting plan. Progress updates will follow as I work through the topics.
 
-The initial commitment is small: work through the list and publish an update after each topic. I haven’t completed the roadmap, and this post doesn’t claim a streak or an interview result.
+## Links
 
-If a problem takes longer than a day, I’d rather keep working on the explanation than force the counter forward. The routine should give me a record of what I can solve and what still needs another attempt.
-
-The starting list is [NeetCode’s practice roadmap](https://neetcode.io/practice). I’ll keep any results separate from this initial plan.
+- [NeetCode Practice](https://neetcode.io/practice)
+- [My Roadmap with Free Alternatives](https://lnkd.in/d2A7wmCh)

@@ -4,7 +4,7 @@ AbdulRahman Maniar and I built ClarityAI for the USAII Global AI Hackathon 2026.
 
 We built a progressive web app that takes a document and produces a plain-language action plan. The prototype supported English, Spanish, French, Arabic, Chinese, and Hindi.
 
-We received 70 out of 70 from the core judge but didn’t make the final panel. That was disappointing. There’s still a build worth documenting.
+We received 70 out of 70 from the core judge but didn’t make the final panel.
 
 ## Getting Text Out of a Document
 
@@ -22,11 +22,11 @@ Those choices gave users something to compare against the action plan. They didn
 
 We also used asynchronous Brave Search retrieval to look for local assistance. Keeping that work separate let the interface progress without waiting for every search response. But a search result still needs checking: it may refer to the wrong jurisdiction, an outdated service, or an organization that can’t help with that document.
 
-## What the Prototype Didn’t Establish
+## Evaluating the Output
 
 Our backend was stateless, but that alone doesn’t prove that uploaded information leaves no traces. Logs, temporary files, and third-party services all need separate review. Scrubbing personal data is also a mitigation, not a guarantee that every identifying detail is removed.
 
-The next useful evaluation would be a set of representative documents with checked dates, tasks, and source passages. I’d want to measure extraction failures and unsupported conclusions separately. Testing whether the app produces an answer is much easier than testing whether someone can rely on it.
+Evaluation needs to distinguish extraction failures from unsupported model conclusions. A test set with checked dates, tasks, and source passages would make those errors easier to measure than simply checking whether the app returns an answer.
 
 ## References
 

@@ -18,13 +18,13 @@ We added a point-of-sale mode so staff could enter walk-up orders at the counter
 
 It also made the administrative side more important. Staff needed to distinguish a card payment from a payment due at pickup, see what remained pending, and check transaction history. Those records were what replaced the ledgers in daily use.
 
-Across four months, GardenX processed more than AED 30,000 in produce sales, according to the figures I recorded in my project write-up. That period included winter break and exam season. It’s a measure of transactions through our system, not a claim that the app created all of those sales.
+Across four months, GardenX processed more than AED 30,000 in produce sales. That period included winter break and exam season.
 
 We cut other ideas, including subscription boxes, delivery routing, and a leaderboard. The counter workflow and payment records were more useful than adding another way to browse produce.
 
-## The School’s Work Came First
+## Supporting the School Farm
 
-[Gulf News covered the school’s farm](https://gulfnews.com/uae/dubai-school-grows-100000kg-of-fruits-and-vegetables-in-a-year-1.500153182), reporting annual production of 100,000 kg. That is the school’s agricultural output, not an outcome I attribute to GardenX.
+[Gulf News covered the school’s farm](https://gulfnews.com/uae/dubai-school-grows-100000kg-of-fruits-and-vegetables-in-a-year-1.500153182), reporting annual production of 100,000 kg.
 
 Our part was the software around selling that produce. Prathima Nag and Devanand Vijayakumar supported the project, alongside the wider farming work led by Selvarance Johnson.
 

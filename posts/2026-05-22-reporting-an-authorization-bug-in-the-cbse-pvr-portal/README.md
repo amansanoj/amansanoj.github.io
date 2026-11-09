@@ -4,7 +4,7 @@ While checking my exam application status on the CBSE PVR portal, I looked at th
 
 The server required a logged-in session. It wasn’t checking whether that session was allowed to access the student record identified in the request.
 
-I changed the identifier in a request and received another student’s personal data. I stopped testing and reported the issue. The fix has since been confirmed, and the finding cleared for public disclosure.
+I changed the identifier in a request and received another student’s personal data. I stopped testing and reported the issue. The vulnerability has since been fixed.
 
 ## Authentication Wasn’t the Missing Check
 
@@ -12,17 +12,15 @@ This was an insecure direct object reference, or IDOR: a caller could choose an 
 
 Being logged in answered one question: did the request come from an authenticated session? It didn’t answer the next one: was that session entitled to read this particular record?
 
-The response included personal and exam information. I’m not publishing the endpoint, request headers, identifiers, response samples, or proof-of-concept video here.
+The response included personal and exam information.
 
-One successful unauthorized response established a concrete failure. It didn’t establish how many records were accessible, whether every account could reproduce it, or whether anyone had previously exploited it. My original post’s suggestion of millions of exposed records went beyond what I had tested.
+The request confirmed unauthorized access to another student’s record. The total number of accessible records and any prior exploitation were not established.
 
 ## Reporting and Remediation
 
-I documented the finding and reported it to CBSE’s IT Directorate, then escalated it to CERT-In with a video proof of concept. Paras Shenmare helped me navigate the disclosure process.
+I documented the finding and reported it to CBSE’s IT Directorate, then escalated it to CERT-In with a video proof of concept.
 
-Within 24 hours, according to the timeline I recorded, the service was temporarily taken down and the authorization logic was fixed. I appreciated how quickly the teams responded.
-
-I’ve kept the incident reference out of this article; it isn’t needed to explain the bug or the fix.
+Within 24 hours of the report, the service was temporarily taken down and the authorization logic was fixed.
 
 ## The Test That Matters
 
