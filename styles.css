@@ -174,7 +174,7 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
 /* Scroll highlight adapted from hexagoncircle's CodePen gOPMwvd. */
 .post-body strong {
   font-weight: 700;
-  background-image: linear-gradient(var(--primary), var(--primary));
+  background-image: linear-gradient(var(--secondary-300), var(--secondary-300));
   background-repeat: no-repeat;
   background-size: 0% 100%;
   -webkit-box-decoration-break: clone;
@@ -182,7 +182,7 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
   transition: color 250ms cubic-bezier(.25, 1, .5, 1), background-size 1s cubic-bezier(.25, 1, .5, 1);
 }
 .post-body strong.highlight-active {
-  color: var(--primary-foreground);
+  color: var(--secondary-foreground);
   background-size: 100% 100%;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -200,3 +200,6 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
 body:has(:focus-visible) .bottom-blur, body:has(.lost-game[open]) .bottom-blur { opacity: 0; }
 @media (max-width: 550px) { .bottom-blur { height: 40px; } }
 @media (prefers-reduced-transparency: reduce), (forced-colors: active), print { .bottom-blur { display: none; } }
+
+.reading-progress { position: fixed; inset: 0 0 auto; height: 2px; background: var(--primary); transform: scaleX(0); transform-origin: left; pointer-events: none; z-index: 9; }
+@media print { .reading-progress { display: none; } }

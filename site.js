@@ -167,3 +167,30 @@ if (CSS.supports('backdrop-filter', 'blur(1px)') || CSS.supports('-webkit-backdr
     if ('ResizeObserver' in window) new ResizeObserver(updateEdge).observe(document.body);
   }
 }
+
+// Track article reading rather than counting the footer as unread content.
+const postBody = document.querySelector('.post-body');
+if (postBody) {
+  const progress = document.createElement('div');
+  progress.className = 'reading-progress';
+  progress.setAttribute('aria-hidden', 'true');
+  document.body.append(progress);
+  let progressFrame = 0;
+  function updateProgress() {
+    progressFrame = 0;
+    const bounds = postBody.getBoundingClientRect();
+    const end = Math.max(0, scrollY + bounds.bottom - innerHeight);
+    const start = Math.min(Math.max(0, scrollY + bounds.top - 24), end);
+    const fraction = end <= start ? (scrollY >= end ? 1 : 0)
+      : Math.max(0, Math.min(1, (scrollY - start) / (end - start)));
+    progress.style.transform = `scaleX(${fraction})`;
+  }
+  function scheduleProgress() {
+    if (!progressFrame) progressFrame = requestAnimationFrame(updateProgress);
+  }
+  window.addEventListener('scroll', scheduleProgress, { passive: true });
+  window.addEventListener('resize', scheduleProgress, { passive: true });
+  window.addEventListener('pageshow', scheduleProgress);
+  if ('ResizeObserver' in window) new ResizeObserver(scheduleProgress).observe(document.body);
+  updateProgress();
+}
