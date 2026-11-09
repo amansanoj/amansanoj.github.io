@@ -103,3 +103,7 @@ footer { flex-wrap: wrap; align-items: center; }
   header { flex-wrap: wrap; gap: 12px; }
   nav { flex-wrap: wrap; }
 }
+
+.post-cover { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto 36px; border-radius: var(--radius); }
+.post-cover-link { display: block; width: fit-content; margin-bottom: 20px; }
+.post-cover-preview { display: block; width: 160px; max-width: 100%; height: auto; border-radius: var(--radius); }

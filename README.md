@@ -52,3 +52,5 @@ Action renders Markdown and deploys the public files to GitHub Pages on each pus
 to `master`. It also supports manual runs. If GitHub blocks automatic Pages setup,
 select **GitHub Actions** under **Settings → Pages → Build and Deployment → Source**.
 Generated `blog/` files are build output; edit `posts/` instead.
+
+Add `cover.jpg`, `cover.png`, or `cover.webp` beside a post’s README to show a cover on the post, a blog-list preview, and a social sharing image.

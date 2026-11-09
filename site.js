@@ -9,7 +9,7 @@ const motionSelector = [
   '.home', 'nav a', 'main h1', 'main h2', 'main h3', 'main p',
   '.links a', '.project-heading', '.screenshot', 'main li',
   '.other-projects > a', '.blog-intro > *',
-  '.post-body > *', 'footer > *'
+  '.post-cover', '.post-body > *', 'footer > *'
 ].join(', ');
 // Keep one motion layer per content unit, including future Markdown elements.
 const candidates = [...document.querySelectorAll(motionSelector)];
