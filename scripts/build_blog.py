@@ -1,7 +1,7 @@
 """Render posts/YYYY-MM-DD-slug/README.md into blog/YYYY-MM-DD-slug/."""
 from pathlib import Path
 from datetime import date
-from html import escape
+from html import escape, unescape
 import re
 import shutil
 import markdown
@@ -38,10 +38,12 @@ def build():
     header = '<header>' + source.split('<header>', 1)[1].split('</header>', 1)[0] + '</header>'
     header = header.replace('href="#', 'href="/#')
     footer = '<footer>' + source.split('<footer>', 1)[1].split('</footer>', 1)[0] + '</footer>'
-    footer = footer.replace('href="#"', 'href="/#"')
+    footer = footer.replace('href="#"', 'href="#main"')
+    header = header.replace('href="/blog/"', 'href="/blog/" aria-current="page"')
 
-    def page(title, path, body, cover=None):
+    def page(title, path, body, cover=None, description="Posts on software, electronics, and self-hosting by Aman Sanoj."):
         metadata = f'<link rel="canonical" href="https://amansanoj.is-a.dev{path}">'
+        metadata += f'<meta name="description" content="{escape(description, quote=True)}"><meta property="og:title" content="{escape(title, quote=True)}"><meta property="og:description" content="{escape(description, quote=True)}"><meta property="og:url" content="https://amansanoj.is-a.dev{path}"><meta property="og:type" content="{"article" if cover or path != "/blog/" else "website"}">'
         if cover:
             url = escape(f'https://amansanoj.is-a.dev{path}og.jpg', quote=True)
             metadata += f'<meta property="og:image" content="{url}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:type" content="image/jpeg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{url}">'
@@ -63,17 +65,27 @@ def build():
             raise ValueError(f'{readme}: start with # Post Title followed by a newline')
         title = title_match.group(1).strip()
         content = markdown.markdown(text[title_match.end():], extensions=['fenced_code', 'tables', 'sane_lists'])
+        paragraph = re.search(r'<p>(.*?)</p>', content, re.S)
+        summary = unescape(re.sub(r'<[^>]+>', '', paragraph.group(1))) if paragraph else ''
+        summary = ' '.join(summary.split())
+        if len(summary) > 220:
+            summary = summary[:217].rsplit(' ', 1)[0] + '...'
+        # Keyboard users can scroll long code samples without moving the page.
+        content = content.replace('<pre>', '<pre tabindex="0" aria-label="Code example">')
         target = output / slug
         shutil.copytree(readme.parent, target, ignore=shutil.ignore_patterns('README.md', 'index.html', '.*'))
         cover = next((name for name in ['cover.jpg', 'cover.png', 'cover.webp'] if (readme.parent / name).is_file()), None)
         if cover:
             thumbnail_width, thumbnail_height = cover_variants(readme.parent / cover, target)
-        cover_html = f'<img class="post-cover" src="{cover}" alt="{escape(title, quote=True)} - cover image" fetchpriority="high">' if cover else ''
+            with Image.open(readme.parent / cover) as original:
+                oriented = ImageOps.exif_transpose(original)
+                cover_width, cover_height = oriented.size
+        cover_html = f'<img class="post-cover" src="{cover}" width="{cover_width}" height="{cover_height}" alt="{escape(title, quote=True)} - cover image" fetchpriority="high">' if cover else ''
         timestamp = f'<time class="post-date" datetime="{published}">{published.strftime("%d %B %Y")}</time>'
-        body = f'<article><div class="blog-intro"><a href="/blog/">All Posts</a><h1>{escape(title)}</h1>{timestamp}</div>{cover_html}<div class="post-body">{content}</div></article>'
-        (target / 'index.html').write_text(page(title + ' - Aman Sanoj', f'/blog/{slug}/', body, cover))
+        body = f'<article><div class="blog-intro"><a href="/blog/">All Posts</a><h1>{escape(title)}</h1>{timestamp}</div>{cover_html}<div class="post-body">{content}</div><nav class="post-navigation" aria-label="Post navigation"><a href="/blog/">All Posts</a></nav></article>'
+        (target / 'index.html').write_text(page(title + ' - Aman Sanoj', f'/blog/{slug}/', body, cover, summary))
         preview = f'<a class="post-cover-link" href="/blog/{slug}/" aria-label="{escape(title, quote=True)}"><img class="post-cover-preview" src="/blog/{slug}/thumbnail.webp" width="{thumbnail_width}" height="{thumbnail_height}" alt="" loading="lazy"></a>' if cover else ''
-        entries.append(f'<li class="post-entry{" has-cover" if cover else ""}">{preview}<div class="post-entry-text">{timestamp}<h2><a href="/blog/{slug}/">{escape(title)}</a></h2></div></li>')
+        entries.append(f'<li class="post-entry{" has-cover" if cover else ""}">{preview}<div class="post-entry-text">{timestamp}<h2><a href="/blog/{slug}/">{escape(title)}</a></h2><p class="post-summary">{escape(summary)}</p></div></li>')
     body = '<div class="blog-intro"><h1>Blog</h1></div>'
     body += '<ul class="post-list">' + ''.join(entries) + '</ul>' if entries else '<p>No posts yet.</p>'
     (output / 'index.html').write_text(page('Blog - Aman Sanoj', '/blog/', body))

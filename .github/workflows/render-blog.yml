@@ -24,7 +24,7 @@ jobs:
       - name: Assemble Public Site
         run: |
           mkdir _site
-          cp index.html styles.css site.js theme.js CNAME .nojekyll google*.html _site/
+          cp index.html 404.html styles.css site.js theme.js CNAME .nojekyll google*.html _site/
           cp -r assets blog .well-known _site/
       - uses: actions/configure-pages@v5
         with:
