@@ -77,3 +77,7 @@ footer { flex-wrap: wrap; align-items: center; }
 .home:hover, .theme-control select:hover { color: var(--accent); }
 .other-projects li::marker { color: var(--supporting-color); }
 .screenshot:hover { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  a, .icon { transition: color 160ms ease; }
+}
