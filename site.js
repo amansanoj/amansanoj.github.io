@@ -146,7 +146,7 @@ if (document.querySelector('.post-body strong') && window.RoughNotation) {
       if (annotations.has(element)) return;
       const animate = !reducedMotion.matches;
       const annotation = RoughNotation.annotate(element, {
-        type: 'highlight', color: 'var(--secondary-200)',
+        type: 'highlight', color: 'var(--secondary)',
         strokeWidth: 1.5, animationDuration: 500, iterations: 2,
         padding: 2, multiline: true, animate
       });
