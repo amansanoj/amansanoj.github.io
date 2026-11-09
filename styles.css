@@ -1,6 +1,6 @@
 @import url("assets/vendor/brand-globals.css");
 
-:root { color-scheme: light; --supporting-color: var(--secondary-800); }
+:root { color-scheme: light; --supporting-color: var(--secondary); }
 :root.dark { color-scheme: dark; --supporting-color: var(--secondary); }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 28px; }
