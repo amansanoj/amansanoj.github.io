@@ -19,6 +19,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
 header { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-top: 30px; padding-bottom: 30px; font-size: 14px; }
 .home { color: var(--foreground); text-decoration: none; font-weight: 600; }
 nav { display: flex; gap: 24px; }
+header a { color: var(--foreground); }
 nav a { text-decoration: none; }
 .skip { position: absolute; top: -100px; left: 20px; background: var(--ring); color: var(--background); padding: 10px; }
 .skip:focus { top: 10px; }
@@ -35,7 +36,7 @@ p { margin: 14px 0; color: var(--muted-foreground); }
 .project-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
 .project-heading h3 a { text-decoration: none; }
 .project-heading h3 a:hover { text-decoration: underline; }
-.project-heading span { color: var(--supporting-color); font-size: 13px; flex-shrink: 0; }
+.project-heading span { color: var(--muted-foreground); font-size: 13px; flex-shrink: 0; }
 .featured { padding-bottom: 30px; }
 .screenshot { display: block; margin-top: 24px; background: var(--muted); padding: 18px; border-radius: var(--radius); }
 .screenshot img { width: 100%; height: auto; display: block; }
@@ -70,12 +71,13 @@ h1, h2, h3 { font-family: var(--font-display); }
 [data-theme="system"] .theme-system, [data-theme="light"] .theme-light, [data-theme="dark"] .theme-dark { display: inline-flex; }
 footer { flex-wrap: wrap; align-items: center; }
 
-/* Brand hierarchy: primary leads; secondary supports; accent signals interaction.
-   Use the darker secondary scale on light surfaces for readable small text. */
-.links .icon, .theme-icon { color: var(--supporting-color); }
+/* Neutral surfaces and copy anchor the page. Primary identifies headings;
+   secondary marks content links; accent is reserved for interaction. */
+.intro h1, main h2 { color: var(--primary); }
+.links .icon, .theme-icon { color: var(--primary); }
 .links a:hover .icon,
 .home:hover, .theme-control select:hover { color: var(--accent); }
-.other-projects li::marker { color: var(--supporting-color); }
+.other-projects li::marker { color: var(--muted-foreground); }
 .screenshot:hover { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 @media (prefers-reduced-motion: no-preference) {
