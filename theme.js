@@ -11,12 +11,20 @@
   apply();
   media.addEventListener('change', apply);
   document.addEventListener('DOMContentLoaded', () => {
-    const select = document.getElementById('theme');
-    select.value = preference;
-    select.addEventListener('change', () => {
-      preference = select.value;
+    const button = document.getElementById('theme');
+    const modes = ['system', 'light', 'dark'];
+    function label() {
+      const next = modes[(modes.indexOf(preference) + 1) % modes.length];
+      const text = `Theme: ${preference}. Switch to ${next}`;
+      button.setAttribute('aria-label', text);
+      button.title = text;
+    }
+    label();
+    button.addEventListener('click', () => {
+      preference = modes[(modes.indexOf(preference) + 1) % modes.length];
       try { localStorage.setItem('theme', preference); } catch {}
       apply();
+      label();
     });
   });
 })();

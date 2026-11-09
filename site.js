@@ -6,7 +6,7 @@ const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
 // Animate content units individually; nested links and icons travel with their
 // parent so their movement never compounds.
 const motionSelector = [
-  '.home', 'nav a', 'main h1', 'main h2', 'main h3', 'main p',
+  '.home', 'nav a', '.theme-toggle', 'main h1', 'main h2', 'main h3', 'main p',
   '.links a', '.project-heading', '.screenshot', 'main li',
   '.other-projects > a', '.blog-intro > *',
   '.post-cover', '.post-body > *', 'footer > *'

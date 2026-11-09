@@ -64,9 +64,6 @@ footer { display: flex; justify-content: space-between; gap: 20px; padding-top: 
 h1, h2, h3 { font-family: var(--font-display); }
 .icon { width: 1.25em; height: 1.25em; vertical-align: -.22em; flex-shrink: 0; }
 .links a { display: inline-flex; align-items: center; gap: 7px; }
-.theme-control { display: inline-flex; align-items: center; gap: 7px; color: var(--muted-foreground); }
-.theme-control select { font: inherit; color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: var(--radius); padding: 5px 7px; }
-.theme-control select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .theme-icon { display: none; }
 [data-theme="system"] .theme-system, [data-theme="light"] .theme-light, [data-theme="dark"] .theme-dark { display: inline-flex; }
 footer { flex-wrap: wrap; align-items: center; }
@@ -75,8 +72,7 @@ footer { flex-wrap: wrap; align-items: center; }
    secondary marks content links; accent is reserved for interaction. */
 .intro h1, main h2 { color: var(--primary); }
 .links .icon, .theme-icon { color: var(--primary); }
-.links a:hover .icon,
-.home:hover, .theme-control select:hover { color: var(--accent); }
+.links a:hover .icon, .home:hover, .theme-toggle:hover { color: var(--accent); }
 .other-projects li::marker { color: var(--muted-foreground); }
 .screenshot:hover { outline: 2px solid var(--accent); outline-offset: 3px; }
 
@@ -122,3 +118,9 @@ footer { flex-wrap: wrap; align-items: center; }
   .post-list .has-cover { grid-template-columns: 1fr; }
   .post-cover-link { max-width: 120px; }
 }
+
+nav { align-items: center; }
+.theme-toggle { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 8px; margin: -8px; border: 0; border-radius: var(--radius); background: transparent; color: var(--foreground); cursor: pointer; }
+.theme-toggle .theme-icon { color: inherit; }
+.theme-toggle .icon { width: 21px; height: 21px; }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
