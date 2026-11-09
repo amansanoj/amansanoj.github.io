@@ -75,7 +75,7 @@ For my setup, the checks are whether the running connectors use patched versions
 
 ## Sources
 
-- [Cloudflare: 8 eMudhra Certificates Are Compromised. Here’s What You Need to Know](https://blog.cloudflare.com/emudhra-certificate-compromise/) — October 20, 2026.
-- [Cloudflare: Tracking Exploitation and Patching of eMudhra’s Weak Keys](https://blog.cloudflare.com/emudhra-patching) — October 30, 2026.
-- [Cloudflare Developers: Sandbox SDK Certificate Update](https://developers.cloudflare.com/changelog/post/2026-10-22-emudhra-certificates/) — October 22, 2026.
+- [Cloudflare: 8 eMudhra Certificates Are Compromised. Here’s What You Need to Know](https://blog.cloudflare.com/emudhra-certificate-compromise/) - October 20, 2026.
+- [Cloudflare: Tracking Exploitation and Patching of eMudhra’s Weak Keys](https://blog.cloudflare.com/emudhra-patching) - October 30, 2026.
+- [Cloudflare Developers: Sandbox SDK Certificate Update](https://developers.cloudflare.com/changelog/post/2026-10-22-emudhra-certificates/) - October 22, 2026.
 - [Technical Disclosure and Verification Resources](https://we-have-a-problem.com/).

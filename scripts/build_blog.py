@@ -68,15 +68,15 @@ def build():
         cover = next((name for name in ['cover.jpg', 'cover.png', 'cover.webp'] if (readme.parent / name).is_file()), None)
         if cover:
             thumbnail_width, thumbnail_height = cover_variants(readme.parent / cover, target)
-        cover_html = f'<img class="post-cover" src="{cover}" alt="{escape(title, quote=True)} — cover image" fetchpriority="high">' if cover else ''
+        cover_html = f'<img class="post-cover" src="{cover}" alt="{escape(title, quote=True)} - cover image" fetchpriority="high">' if cover else ''
         timestamp = f'<time class="post-date" datetime="{published}">{published.strftime("%d %B %Y")}</time>'
         body = f'<article><div class="blog-intro"><a href="/blog/">All Posts</a><h1>{escape(title)}</h1>{timestamp}</div>{cover_html}<div class="post-body">{content}</div></article>'
-        (target / 'index.html').write_text(page(title + ' — Aman Sanoj', f'/blog/{slug}/', body, cover))
+        (target / 'index.html').write_text(page(title + ' - Aman Sanoj', f'/blog/{slug}/', body, cover))
         preview = f'<a class="post-cover-link" href="/blog/{slug}/" aria-label="{escape(title, quote=True)}"><img class="post-cover-preview" src="/blog/{slug}/thumbnail.webp" width="{thumbnail_width}" height="{thumbnail_height}" alt="" loading="lazy"></a>' if cover else ''
         entries.append(f'<li class="post-entry{" has-cover" if cover else ""}">{preview}<div class="post-entry-text">{timestamp}<h2><a href="/blog/{slug}/">{escape(title)}</a></h2></div></li>')
     body = '<div class="blog-intro"><h1>Blog</h1></div>'
     body += '<ul class="post-list">' + ''.join(entries) + '</ul>' if entries else '<p>No posts yet.</p>'
-    (output / 'index.html').write_text(page('Blog — Aman Sanoj', '/blog/', body))
+    (output / 'index.html').write_text(page('Blog - Aman Sanoj', '/blog/', body))
     print(f'Rendered {len(entries)} posts')
 
 
