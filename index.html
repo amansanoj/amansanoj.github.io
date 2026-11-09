@@ -1,215 +1,29 @@
-<!DOCTYPE html>
-<html lang="en" class="sl-theme-dark">
-
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="title" content="Aman Sanoj">
-  <meta name="description" content="Student, from Kerala, based in the UAE. Web Applications and experimenting">
-  <meta name="keywords"
-    content="UAE, Kerala, Student, Web Development, Web Design, Web, Programming, JavaScript, CSS, HTML, Vue, Nuxt">
-  <meta name="robots" content="index, follow">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="language" content="English">
-  <meta name="revisit-after" content="15 days">
-  <meta name="author" content="Aman Sanoj">
-  <meta name="google-site-verification" content="CkwJuzxJc5bqWRrngiQGY5f-4AEhBYTfuOqg4gFG-b4" />
-  <title>Aman Sanoj</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer type="module"
-    src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/shoelace-autoloader.js"></script>
-  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/themes/dark.css"
-    onload="document.documentElement.classList.add('sl-theme-dark');" />
-  <link href="/assets/images/favicon-black.ico" rel="icon" media="(prefers-color-scheme: light)" />
-  <link href="/assets/images/favicon-white.ico" rel="icon" media="(prefers-color-scheme: dark)" />
-  <script defer src="https://umami.falak.fun/script.js" data-website-id="1aa57edf-d5d6-40ea-a812-7c56ea2356e8"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aman Sanoj — Software & Embedded Systems</title>
+<meta name="description" content="Aman Sanoj develops macOS apps, web applications, and ESP32 firmware. Explore Macro Pad, Tether, NeonOS, and Cardputer Now Playing.">
+<meta name="google-site-verification" content="CkwJuzxJc5bqWRrngiQGY5f-4AEhBYTfuOqg4gFG-b4">
+<link rel="canonical" href="https://amansanoj.is-a.dev/">
+<meta property="og:title" content="Aman Sanoj — Software & Embedded Systems"><meta property="og:description" content="Apps, web applications, and firmware. Selected projects and source code."><meta property="og:type" content="website"><meta property="og:url" content="https://amansanoj.is-a.dev/">
+<meta name="theme-color" content="#050505"><link rel="icon" href="assets/images/favicon-white.ico"><link rel="stylesheet" href="styles.css"><script src="site.js" defer></script>
 </head>
-
 <body>
-  <header>
-    <div class="navbar">
-      <a href="#section1">
-        <img id="logo" src="/assets/images/transparent-white.svg" alt="Aman Sanoj Logo" />
-      </a>
-      <div class="navlinks">
-        <a href="#section1" class="navlink">Home</a>
-        <a href="#section2" class="navlink">About</a>
-        <a style="cursor: not-allowed;" class="navlink">Projects</a>
-        <a href="#section4" class="navlink">Certifications</a>
-      </div>
-      <sl-button id="cta" pill href="#section5">Contact</sl-button>
-      <sl-dropdown>
-        <sl-button slot="trigger" caret>Menu</sl-button>
-        <sl-menu>
-          <sl-menu-item><a href="#section1">Home</a></sl-menu-item>
-          <sl-menu-item><a href="#section2">About</a></sl-menu-item>
-          <sl-menu-item disabled><a href="#section4">Projects</a></sl-menu-item>
-          <sl-menu-item><a href="#section4">Certifications</a></sl-menu-item>
-          <sl-menu-item><a href="#section5">Contact</a></sl-menu-item>
-          <sl-divider></sl-divider>
-        </sl-menu>
-      </sl-dropdown>
-    </div>
-  </header>
-  <main>
-    <div id="section1">
-      <h1>Aman<br />Sanoj</h1>
-    </div>
-    <div class="fw-wrapper" style="transform: translateY(-350%)">
-      <sl-button href="#section2" circle>
-        <sl-icon name="arrow-down" label="Arrow Down"></sl-icon>
-      </sl-button>
-    </div>
-    <div id="section2">
-      <div class="card">
-        <h2>About Me</h2>
-        <p>
-          Hey I'm <span style="color: #35185a">Aman</span>, a
-          <span id="age"></span>-year-old student originally from
-          <span style="background-image: linear-gradient(90deg, #ff671f, #046a38)" class="gradient-text">India</span>
-          and currently based in the
-          <span style="
-                background-image: linear-gradient(
-                  90deg,
-                  #ef3340 0%,
-                  #009739 40%,
-                  #000 100%
-                );
-              " class="gradient-text">UAE</span>. My journey into programming started at age 12, driven by a deep
-          fascination with computers. Over time, web design and development
-          became my passion, and I enjoy staying updated with the latest
-          trends through blogs,
-          <span style="background-image: linear-gradient(90deg, #90030c, #bf2626)" class="gradient-text">YouTube</span>
-          , and social media. While I haven't identified specific favorite
-          projects yet, I find joy in the continuous learning process within
-          this dynamic field. Outside of programming, I'm a hobbyist
-          <span style="background-image: linear-gradient(90deg, #69923e, #4e7837)" class="gradient-text">Chess</span>
-          player and enjoy listening to music for relaxation and enjoyment.
-        </p>
-      </div>
-    </div>
-    <div id="section4">
-      <h1 style="margin: 0 auto; margin-bottom: 5px">My Certifications</h1>
-      <div class="grid" id="cert-grid"></div>
-      <sl-button id="show-hide" pill>Show More</sl-button>
-    </div>
-  </main>
-  <div id="section5"></div>
-  <footer>
-    <ul id="a">
-      <li>
-        <h1>
-          <img src="./assets/images/transparent-white.svg" alt="Aman Sanoj Logo" style="height: 1em; width: auto" />
-        </h1>
-      </li>
-    </ul>
-    <ul>
-      <li>
-        <h3>Get in Touch</h3>
-      </li>
-      <li>
-        <a href="mailto:aman@falak.me" target="_blank" rel="noopener noreferrer"><sl-icon
-            name="envelope"></sl-icon>Email</a>
-      </li>
-      <li>
-        <a href="http://www.linkedin.com/in/amansanoj" target="_blank" rel="noopener noreferrer"><sl-icon
-            name="linkedin"></sl-icon>LinkedIn</a>
-      </li>
-      <li>
-        <a href="http://github.com/AmanSanoj" target="_blank" rel="noopener noreferrer"><sl-icon
-            name="github"></sl-icon>GitHub</a>
-      </li>
-      <li>
-        <a href="http://twitter.com/AmanSanoj" target="_blank" rel="noopener noreferrer"><sl-icon
-            name="twitter"></sl-icon>Twitter</a>
-      </li>
-      <li>
-        <a href="https://instagram.com/aman_sanoj/" target="_blank" rel="noopener noreferrer"><sl-icon
-            name="instagram"></sl-icon>Instagram</a>
-      </li>
-    </ul>
-    <ul>
-      <li>
-        <h3>Sitemap</h3>
-      </li>
-      <li><a href="#section1">Home</a></li>
-      <li><a href="#section2">About</a></li>
-      <li><a href="#section3">Projects</a></li>
-      <li><a href="#section4">Certifications</a></li>
-    </ul>
-  </footer>
-  <sl-divider></sl-divider>
-  <div id="copyright">
-    <p>Made with <sl-icon name="suit-heart-fill"></sl-icon></p>
-    <p>&#169 Aman Sanoj 2024</p>
-  </div>
-</body>
-<script>
-  let age = document.getElementById("age");
-  currentAge = Math.floor(
-    (new Date().getTime() / 1000 - 1225526400) / (60 * 60 * 24 * 365)
-  );
-  age.innerHTML = currentAge;
-
-  async function loadCertificates() {
-    const grid = document.getElementById("cert-grid");
-    const button = document.getElementById("show-hide");
-
-    try {
-      const res = await fetch("/assets/certificates/certificates.json");
-      const certs = await res.json();
-
-      let showingAll = false;
-
-      function getVisibleCount() {
-        const containerWidth = grid.clientWidth;
-        const minColWidth = 350;
-        const columns = Math.floor(containerWidth / minColWidth) || 1;
-        return columns * 2; // 2 rows
-      }
-
-      function render() {
-        grid.innerHTML = "";
-        const limit = getVisibleCount();
-        const items = showingAll ? certs : certs.slice(0, limit);
-
-        items.forEach(file => {
-          const img = document.createElement("img");
-          img.src = `/assets/certificates/${file}`;
-          img.alt = `Certificate dated ${file.split(".")[0]}`;
-          img.loading = "lazy";
-          grid.appendChild(img);
-        });
-
-        if (certs.length > limit) {
-          button.style.display = "inline-block";
-          button.textContent = showingAll ? "Show Less" : "Show More";
-        } else {
-          button.style.display = "none";
-        }
-      }
-
-      button.addEventListener("click", () => {
-        showingAll = !showingAll;
-        render();
-      });
-
-      // Render on load
-      render();
-
-      // Recalculate visible count & rerender on window resize
-      window.addEventListener("resize", () => {
-        if (!showingAll) {
-          render();
-        }
-      });
-    } catch (err) {
-      console.error("Failed to load certificates:", err);
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", loadCertificates);
-</script>
-
-</html>
+<a class="skip" href="#main">Skip to Content</a>
+<header class="nav"><a class="wordmark" href="#">AS<span>.</span></a><nav aria-label="Main navigation"><a href="#projects">Projects</a><a href="#about">About</a><a href="#contact">Contact <span aria-hidden="true"><svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></nav></header>
+<main id="main">
+<section class="hero" aria-labelledby="name"><div class="eyebrow">SOFTWARE & EMBEDDED SYSTEMS <span>UAE</span></div><h1 id="name">Aman<br><span>Sanoj.</span></h1><div class="intro"><p>I build apps for macOS and the web,<br class="desktop"> and firmware for the devices beside them.</p><a class="button" href="#projects">Explore Projects <span aria-hidden="true">↓</span></a></div><div class="hero-bottom"><span>Swift / TypeScript / Go / C++</span><a href="https://github.com/amansanoj">GitHub <svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div></section>
+<section id="projects" class="section"><div class="section-heading"><div><span class="eyebrow">01 / SELECTED WORK</span><h2>Projects</h2></div><p>From native interfaces to device protocols.</p></div>
+<div class="projects">
+<article class="project"><div class="visual app"><img src="assets/projects/macro-pad.png" width="1200" height="800" alt="Macro Pad macOS configuration interface with application and shortcut assignments" loading="lazy"></div><div class="project-body"><div class="project-meta">MACOS APP · BLE HARDWARE</div><h3><a href="https://github.com/amansanoj/macro-pad">Macro Pad <span><svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></h3><p>A four-key Bluetooth controller with a native macOS app. Assign actions per application without reflashing the device.</p><p class="detail">Versioned BLE packets, duplicate-input suppression, and automatic reconnection.</p><div class="stack">SwiftUI · CoreBluetooth · C++</div></div></article>
+<article class="project"><div class="visual sync" aria-label="Tether playback synchronization diagram"><span class="diagram-label">PLAYBACK SYNCHRONIZATION</span><div class="server">Authoritative Clock</div><div class="connectors"></div><div class="clients"><span>Player 01</span><span>Player 02</span><span>Player 03</span></div><p>Heartbeat → Drift Check → Rate Adjustment</p></div><div class="project-body"><div class="project-meta">WEB APPLICATION · REAL-TIME SYSTEMS</div><h3><a href="https://github.com/amansanoj/tether">Tether <span><svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></h3><p>A watch-party server that keeps multiple players on the same timeline, with linked rooms, live chat, and host controls.</p><p class="detail">Playback drift correction, reconnect recovery, and participant diagnostics.</p><div class="stack">TypeScript · Bun · WebSockets</div></div></article>
+<article class="project compact"><div class="project-body"><div class="project-meta">FIRMWARE · HOME AUTOMATION</div><h3><a href="https://github.com/amansanoj/neon-os">NeonOS <span><svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></h3><p>An ESP32 bridge connecting a BLE RGB light to Apple Home, with an OLED interface and physical controls.</p><p class="detail">Signed HTTPS updates and boot-health rollback. Native fault tests are included; real-device OTA acceptance is pending.</p><div class="stack">C++ · ESP32 · HomeSpan</div></div></article>
+<article class="project compact"><div class="project-body"><div class="project-meta">DEVICE INTERFACE · MACOS BRIDGE</div><h3><a href="https://github.com/amansanoj/cardputer-nowplaying">Cardputer Now Playing <span><svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></h3><p>Apple Music on a handheld display, with album artwork and physical playback controls.</p><p class="detail">A macOS companion transfers track data over BLE. Artwork is cached on the device for reuse.</p><div class="stack">C++ · Python · ESP32-S3</div></div></article>
+</div>
+<div class="more"><a href="https://github.com/amansanoj/tui-portfolio"><span>Terminal Portfolio</span><small>Go · SSH · Bubble Tea</small><span><svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a><a href="https://github.com/amansanoj/nanolink-api"><span>NanoLink</span><small>Bun · Hono · SQLite</small><span><svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a><a href="https://github.com/amansanoj/ui"><span>UI Components</span><small>React · Design Tokens</small><span><svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></div><a class="text-link" href="https://github.com/amansanoj?tab=repositories">All Repositories <svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></a>
+</section>
+<section id="about" class="section about"><div><span class="eyebrow">02 / BACKGROUND</span><h2>About</h2></div><div><p class="large">I’m a developer from Kerala, based in the UAE.</p><p>My work spans native macOS interfaces, web services, and microcontroller firmware. I’m interested in the connections between them: how an app handles device input, how players stay in sync, and how firmware recovers from a failed update.</p><p>Outside programming, I play chess and listen to music.</p><details id="certifications"><summary>Certifications <span aria-hidden="true">+</span></summary><p class="detail">Course and training certificates. Select an image to view the original.</p><div id="cert-grid" class="cert-grid"></div><p id="cert-status" role="status"></p><noscript><p><a href="https://github.com/amansanoj/amansanoj.github.io/tree/master/assets/certificates">Browse Certificates <svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></a></p></noscript></details></div></section>
+<section id="contact" class="section contact"><span class="eyebrow">03 / CONTACT</span><h2>Get in Touch</h2><a class="email" href="mailto:aman@falak.me">aman@falak.me <span><svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a><div class="social"><a href="https://github.com/amansanoj">GitHub <svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></a><a href="https://www.linkedin.com/in/amansanoj">LinkedIn <svg class="arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div></section>
+</main><footer><span>© <span id="year">2026</span> Aman Sanoj</span><a href="#">Back to Top ↑</a></footer>
+</body></html>
