@@ -54,3 +54,9 @@ select **GitHub Actions** under **Settings → Pages → Build and Deployment �
 Generated `blog/` files are build output; edit `posts/` instead.
 
 Add `cover.jpg`, `cover.png`, or `cover.webp` beside a post’s README to show a cover on the post, a blog-list preview, and a social sharing image.
+
+Every cover is also rendered into a 600 × 315 `thumbnail.jpg` for the blog list
+and a 1200 × 630 `og.jpg` for social sharing. Images are fitted without cropping,
+centered, and padded with the brand’s dark navy primary (`color.hex.light.base.primary`).
+EXIF orientation is applied before resizing. Upload only the original cover beside
+`README.md` in `posts/`; the Action generates both variants on each deployment.
