@@ -24,7 +24,7 @@ if ('IntersectionObserver' in window) {
     for (const entry of entries) {
       if (!entry.isIntersecting) continue;
       observer.unobserve(entry.target);
-      if (reducedMotion.matches) continue;
+      if (reducedMotion.matches || !finePointer.matches) continue;
       const animation = entry.target.animate([
         { opacity: 0, transform: 'translateY(5px)' },
         { opacity: 1, transform: 'translateY(0)' }
@@ -98,7 +98,7 @@ function resetMotion() {
     item.x = item.y = item.tx = item.ty = 0;
     item.element.style.translate = '';
   });
-  if (reducedMotion.matches) {
+  if (reducedMotion.matches || !finePointer.matches) {
     animations.forEach(animation => animation.cancel());
     animations.clear();
   }
