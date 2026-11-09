@@ -5,12 +5,12 @@ Static portfolio at https://amansanoj.is-a.dev/, hosted on GitHub Pages.
 ## Development
 
 Run `python3 -m http.server 8000` from this directory and open the site locally.
-No package installation is required. Content lives in `index.html`, styling in
+The portfolio needs no package installation; blog rendering uses Python Markdown. Content lives in `index.html`, styling in
 `styles.css`, with theme selection in `theme.js` and the footer year in `site.js`.
 
 ## Deployment
 
-Push changes to `master` for the existing GitHub Pages deployment.
+Push changes to `master`; GitHub Actions builds and deploys the site to Pages.
 Preserve `CNAME`, `.nojekyll`, `.well-known/`, and Google verification files.
 Project screenshot: Macro Pad, from amansanoj/macro-pad.
 
@@ -19,3 +19,36 @@ Project screenshot: Macro Pad, from amansanoj/macro-pad.
 Colors, fonts, and radius tokens come from the published `@amansanoj/brand` CSS in `assets/vendor/brand-globals.css`. Keep that file unmodified when upgrading. Theme preference is stored locally; System follows the device setting. The package CSS loads its font families from Google Fonts.
 
 Icons are Phosphor duotone SVGs. Package versions, registry URLs, and verified SHA-512 integrity values are recorded in `assets/vendor/sources.json`; the Phosphor license is included alongside the assets.
+
+## Blog
+
+Create a folder such as `posts/2026-11-09-macro-pad/` with a `README.md`:
+
+```markdown
+# Building the Macro Pad
+
+Write your post here. Markdown headings, links, lists, fenced code blocks,
+and tables are supported.
+
+![The controller](controller.png)
+```
+
+Place images alongside that README and reference them with relative paths.
+The folder date is the publication date; posts appear newest first. Use lowercase
+letters, numbers, and hyphens in the slug. Remove the folder to remove a post.
+There are no sample posts published on the site.
+
+Preview locally:
+
+```sh
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python scripts/build_blog.py
+python3 -m http.server 8000
+```
+
+Open `/blog/`. Re-run the renderer after editing a post. The Build and Deploy Site
+Action renders Markdown and deploys the public files to GitHub Pages on each push
+to `master`. It also supports manual runs. If GitHub blocks automatic Pages setup,
+select **GitHub Actions** under **Settings → Pages → Build and Deployment → Source**.
+Generated `blog/` files are build output; edit `posts/` instead.

@@ -9,7 +9,7 @@ const motionSelector = [
   '.home', 'nav a', '.intro h1', '.intro > p', '.links a',
   '.project-heading', '.featured > p', '.project > p', '.screenshot',
   'main h2', '.other-projects h3', '.other-projects li', '.other-projects > a',
-  '#about > p', '#contact > p', 'footer > *'
+  '#about > p', '#contact > p', 'footer > *', '.blog-intro > *', '.post-list > li', '.post-body > *'
 ].join(', ');
 const revealElements = document.querySelectorAll(motionSelector);
 const animations = new Set();

@@ -13,16 +13,16 @@ body {
   line-height: 1.7;
 }
 header, main, footer { max-width: 840px; padding: 0 32px; margin: auto; }
-a { color: var(--primary); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+a { color: var(--supporting-color); text-underline-offset: 4px; text-decoration-thickness: 1px; }
 a:hover { color: var(--accent); }
 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
 header { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-top: 30px; padding-bottom: 30px; font-size: 14px; }
-.home { color: var(--primary); text-decoration: none; font-weight: 600; }
+.home { color: var(--foreground); text-decoration: none; font-weight: 600; }
 nav { display: flex; gap: 24px; }
 nav a { text-decoration: none; }
 .skip { position: absolute; top: -100px; left: 20px; background: var(--ring); color: var(--background); padding: 10px; }
 .skip:focus { top: 10px; }
-h1, h2, h3 { color: var(--primary); line-height: 1.3; font-weight: 600; }
+h1, h2, h3 { color: var(--foreground); line-height: 1.3; font-weight: 600; }
 h1 { font-size: clamp(38px, 6vw, 54px); margin: 0 0 20px; }
 h2 { font-size: 24px; margin: 0 0 30px; }
 h3 { font-size: 20px; margin: 0; }
@@ -84,3 +84,20 @@ footer { flex-wrap: wrap; align-items: center; }
 
 /* Standalone inline links need a transformable box for cursor movement. */
 .home, nav a, .other-projects > a, footer > a { display: inline-block; }
+
+.blog-intro { padding: 55px 0 35px; }
+.post-list { list-style: none; padding: 0; }
+.post-list li { border-top: 1px solid var(--border); padding: 24px 0; }
+.post-date { color: var(--muted-foreground); font-size: 14px; }
+.post-body { padding-bottom: 48px; overflow-wrap: anywhere; }
+.post-body h2, .post-body h3 { margin: 32px 0 14px; }
+.post-body img { max-width: 100%; height: auto; border-radius: var(--radius); }
+.post-body pre { overflow-x: auto; padding: 18px; background: var(--muted); border-radius: var(--radius); }
+.post-body code { font-family: var(--font-mono); font-size: .88em; }
+.post-body blockquote { margin-left: 0; padding-left: 20px; border-left: 3px solid var(--secondary); }
+.post-body table { display: block; overflow-x: auto; border-collapse: collapse; }
+.post-body th, .post-body td { padding: 8px 12px; border: 1px solid var(--border); }
+@media (max-width: 550px) {
+  header { flex-wrap: wrap; gap: 12px; }
+  nav { flex-wrap: wrap; }
+}
