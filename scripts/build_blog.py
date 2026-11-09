@@ -52,7 +52,7 @@ def build():
         body = f'<article><div class="blog-intro"><a href="/blog/">All Posts</a><h1>{escape(title)}</h1>{timestamp}</div>{cover_html}<div class="post-body">{content}</div></article>'
         (target / 'index.html').write_text(page(title + ' — Aman Sanoj', f'/blog/{slug}/', body, cover))
         preview = f'<a class="post-cover-link" href="/blog/{slug}/" aria-label="{escape(title, quote=True)}"><img class="post-cover-preview" src="/blog/{slug}/{cover}" alt="" loading="lazy"></a>' if cover else ''
-        entries.append(f'<li>{preview}{timestamp}<h2><a href="/blog/{slug}/">{escape(title)}</a></h2></li>')
+        entries.append(f'<li class="post-entry{" has-cover" if cover else ""}">{preview}<div class="post-entry-text">{timestamp}<h2><a href="/blog/{slug}/">{escape(title)}</a></h2></div></li>')
     body = '<div class="blog-intro"><h1>Blog</h1></div>'
     body += '<ul class="post-list">' + ''.join(entries) + '</ul>' if entries else '<p>No posts yet.</p>'
     (output / 'index.html').write_text(page('Blog — Aman Sanoj', '/blog/', body))

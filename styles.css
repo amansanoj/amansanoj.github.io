@@ -105,5 +105,20 @@ footer { flex-wrap: wrap; align-items: center; }
 }
 
 .post-cover { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto 36px; border-radius: var(--radius); }
-.post-cover-link { display: block; width: fit-content; margin-bottom: 20px; }
-.post-cover-preview { display: block; width: 160px; max-width: 100%; height: auto; border-radius: var(--radius); }
+.post-cover-link { display: block; width: 100%; }
+.post-cover-preview { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+
+.post-list .post-entry { display: grid; gap: 24px; align-items: center; padding: 28px 0; }
+.post-list .has-cover { grid-template-columns: 136px minmax(0, 1fr); }
+.post-entry h2 { font-size: 22px; line-height: 1.45; margin: 8px 0 0; }
+.post-entry h2 a { text-decoration: none; }
+.post-entry h2 a:hover { text-decoration: underline; }
+@media (max-width: 550px) {
+  .post-list .has-cover { grid-template-columns: 88px minmax(0, 1fr); gap: 16px; align-items: start; }
+  .post-entry h2 { font-size: 18px; }
+  .post-entry .post-date { font-size: 12px; }
+}
+@media (max-width: 350px) {
+  .post-list .has-cover { grid-template-columns: 1fr; }
+  .post-cover-link { max-width: 120px; }
+}
