@@ -18,3 +18,9 @@ The existing GitHub workflow regenerates the list on pushes to `master`.
 Push changes to `master` for the existing GitHub Pages deployment.
 Preserve `CNAME`, `.nojekyll`, `.well-known/`, and Google verification files.
 Project screenshot: Macro Pad, from amansanoj/macro-pad.
+
+## Design Dependencies
+
+Colors, fonts, and radius tokens come from the published `@amansanoj/brand` CSS in `assets/vendor/brand-globals.css`. Keep that file unmodified when upgrading. Theme preference is stored locally; System follows the device setting. The package CSS loads its font families from Google Fonts.
+
+Icons are Phosphor duotone SVGs. Package versions, registry URLs, and verified SHA-512 integrity values are recorded in `assets/vendor/sources.json`; the Phosphor license is included alongside the assets.

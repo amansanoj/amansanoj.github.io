@@ -1,0 +1,234 @@
+/*
+ * Brand — globals.css
+ * Extended color scale system with light & dark mode support.
+ * Import in your project's global stylesheet:
+ *   @import '@amansanoj/brand/globals.css';
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+
+:root {
+  /* ── Text ──────────────────────────────────────────────── */
+  --text-50: oklch(96.12% 0.000 89.88);
+  --text-100: oklch(92.49% 0.000 89.88);
+  --text-200: oklch(84.52% 0.000 89.88);
+  --text-300: oklch(76.68% 0.000 89.88);
+  --text-400: oklch(68.30% 0.000 89.88);
+  --text-500: oklch(59.99% 0.000 89.88);
+  --text-600: oklch(51.03% 0.000 89.88);
+  --text-700: oklch(42.02% 0.000 89.88);
+  --text-800: oklch(32.11% 0.000 89.88);
+  --text-900: oklch(21.78% 0.000 89.88);
+  --text-950: oklch(15.91% 0.000 89.88);
+  --text: oklch(21.78% 0.000 89.88);
+  --foreground: oklch(21.78% 0.000 89.88);
+
+  /* ── Background ────────────────────────────────────────── */
+  --background-50: oklch(96.12% 0.000 89.88);
+  --background-100: oklch(92.49% 0.000 89.88);
+  --background-200: oklch(84.52% 0.000 89.88);
+  --background-300: oklch(76.68% 0.000 89.88);
+  --background-400: oklch(68.30% 0.000 89.88);
+  --background-500: oklch(59.99% 0.000 89.88);
+  --background-600: oklch(51.03% 0.000 89.88);
+  --background-700: oklch(42.02% 0.000 89.88);
+  --background-800: oklch(32.11% 0.000 89.88);
+  --background-900: oklch(21.78% 0.000 89.88);
+  --background-950: oklch(15.91% 0.000 89.88);
+  --background: oklch(98.51% 0.000 89.88);
+
+  /* ── Primary ───────────────────────────────────────────── */
+  --primary-50: oklch(95.76% 0.009 264.52);
+  --primary-100: oklch(91.21% 0.019 265.98);
+  --primary-200: oklch(82.50% 0.036 264.36);
+  --primary-300: oklch(73.38% 0.058 264.62);
+  --primary-400: oklch(64.32% 0.079 263.42);
+  --primary-500: oklch(54.96% 0.102 263.50);
+  --primary-600: oklch(47.05% 0.086 262.94);
+  --primary-700: oklch(38.55% 0.068 263.77);
+  --primary-800: oklch(29.82% 0.047 263.48);
+  --primary-900: oklch(20.10% 0.028 264.97);
+  --primary-950: oklch(14.92% 0.014 263.23);
+  --primary: oklch(32.65% 0.053 263.43);
+
+  /* ── Secondary ─────────────────────────────────────────── */
+  --secondary-50: oklch(97.07% 0.020 77.32);
+  --secondary-100: oklch(94.19% 0.038 76.19);
+  --secondary-200: oklch(88.63% 0.078 75.38);
+  --secondary-300: oklch(83.24% 0.113 74.12);
+  --secondary-400: oklch(78.46% 0.143 71.77);
+  --secondary-500: oklch(73.79% 0.161 65.94);
+  --secondary-600: oklch(62.69% 0.136 66.43);
+  --secondary-700: oklch(50.76% 0.108 66.72);
+  --secondary-800: oklch(38.42% 0.080 67.90);
+  --secondary-900: oklch(24.84% 0.047 72.09);
+  --secondary-950: oklch(17.64% 0.031 79.40);
+  --secondary: oklch(76.97% 0.150 70.06);
+
+  /* ── Accent ────────────────────────────────────────────– */
+  --accent-50: oklch(95.33% 0.014 17.40);
+  --accent-100: oklch(90.50% 0.030 12.62);
+  --accent-200: oklch(81.04% 0.063 14.84);
+  --accent-300: oklch(71.88% 0.097 16.47);
+  --accent-400: oklch(63.13% 0.134 18.78);
+  --accent-500: oklch(55.46% 0.169 21.72);
+  --accent-600: oklch(47.23% 0.141 21.74);
+  --accent-700: oklch(38.67% 0.111 21.10);
+  --accent-800: oklch(29.65% 0.081 20.35);
+  --accent-900: oklch(19.92% 0.046 17.63);
+  --accent-950: oklch(14.47% 0.025 14.64);
+  --accent: oklch(35.18% 0.099 21.34);
+
+  /* ── Semantic ───────────────────────────────────────────── */
+  --card: oklch(98.51% 0.000 89.88);
+  --card-foreground: oklch(21.78% 0.000 89.88);
+  --popover: oklch(98.51% 0.000 89.88);
+  --popover-foreground: oklch(21.78% 0.000 89.88);
+  --primary-foreground: oklch(98.51% 0.000 89.88);
+  --secondary-foreground: oklch(21.78% 0.000 89.88);
+  --muted: oklch(92.49% 0.000 89.88);
+  --muted-foreground: oklch(42.02% 0.000 89.88);
+  --accent-foreground: oklch(98.51% 0.000 89.88);
+  --destructive: oklch(57.70% 0.245 27.33);
+  --destructive-foreground: oklch(98.51% 0.000 89.88);
+  --border: oklch(84.52% 0.000 89.88);
+  --input: oklch(84.52% 0.000 89.88);
+  --ring: oklch(32.65% 0.053 263.43);
+  --primary-light: oklch(64.32% 0.079 263.42);
+  --primary-dark: oklch(47.05% 0.086 262.94);
+  --primary-ring: oklch(32.65% 0.053 263.43);
+
+  /* ── Data Viz ───────────────────────────────────────────── */
+  --chart-1: oklch(32.65% 0.053 263.43);
+  --chart-2: oklch(76.97% 0.150 70.06);
+  --chart-3: oklch(35.18% 0.099 21.34);
+  --chart-4: oklch(72.00% 0.120 180.00);
+  --chart-5: oklch(64.00% 0.140 20.00);
+
+  /* ── Sidebar ────────────────────────────────────────────── */
+  --sidebar: oklch(92.49% 0.000 89.88);
+  --sidebar-foreground: oklch(21.78% 0.000 89.88);
+  --sidebar-primary: oklch(32.65% 0.053 263.43);
+  --sidebar-primary-foreground: oklch(98.51% 0.000 89.88);
+  --sidebar-accent: oklch(35.18% 0.099 21.34);
+  --sidebar-accent-foreground: oklch(98.51% 0.000 89.88);
+  --sidebar-border: oklch(84.52% 0.000 89.88);
+  --sidebar-ring: oklch(32.65% 0.053 263.43);
+
+  /* ── Radius ──────────────────────────────────────────────── */
+  --radius: 0.5rem;
+
+  /* ── Typography ──────────────────────────────────────────── */
+  --font-display: 'Instrument Sans', sans-serif;
+  --font-body:  'Geist', sans-serif;
+  --font-mono:  'Geist Mono', monospace;
+}
+
+.dark {
+  /* ── Text ──────────────────────────────────────────────── */
+  --text-50: oklch(96.12% 0.000 89.88);
+  --text-100: oklch(92.49% 0.000 89.88);
+  --text-200: oklch(84.52% 0.000 89.88);
+  --text-300: oklch(76.68% 0.000 89.88);
+  --text-400: oklch(68.30% 0.000 89.88);
+  --text-500: oklch(59.99% 0.000 89.88);
+  --text-600: oklch(51.03% 0.000 89.88);
+  --text-700: oklch(42.02% 0.000 89.88);
+  --text-800: oklch(32.11% 0.000 89.88);
+  --text-900: oklch(21.78% 0.000 89.88);
+  --text-950: oklch(15.91% 0.000 89.88);
+  --text: oklch(92.49% 0.000 89.88);
+  --foreground: oklch(92.49% 0.000 89.88);
+
+  /* ── Background ────────────────────────────────────────– */
+  --background-50: oklch(96.12% 0.000 89.88);
+  --background-100: oklch(92.49% 0.000 89.88);
+  --background-200: oklch(84.52% 0.000 89.88);
+  --background-300: oklch(76.68% 0.000 89.88);
+  --background-400: oklch(68.30% 0.000 89.88);
+  --background-500: oklch(59.99% 0.000 89.88);
+  --background-600: oklch(51.03% 0.000 89.88);
+  --background-700: oklch(42.02% 0.000 89.88);
+  --background-800: oklch(32.11% 0.000 89.88);
+  --background-900: oklch(21.78% 0.000 89.88);
+  --background-950: oklch(15.91% 0.000 89.88);
+  --background: oklch(11.49% 0.000 89.88);
+
+  /* ── Primary ───────────────────────────────────────────– */
+  --primary-50: oklch(95.76% 0.009 264.52);
+  --primary-100: oklch(91.21% 0.019 265.98);
+  --primary-200: oklch(82.50% 0.036 264.36);
+  --primary-300: oklch(73.38% 0.058 264.62);
+  --primary-400: oklch(64.32% 0.079 263.42);
+  --primary-500: oklch(54.96% 0.102 263.50);
+  --primary-600: oklch(47.05% 0.086 262.94);
+  --primary-700: oklch(38.55% 0.068 263.77);
+  --primary-800: oklch(29.82% 0.047 263.48);
+  --primary-900: oklch(20.10% 0.028 264.97);
+  --primary-950: oklch(14.92% 0.014 263.23);
+  --primary: oklch(79.67% 0.043 264.30);
+
+  /* ── Secondary ─────────────────────────────────────────– */
+  --secondary-50: oklch(97.07% 0.020 77.32);
+  --secondary-100: oklch(94.19% 0.038 76.19);
+  --secondary-200: oklch(88.63% 0.078 75.38);
+  --secondary-300: oklch(83.24% 0.113 74.12);
+  --secondary-400: oklch(78.46% 0.143 71.77);
+  --secondary-500: oklch(73.79% 0.161 65.94);
+  --secondary-600: oklch(62.69% 0.136 66.43);
+  --secondary-700: oklch(50.76% 0.108 66.72);
+  --secondary-800: oklch(38.42% 0.080 67.90);
+  --secondary-900: oklch(24.84% 0.047 72.09);
+  --secondary-950: oklch(17.64% 0.031 79.40);
+  --secondary: oklch(76.97% 0.150 70.06);
+
+  /* ── Accent ────────────────────────────────────────────– */
+  --accent-50: oklch(95.33% 0.014 17.40);
+  --accent-100: oklch(90.50% 0.030 12.62);
+  --accent-200: oklch(81.04% 0.063 14.84);
+  --accent-300: oklch(71.88% 0.097 16.47);
+  --accent-400: oklch(63.13% 0.134 18.78);
+  --accent-500: oklch(55.46% 0.169 21.72);
+  --accent-600: oklch(47.23% 0.141 21.74);
+  --accent-700: oklch(38.67% 0.111 21.10);
+  --accent-800: oklch(29.65% 0.081 20.35);
+  --accent-900: oklch(19.92% 0.046 17.63);
+  --accent-950: oklch(14.47% 0.025 14.64);
+  --accent: oklch(75.46% 0.083 15.41);
+
+  /* ── Semantic ───────────────────────────────────────────── */
+  --card: oklch(21.78% 0.000 89.88);
+  --card-foreground: oklch(92.49% 0.000 89.88);
+  --popover: oklch(21.78% 0.000 89.88);
+  --popover-foreground: oklch(92.49% 0.000 89.88);
+  --primary-foreground: oklch(11.49% 0.000 89.88);
+  --secondary-foreground: oklch(11.49% 0.000 89.88);
+  --muted: oklch(32.11% 0.000 89.88);
+  --muted-foreground: oklch(76.68% 0.000 89.88);
+  --accent-foreground: oklch(11.49% 0.000 89.88);
+  --destructive: oklch(57.70% 0.245 27.33);
+  --destructive-foreground: oklch(98.51% 0.000 89.88);
+  --border: oklch(32.11% 0.000 89.88);
+  --input: oklch(32.11% 0.000 89.88);
+  --ring: oklch(79.67% 0.043 264.30);
+  --primary-light: oklch(64.32% 0.079 263.42);
+  --primary-dark: oklch(47.05% 0.086 262.94);
+  --primary-ring: oklch(79.67% 0.043 264.30);
+
+  /* ── Data Viz ───────────────────────────────────────────── */
+  --chart-1: oklch(79.67% 0.043 264.30);
+  --chart-2: oklch(76.97% 0.150 70.06);
+  --chart-3: oklch(75.46% 0.083 15.41);
+  --chart-4: oklch(72.00% 0.120 180.00);
+  --chart-5: oklch(64.00% 0.140 20.00);
+
+  /* ── Sidebar ────────────────────────────────────────────── */
+  --sidebar: oklch(21.78% 0.000 89.88);
+  --sidebar-foreground: oklch(92.49% 0.000 89.88);
+  --sidebar-primary: oklch(79.67% 0.043 264.30);
+  --sidebar-primary-foreground: oklch(11.49% 0.000 89.88);
+  --sidebar-accent: oklch(75.46% 0.083 15.41);
+  --sidebar-accent-foreground: oklch(11.49% 0.000 89.88);
+  --sidebar-border: oklch(32.11% 0.000 89.88);
+  --sidebar-ring: oklch(79.67% 0.043 264.30);
+}

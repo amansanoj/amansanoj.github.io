@@ -1,0 +1,14 @@
+{
+  "brand": {
+    "name": "@amansanoj/brand",
+    "version": "3.0.8",
+    "integrity": "sha512-iluk4MSKnLBjoQ6Bd1M+C6Y8kfrcN3K+riFFtSwAdBlAXxrbEUqE2rIJGvW2iIEFWLOHME235bRNWVw6SayZ7g==",
+    "source": "https://registry.npmjs.org/@amansanoj/brand/-/brand-3.0.8.tgz"
+  },
+  "phosphor": {
+    "name": "@phosphor-icons/core",
+    "version": "2.1.1",
+    "integrity": "sha512-v4ARvrip4qBCImOE5rmPUylOEK4iiED9ZyKjcvzuezqMaiRASCHKcRIuvvxL/twvLpkfnEODCOJp5dM4eZilxQ==",
+    "source": "https://registry.npmjs.org/@phosphor-icons/core/-/core-2.1.1.tgz"
+  }
+}
