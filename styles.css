@@ -15,7 +15,7 @@ body {
 header, main, footer { max-width: 840px; padding: 0 32px; margin: auto; }
 a { color: var(--primary); text-underline-offset: 4px; text-decoration-thickness: 1px; }
 a:hover { color: var(--accent); }
-a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
 header { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-top: 30px; padding-bottom: 30px; font-size: 14px; }
 .home { color: var(--primary); text-decoration: none; font-weight: 600; }
 nav { display: flex; gap: 24px; }
@@ -47,11 +47,6 @@ p { margin: 14px 0; color: var(--muted-foreground); }
 .other-projects li { margin: 10px 0; }
 .other-projects>a { font-size: 15px; }
 #about p, #contact p { font-size: 16px; }
-details { margin-top: 24px; }
-summary { width: fit-content; cursor: pointer; color: var(--primary); font-size: 16px; }
-.note { font-size: 14px!important; }
-.cert-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.cert-grid img { display: block; width: 100%; height: auto; }
 footer { display: flex; justify-content: space-between; gap: 20px; padding-top: 22px; padding-bottom: 30px; color: var(--muted-foreground); font-size: 12px; }
 @media (max-width: 550px) {
   header, main, footer { padding-left: 22px; padding-right: 22px; }
@@ -77,8 +72,8 @@ footer { flex-wrap: wrap; align-items: center; }
 
 /* Brand hierarchy: primary leads; secondary supports; accent signals interaction.
    Use the darker secondary scale on light surfaces for readable small text. */
-.links .icon, .theme-icon, summary::marker { color: var(--supporting-color); }
-.links a:hover .icon, summary:hover, summary:hover::marker,
+.links .icon, .theme-icon { color: var(--supporting-color); }
+.links a:hover .icon,
 .home:hover, .theme-control select:hover { color: var(--accent); }
 .other-projects li::marker { color: var(--supporting-color); }
 .screenshot:hover { outline: 2px solid var(--accent); outline-offset: 3px; }

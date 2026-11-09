@@ -2,10 +2,6 @@
   "name": "amansanoj.github.io",
   "version": "1.0.0",
   "description": "",
-  "main": "generate-certs-json.js",
-  "scripts": {
-    "build": "node generate-certs-json.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AmanSanoj/amansanoj.github.io.git"
