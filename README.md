@@ -109,3 +109,14 @@ the original ratio. Detail-page covers are centered, fit the available width,
 and are limited to 70% of the viewport height (up to 640px). Existing covers in
 other proportions still render without cropping. Source image files are never
 modified by the build. The full original opens in the image dialog.
+
+## Brand Updates
+
+The site vendors the CSS and JSON from `@amansanoj/brand`. Deployment runs
+`bun scripts/sync-brand.ts` before building, checks the npm archive's SHA-512
+integrity, and uses the latest stable release when it is newer than the local
+copy. Both CSS and JSON update together; the site has no local palette overrides.
+
+A daily scheduled build picks up published brand updates automatically. A push
+or manual run of **Build and Deploy Site** also checks for a newer release.
+Local development uses the checked-in copy without needing registry access.

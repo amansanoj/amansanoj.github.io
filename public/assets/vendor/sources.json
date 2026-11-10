@@ -1,9 +1,9 @@
 {
   "brand": {
     "name": "@amansanoj/brand",
-    "version": "3.0.8",
-    "integrity": "sha512-iluk4MSKnLBjoQ6Bd1M+C6Y8kfrcN3K+riFFtSwAdBlAXxrbEUqE2rIJGvW2iIEFWLOHME235bRNWVw6SayZ7g==",
-    "source": "https://registry.npmjs.org/@amansanoj/brand/-/brand-3.0.8.tgz"
+    "version": "3.0.9",
+    "integrity": "sha512-BjbUj7XgSGneM9Lt2jI8+UupCUGy5O7ORkfndw7f2U990Nf7AecfGLk0eWw9RTmxM40h1A7oq5FBN3FvBku2fQ==",
+    "source": "https://registry.npmjs.org/@amansanoj/brand/-/brand-3.0.9.tgz"
   },
   "phosphor": {
     "name": "@phosphor-icons/core",

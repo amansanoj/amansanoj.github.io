@@ -211,3 +211,25 @@ test('blog and project covers preserve 4:5 and 4:3 layouts without cropping',asy
   }
  }
 });
+
+test('homepage links meet AA contrast in both themes, including hover',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.goto('/');
+ for(const theme of ['light','dark']){
+  await page.evaluate(theme=>{document.documentElement.dataset.theme=theme;document.documentElement.classList.toggle('dark',theme==='dark');},theme);
+  const links=page.locator('.site-shell a:not(.skip)');
+  for(let index=0;index<await links.count();index++){
+   const link=links.nth(index);
+   for(const hover of [false,true]){
+    if(hover)await link.hover();else await page.mouse.move(0,0);
+    const result=await link.evaluate(element=>{
+     const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const context=canvas.getContext('2d')!;
+     const luminance=(color:string)=>{context.fillStyle=color;context.fillRect(0,0,1,1);const channels=context.getImageData(0,0,1,1).data;return [.2126,.7152,.0722].reduce((sum,weight,index)=>{const c=channels[index]/255;return sum+weight*(c<=.04045?c/12.92:((c+.055)/1.055)**2.4);},0);};
+     const text=luminance(getComputedStyle(element).color),background=luminance(getComputedStyle(document.body).backgroundColor);
+     return {text:element.textContent,ratio:(Math.max(text,background)+.05)/(Math.min(text,background)+.05)};
+    });
+    expect(result.ratio,`${theme} ${result.text} ${hover?'hover':'default'}`).toBeGreaterThanOrEqual(4.5);
+   }
+  }
+ }
+});

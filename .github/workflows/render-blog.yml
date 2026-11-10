@@ -2,6 +2,8 @@ name: Build and Deploy Site
 on:
   push:
     branches: [master]
+  schedule:
+    - cron: '17 4 * * *'
   workflow_dispatch:
 permissions:
   contents: read
@@ -19,6 +21,8 @@ jobs:
         with:
           bun-version: 1.4.4
       - run: bun install --frozen-lockfile
+      - name: Sync Published Brand Tokens
+        run: bun scripts/sync-brand.ts
       - run: bun run check
       - run: bun run test
       - uses: actions/configure-pages@v5
