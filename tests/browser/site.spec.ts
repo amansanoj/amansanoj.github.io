@@ -77,3 +77,18 @@ test('bottom blur remains unchanged while the theme wipe is in flight',async({pa
  await expect(page.locator('html')).not.toHaveAttribute('data-magicui-theme-vt','active');
  await expect(page.locator('[style*="view-transition-name: theme-edge-blur"]')).toHaveCount(0);
 });
+
+test('bottom blur fades continuously toward the footer and reverses on scroll up',async({page})=>{
+ await page.setViewportSize({width:1000,height:800});await page.goto('/');
+ const strength=()=>page.locator('.bottom-blur > div').first().evaluate(element=>Number(getComputedStyle(element).opacity));
+ const scrollToFraction=async(fraction:number)=>{
+  await page.evaluate(fraction=>{const footer=document.querySelector('footer')!;const rect=footer.getBoundingClientRect();const distance=Math.min(300,rect.height+100);const target=innerHeight-rect.height+distance*fraction;scrollTo({top:scrollY+rect.top-target,behavior:'instant'});},fraction);
+  await page.waitForTimeout(80);
+  return strength();
+ };
+ const values=[];for(const fraction of [1,.75,.5,.25,0])values.push(await scrollToFraction(fraction));
+ expect(values[0]).toBeCloseTo(1,1);expect(values[4]).toBeCloseTo(0,1);
+ for(let i=1;i<values.length;i++)expect(values[i]).toBeLessThan(values[i-1]);
+ for(const [index,fraction] of [0,.25,.5,.75,1].entries())expect(await scrollToFraction(fraction)).toBeCloseTo(values[4-index],1);
+ await page.evaluate(()=>scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'}));await page.waitForTimeout(80);expect(await strength()).toBe(0);
+});

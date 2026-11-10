@@ -22,7 +22,7 @@ export function preserveTransitionBlur() {
         transform: none; animation: none; z-index: ${10 + index};
         backdrop-filter: ${filter}; -webkit-backdrop-filter: ${filter};
         mask-image: ${mask}; -webkit-mask-image: ${mask};
-        pointer-events: none;
+        opacity: ${style.opacity}; pointer-events: none;
       }
       html[data-magicui-theme-vt="active"]::view-transition-image-pair(${name}) {
         display: none;
