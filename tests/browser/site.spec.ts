@@ -251,8 +251,8 @@ test('emphasis draws one bright marker stroke per line and keeps text readable',
    return {paths:svg.querySelectorAll('path').length,lines:element.getClientRects().length,opacity,stroke:svg.querySelector('path')!.getAttribute('stroke'),contrast:(Math.max(text,fill)+.05)/(Math.min(text,fill)+.05)};
   });
   expect(marker.paths).toBe(marker.lines);
-  expect(marker.stroke).toBe('var(--secondary-200)');
-  expect(marker.opacity).toBe(theme==='light'?.85:.45);
+  expect(marker.stroke).toBe('var(--highlight-color)');
+  expect(marker.opacity).toBe(theme==='light'?.85:.6);
   expect(marker.contrast).toBeGreaterThanOrEqual(4.5);
  }
 });

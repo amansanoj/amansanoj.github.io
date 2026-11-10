@@ -83,7 +83,7 @@ footer { flex-wrap: wrap; align-items: center; }
 .post-list { list-style: none; padding: 0; }
 .post-list li { border-top: 1px solid var(--border); padding: 24px 0; }
 .post-date { color: var(--muted-foreground); font-size: 14px; }
-.post-body { padding-bottom: 48px; overflow-wrap: anywhere; }
+.post-body { --highlight-color: var(--secondary-200); padding-bottom: 48px; overflow-wrap: anywhere; }
 .post-body h2, .post-body h3 { margin: 32px 0 14px; }
 .post-body img { max-width: 100%; height: auto; border-radius: var(--radius); }
 .post-body pre { overflow-x: auto; padding: 18px; background: var(--muted); border-radius: var(--radius); }
@@ -191,7 +191,8 @@ body:has(:focus-visible) .bottom-blur, body:has(.lost-game[open]) .bottom-blur {
 /* Paths overflow visibly; the empty SVG viewport must not widen narrow pages. */
 .post-body .rough-annotation { opacity: .85; width: 1px !important; height: 1px !important; }
 
-.dark .post-body .rough-annotation { opacity: .45; }
+.dark .post-body { --highlight-color: var(--secondary-500); }
+.dark .post-body .rough-annotation { opacity: .6; }
 
 .image-view-trigger { display: block; border: 0; padding: 0; background: transparent; color: inherit; cursor: zoom-in; border-radius: var(--radius); max-width: 100%; }
 .image-view-trigger.screenshot { padding: 18px; background: var(--muted); width: 100%; }
