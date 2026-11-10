@@ -8,7 +8,7 @@ export function Home() { return <>
   </section>
 
   <section id="projects" aria-labelledby="projects-title">
-    <h2 id="projects-title">Selected Projects</h2>
+    <h2 id="projects-title">Projects</h2>
     <article className="featured">
       <div className="project-heading"><h3><a href="/projects/macro-pad/">Macro Pad</a></h3><span>Swift · C++</span></div>
       <p>A four-button Bluetooth controller and its macOS app. Each button can run a shortcut, open an app, or perform a different action depending on which application you’re using.</p>
@@ -28,7 +28,7 @@ export function Home() { return <>
   <section id="about">
     <h2>About</h2>
     <p>I’m from Kerala and live in the UAE. I started programming at 12, initially with web development. Since then I’ve been working with Go, Swift, and C++ alongside JavaScript.</p>
-    <p>I’m studying for a Bachelor of Computer Science in Cyber Security at the University of Wollongong in Dubai. I also build web applications, macOS tools, and firmware, and write about the work on my blog.</p>
+    <p>I’m studying for a Bachelor of Computer Science in Cyber Security at the University of Wollongong in Dubai. I write about my projects and technical work on my blog.</p>
     <p>At school, I co-built GardenX for the farm’s produce sales and Falak Academy for student-led courses. Outside programming, I play chess and listen to music.</p>
     <h3>Education</h3>
     <div className="education-list">

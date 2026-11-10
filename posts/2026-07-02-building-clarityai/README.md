@@ -28,7 +28,7 @@ Our backend was stateless, but that alone doesn’t prove that uploaded informat
 
 Evaluation needs to distinguish extraction failures from unsupported model conclusions. A test set with checked dates, tasks, and source passages would make those errors easier to measure than simply checking whether the app returns an answer.
 
-## References
+## Sources
 
 - [pypdf: Extract Text from a PDF](https://pypdf.readthedocs.io/en/latest/user/extract-text.html)
 - [pytesseract: Python Wrapper for Tesseract OCR](https://github.com/madmaze/pytesseract)

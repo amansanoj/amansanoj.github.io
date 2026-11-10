@@ -69,8 +69,11 @@ test('bottom blur remains unchanged while the theme wipe is in flight',async({pa
  await expect(page.locator('.bottom-blur')).toHaveClass(/is-visible/);
  const clip={x:0,y:744,width:1000,height:56};
  const before=await page.screenshot({clip});
- await page.locator('#theme').click();
+ // Isolate the wipe from magnetic motion triggered by moving the mouse.
+ await page.locator('#theme').evaluate((button:HTMLButtonElement)=>button.click());
  await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement,'::view-transition-group(theme-edge-blur-7)').backdropFilter)).toBe('blur(8px)');
+ // Let the named backdrop layers reach the compositor while the wipe stays paused.
+ await page.waitForTimeout(100);
  const during=await page.screenshot({clip});
  const {default:sharp}=await import('sharp');
  expect((await sharp(before).raw().toBuffer()).equals(await sharp(during).raw().toBuffer())).toBe(true);
@@ -189,4 +192,22 @@ test('project directory and detail pages work across screen sizes',async({page})
  await page.keyboard.press('Escape');
  await expect(page.getByRole('dialog')).toHaveCount(0);
  expect(errors).toEqual([]);
+});
+
+test('blog and project covers preserve 4:5 and 4:3 layouts without cropping',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});
+ for(const path of ['/blog/2026-11-09-the-emudhra-certificate-compromise-why-updating-your-browser-isnt-enough/','/projects/macro-pad/']){
+  for(const width of [320,390,640,768,1440]){
+   await page.setViewportSize({width,height:900});await page.goto(path);
+   for(const [w,h] of [[800,1000],[800,600]]){
+    const cover=page.locator('.post-cover');
+    await cover.evaluate(async(element:HTMLImageElement,{w,h})=>{element.width=w;element.height=h;element.src='data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"/>`);await element.decode();},{w,h});
+    const box=await cover.evaluate(image=>{const r=image.getBoundingClientRect();const main=document.querySelector('main')!.getBoundingClientRect();return {width:r.width,height:r.height,center:r.x+r.width/2,mainCenter:main.x+main.width/2,fit:getComputedStyle(image).objectFit,overflow:document.documentElement.scrollWidth>innerWidth};});
+    expect(box.width/box.height).toBeCloseTo(w/h,2);
+    expect(box.height).toBeLessThanOrEqual(640);
+    expect(Math.abs(box.center-box.mainCenter)).toBeLessThan(1);
+    expect(box.fit).toBe('contain');expect(box.overflow).toBe(false);
+   }
+  }
+ }
 });

@@ -14,7 +14,7 @@ An accepted solution checks the implementation against the judge’s tests. Expl
 
 This is the starting plan. Progress updates will follow as I work through the topics.
 
-## Links
+## Resources
 
 - [NeetCode Practice](https://neetcode.io/practice)
 - [My Roadmap with Free Alternatives](https://lnkd.in/d2A7wmCh)

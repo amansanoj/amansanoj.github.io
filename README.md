@@ -94,4 +94,18 @@ An optional `project.json` controls the directory order and project details:
 
 `period` can provide a date range for older projects. Push changes to `master` to
 publish `/projects/project-slug/`. Generated files in `public/projects/` are ignored.
-The homepage contains a selection; `/projects/` contains all project entries.
+The homepage contains three projects; `/projects/` contains all project entries.
+
+## Cover Images
+
+Blog and project covers use the same build pipeline and image viewer. Add a
+`cover.jpg`, `cover.png`, or `cover.webp` alongside either README and push to
+`master`. The site Action automatically detects the cover, generates the
+quarter-size WebP thumbnail and 1200 × 630 OG image, and includes the sharing
+metadata. Generated assets are deployed without being committed to the source.
+
+New covers should be 4:5 portrait or 4:3 landscape. Directory thumbnails preserve
+the original ratio. Detail-page covers are centered, fit the available width,
+and are limited to 70% of the viewport height (up to 640px). Existing covers in
+other proportions still render without cropping. Source image files are never
+modified by the build. The full original opens in the image dialog.

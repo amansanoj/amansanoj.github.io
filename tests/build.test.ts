@@ -31,7 +31,7 @@ test('covers keep quarter-size thumbnails and centered social images',async()=>{
  }
 });
 test('homepage, 404, verification files and custom domain survive deployment',async()=>{
- const home=await readFile('dist/index.html','utf8');expect(home).toContain('I write software');expect(home).toContain('Selected Projects');
+ const home=await readFile('dist/index.html','utf8');expect(home).toContain('I write software');expect(home).toContain('<h2 id="projects-title">Projects</h2>');
  const missing=await readFile('dist/404.html','utf8');expect(missing).toContain('Page Not Found');expect(missing).toContain('game-court');expect(missing).toContain('noindex');
  for(const file of ['CNAME','.nojekyll','google8640e0dd51c3c37e.html'])await access(`dist/${file}`);
  expect(await readFile('dist/CNAME','utf8')).toBe(await readFile('public/CNAME','utf8'));
@@ -78,4 +78,54 @@ test('homepage shows three selected projects and current education',async()=>{
  const navigation=html.split('aria-label="Main navigation"')[1].split('</nav>')[0];
  expect(navigation.indexOf('>About<')).toBeLessThan(navigation.indexOf('>Projects<'));
  expect(navigation.indexOf('>Projects<')).toBeLessThan(navigation.indexOf('>Blog<'));
+});
+
+test('shared cover processing preserves 4:5 and 4:3 originals and creates thumbnails and OG images',async()=>{
+ const {prepareAssets}=await import('../scripts/lib/content-images');
+ const {mkdtemp,mkdir,rm}=await import('node:fs/promises');
+ const {tmpdir}=await import('node:os');
+ const {join}=await import('node:path');
+ const root=await mkdtemp(join(tmpdir(),'portfolio-covers-'));
+ try{
+  for(const [width,height] of [[800,1000],[800,600]]){
+   const source=join(root,`${width}-${height}`),destination=join(root,`${width}-${height}-output`);
+   await mkdir(source);
+   const original=await sharp({create:{width,height,channels:3,background:{r:25,g:100,b:180}}}).jpeg().toBuffer();
+   await Bun.write(join(source,'cover.jpg'),original);
+   const result=await prepareAssets(source,destination);
+   expect(result.dimensions).toEqual({width,height,thumbnailWidth:width/4,thumbnailHeight:height/4});
+   expect((await readFile(join(source,'cover.jpg'))).equals(original)).toBe(true);
+   expect((await readFile(join(destination,'cover.jpg'))).equals(original)).toBe(true);
+   const thumb=await sharp(join(destination,'thumbnail.webp')).metadata();
+   expect([thumb.width,thumb.height]).toEqual([width/4,height/4]);
+   const og=sharp(join(destination,'og.jpg'));
+   const info=await og.metadata();expect([info.width,info.height]).toEqual([1200,630]);
+   const corner=await og.clone().extract({left:0,top:0,width:1,height:1}).raw().toBuffer();
+   const primary=tokens.color.hex.dark.base.primary;
+   for(let i=0;i<3;i++)expect(Math.abs(corner[i]-parseInt(primary.slice(1+i*2,3+i*2),16))).toBeLessThanOrEqual(3);
+   const center=await og.clone().extract({left:600,top:315,width:1,height:1}).raw().toBuffer();
+   for(const [i,value] of [25,100,180].entries())expect(Math.abs(center[i]-value)).toBeLessThanOrEqual(3);
+  }
+ }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('every prerendered page links to existing local routes, images and anchors',async()=>{
+ const {readdir}=await import('node:fs/promises');
+ const {join,relative}=await import('node:path');
+ const files=await readdir('dist',{recursive:true});
+ for(const file of files.filter(file=>file.endsWith('.html'))){
+  const html=await readFile(join('dist',file),'utf8');
+  const pageUrl=new URL(file,'https://portfolio.test/');
+  for(const match of html.matchAll(/\b(?:href|src)="([^"]+)"/g)){
+   const url=new URL(match[1].replace(/&amp;/g,'&'),pageUrl);
+   if(url.origin!==pageUrl.origin)continue;
+   const path=decodeURIComponent(url.pathname);
+   const target=join('dist',path.endsWith('/')?`${path}index.html`:path);
+   try { await access(target); } catch { throw new Error(`${file}: missing local target ${match[1]}`); }
+   if(url.hash&&target.endsWith('.html')){
+    const destination=await readFile(target,'utf8');
+    expect(destination,`${relative('dist',target)}: ${url.hash}`).toContain(`id="${decodeURIComponent(url.hash.slice(1))}"`);
+   }
+  }
+ }
 });
