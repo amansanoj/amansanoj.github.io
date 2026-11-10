@@ -124,5 +124,6 @@ Local development uses the checked-in copy without needing registry access.
 Blog and project emphasis uses one Rough Notation stroke per text line in
 `--secondary-200` at 85% opacity in light mode, and the more saturated
 `--secondary-500` at 60% opacity in dark mode.
-Bold text always uses `--foreground`; its color does not switch when the marker
+Emphasized text keeps the paragraph’s normal weight and uses `--foreground`;
+its color does not switch when the marker
 appears. Browser tests check stroke counts, alignment, and AA text contrast.

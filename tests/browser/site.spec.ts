@@ -248,8 +248,9 @@ test('emphasis draws one bright marker stroke per line and keeps text readable',
    const foreground=rgb(getComputedStyle(element).color),background=rgb(getComputedStyle(document.body).backgroundColor),color=rgb(getComputedStyle(svg.querySelector('path')!).stroke),opacity=Number(getComputedStyle(svg).opacity);
    const lum=(values:number[])=>values.reduce((sum,value,index)=>{const c=value/255;return sum+[.2126,.7152,.0722][index]*(c<=.04045?c/12.92:((c+.055)/1.055)**2.4);},0);
    const text=lum(foreground),fill=lum(background.map((value,index)=>value*(1-opacity)+color[index]*opacity));
-   return {paths:svg.querySelectorAll('path').length,lines:element.getClientRects().length,opacity,stroke:svg.querySelector('path')!.getAttribute('stroke'),contrast:(Math.max(text,fill)+.05)/(Math.min(text,fill)+.05)};
+   return {weight:getComputedStyle(element).fontWeight,parentWeight:getComputedStyle(element.closest('p')!).fontWeight,paths:svg.querySelectorAll('path').length,lines:element.getClientRects().length,opacity,stroke:svg.querySelector('path')!.getAttribute('stroke'),contrast:(Math.max(text,fill)+.05)/(Math.min(text,fill)+.05)};
   });
+  expect(marker.weight).toBe(marker.parentWeight);
   expect(marker.paths).toBe(marker.lines);
   expect(marker.stroke).toBe('var(--highlight-color)');
   expect(marker.opacity).toBe(theme==='light'?.85:.6);
