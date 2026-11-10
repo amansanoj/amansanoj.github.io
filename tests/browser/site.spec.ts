@@ -7,7 +7,7 @@ for(const width of [390,1440])test(`theme, hydration, dialog, blog and 404 at ${
  for(const mode of ['light','dark','system']){await page.locator('#theme').click();await expect(page.locator('html')).toHaveAttribute('data-theme',mode);await expect(page.locator('html')).not.toHaveAttribute('data-magicui-theme-vt','active');}
  await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','system');
  await page.getByRole('button',{name:/Enlarge image/}).first().click();const dialog=page.getByRole('dialog');await expect(dialog).toBeVisible();
- await dialog.locator('img').evaluate(async(image:HTMLImageElement)=>image.decode());const before=await dialog.locator('img').boundingBox();await page.getByRole('button',{name:'Zoom In',exact:true}).click();const after=await dialog.locator('img').boundingBox();expect(after!.width).toBeCloseTo(before!.width*2,0);await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);
+ await dialog.locator('img').first().evaluate(async(image:HTMLImageElement)=>image.decode());const lens=dialog.getByRole('region',{name:/Magnify:/});await lens.hover();await expect(lens.locator('img')).toHaveCount(2);await lens.focus();await page.keyboard.press('ArrowRight');await expect(lens.locator('[style*="scale(1.3)"]')).toHaveCount(1);await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);
  await page.goto('/blog/');const links=page.locator('.post-entry h2 a');expect(await links.count()).toBeGreaterThan(0);await links.first().click();await expect(page.locator('.post-body')).toBeVisible();await expect(page.locator('.reading-progress')).toHaveCount(1);
  await page.emulateMedia({reducedMotion:'reduce'});await page.reload();await expect(page.locator('.rough-annotation').first()).toBeAttached();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
@@ -60,7 +60,10 @@ test('bottom blur remains unchanged while the theme wipe is in flight',async({pa
  await page.addInitScript(()=>{
   const animate=Element.prototype.animate;
   Element.prototype.animate=function(keyframes,options){
-   return animate.call(this,keyframes,typeof options==='object'&&options?.pseudoElement==='::view-transition-new(root)'?{...options,duration:10000}:options);
+   const themeWipe=typeof options==='object'&&options?.pseudoElement==='::view-transition-new(root)';
+   const animation=animate.call(this,keyframes,themeWipe?{...options,duration:10000}:options);
+   if(themeWipe){animation.pause();animation.currentTime=80;}
+   return animation;
   };
  });
  await page.goto('/');await page.evaluate(()=>document.fonts.ready);
@@ -91,4 +94,21 @@ test('bottom blur fades continuously toward the footer and reverses on scroll up
  for(let i=1;i<values.length;i++)expect(values[i]).toBeLessThan(values[i-1]);
  for(const [index,fraction] of [0,.25,.5,.75,1].entries())expect(await scrollToFraction(fraction)).toBeCloseTo(values[4-index],1);
  await page.evaluate(()=>scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'}));await page.waitForTimeout(80);expect(await strength()).toBe(0);
+});
+
+test('thumbnail opens the original image and supports touch lens dragging',async({browser})=>{
+ const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});const page=await context.newPage();
+ await page.goto('http://127.0.0.1:4173/blog/');await page.locator('.post-cover-link').first().tap();
+ const dialog=page.getByRole('dialog');await expect(dialog).toBeVisible();
+ const lens=dialog.getByRole('region',{name:/Magnify:/});await expect(lens).toBeVisible();await expect(lens.locator('img')).toHaveCount(2);
+ await expect(lens.locator('img').first()).toHaveAttribute('src',/\/cover\.(jpg|png|webp)$/);
+ const mask=lens.locator('[style*="mask-image"]').first();const before=await mask.evaluate(e=>getComputedStyle(e).maskImage);
+ const rect=await lens.boundingBox();const x=rect!.x+rect!.width*.5,y=rect!.y+rect!.height*.5;
+ const cdp=await context.newCDPSession(page);
+ await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});
+ await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+30,y:y+20}]});
+ await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+ await expect.poll(()=>mask.evaluate(e=>getComputedStyle(e).maskImage)).not.toBe(before);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
+ await page.getByRole('button',{name:'Close',exact:true}).tap();await expect(dialog).toHaveCount(0);await context.close();
 });
