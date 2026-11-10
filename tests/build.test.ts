@@ -63,3 +63,19 @@ test('all projects have readable static pages, navigation, resources and sharing
  expect(home).toContain('href="/projects/macro-pad/"');
  expect(home).toContain('All Projects');
 });
+
+test('homepage shows three selected projects and current education',async()=>{
+ const html=await readFile('dist/index.html','utf8');
+ const selection=html.split('id="projects"')[1].split('id="about"')[0];
+ expect(selection.match(/<article /g)?.length).toBe(3);
+ expect(selection).not.toContain('Other Projects');
+ for(const name of ['Terminal Portfolio','NanoLink','UI Components','Cardputer Now Playing'])expect(selection).not.toContain(name);
+ expect(selection).toContain('All Projects');
+ expect(html).toContain('University of Wollongong in Dubai');
+ expect(html).toContain('Bachelor of Computer Science, Cyber Security');
+ expect(html).toContain('September 2026 - 2029');
+ expect(html).toContain('GEMS Our Own Indian School');
+ const navigation=html.split('aria-label="Main navigation"')[1].split('</nav>')[0];
+ expect(navigation.indexOf('>About<')).toBeLessThan(navigation.indexOf('>Projects<'));
+ expect(navigation.indexOf('>Projects<')).toBeLessThan(navigation.indexOf('>Blog<'));
+});

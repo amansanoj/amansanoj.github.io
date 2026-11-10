@@ -167,14 +167,20 @@ test('project directory and detail pages work across screen sizes',async({page})
   await page.goto('/projects/');
   await expect(page.locator('h1')).toHaveText('Projects');
   await expect(page.locator('.post-entry h2 a')).toHaveCount(slugs.length);
-  await expect(page.locator('header nav a').first()).toHaveAttribute('aria-current','page');
+  await expect(page.locator('header nav a[href="/projects/"]')).toHaveAttribute('aria-current','page');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
   for(const slug of slugs){
    await page.goto(`/projects/${slug}/`);
    await expect(page.locator('.project-body')).toBeVisible();
    await expect(page.locator('.project-resources a').first()).toBeVisible();
    expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
-   expect(await page.locator('.rough-annotation').count()).toBe(0);
+   const emphasis=page.locator('.project-body strong').first();
+   await emphasis.scrollIntoViewIfNeeded();
+   await expect(page.locator('.rough-annotation').first()).toBeAttached();
+   const markerWidth=await page.locator('.rough-annotation').first().evaluate(element=>element.getBoundingClientRect().width);
+   expect(markerWidth).toBeGreaterThan(0);
+   expect(markerWidth).toBeLessThanOrEqual(1);
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
   }
  }
  await page.goto('/projects/macro-pad/');

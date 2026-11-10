@@ -194,7 +194,8 @@ body:has(:focus-visible) .bottom-blur, body:has(.lost-game[open]) .bottom-blur {
 @media print { .reading-progress { display: none; } }
 
 /* Keep the marker translucent so unchanged text stays readable in both themes. */
-.post-body .rough-annotation { opacity: .22; }
+/* Paths overflow visibly; the empty SVG viewport must not widen narrow pages. */
+.post-body .rough-annotation { opacity: .22; width: 1px !important; height: 1px !important; }
 
 
 .image-view-trigger { display: block; border: 0; padding: 0; background: transparent; color: inherit; cursor: zoom-in; border-radius: var(--radius); max-width: 100%; }
@@ -245,3 +246,8 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
 .project-resources { margin-top: 20px; }
 .project-directory-links { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 15px; }
 .project-detail .image-view-trigger.is-cover, .project-cover { max-width: 100%; }
+
+.education-list { display: grid; gap: 24px; margin-top: 20px; }
+.education-list h4 { margin: 0 0 6px; font-size: 16px; }
+.education-list p { margin: 4px 0; font-size: 15px; }
+.education-list .education-period { font-size: 13px; }

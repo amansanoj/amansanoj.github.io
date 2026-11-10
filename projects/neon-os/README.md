@@ -1,6 +1,6 @@
 # NeonOS
 
-An ESP32 bridge between Apple Home and a Bluetooth RGB light, with a small OLED display, local button controls, persistent settings, and a signed firmware updater.
+An ESP32 bridge between Apple Home and a Bluetooth RGB light, with a small OLED display, local button controls, persistent settings, and a **signed firmware updater**.
 
 ## Bridging Wi-Fi and BLE
 
@@ -26,7 +26,7 @@ The main loop, BLE worker, and update worker have progress checks. Periodic diag
 
 ## Signed Updates and Rollback
 
-The updater uses ESP-IDF’s HTTPS client and native OTA partition APIs, independently of HomeSpan OTA. It downloads into the inactive application slot and validates the signed metadata, image hash, target, version, and size before switching boot slots.
+The updater uses ESP-IDF’s HTTPS client and native OTA partition APIs, independently of HomeSpan OTA. It downloads into the **inactive application slot** and validates the signed metadata, image hash, target, version, and size before switching boot slots.
 
 A newly installed image enters trial validation. The boot-health protocol can reject an unhealthy trial and return to the previous image; failed releases are tracked to avoid repeatedly installing the same bad update.
 

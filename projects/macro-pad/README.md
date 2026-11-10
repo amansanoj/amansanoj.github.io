@@ -1,6 +1,6 @@
 # Macro Pad
 
-A four-switch Bluetooth controller and a native macOS app. The ESP32 reports button transitions; the Mac decides what each button does, including assignments that change with the active application.
+A four-switch Bluetooth controller and a native macOS app. The ESP32 reports button transitions; the Mac decides what each button does, including **assignments that change with the active application**.
 
 ## Keeping Assignments on the Mac
 
@@ -17,7 +17,7 @@ The app can launch applications, send keyboard shortcuts, open HTTP(S) URLs, run
 
 ## Handling Repeated and Reconnected Input
 
-Only a new key-down executes an assignment. Key-up updates the displayed state, and duplicate or held-key events are suppressed.
+**Only a new key-down executes an assignment.** Key-up updates the displayed state, and duplicate or held-key events are suppressed.
 
 After connecting, the firmware sends non-executing synchronization packets for all four keys. A button held during reconnection can appear pressed without unexpectedly launching its action.
 

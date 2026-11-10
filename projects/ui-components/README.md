@@ -1,6 +1,6 @@
 # UI Components
 
-A shared React component workspace built around my brand’s OKLCH design tokens. It includes a component package and a Vite playground for inspecting components during development.
+A shared React component workspace built around my **brand’s OKLCH design tokens**. It includes a component package and a Vite playground for inspecting components during development.
 
 ## Shared Styling and Behavior
 

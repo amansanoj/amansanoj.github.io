@@ -1,6 +1,6 @@
 # Terminal Portfolio
 
-A portfolio served over SSH, with a terminal interface built in Go and content fetched from Notion. Visitors use their existing terminal rather than opening a website or installing a dedicated client.
+A **portfolio served over SSH**, with a terminal interface built in Go and content fetched from Notion. Visitors use their existing terminal rather than opening a website or installing a dedicated client.
 
 ## Serving the Interface
 

@@ -23,7 +23,7 @@ export function ProjectPage({project}:{project:Project}) {
       {project.links.length>0&&<div className="links project-resources">{project.links.map(link=><a key={link.url} href={link.url}>{link.label}</a>)}</div>}
     </div>
     {project.cover&&<ViewableImage className="post-cover project-cover" src={`/projects/${project.slug}/${project.cover}`} width={project.dimensions?.width} height={project.dimensions?.height} alt={`${project.title} - project screenshot`} fetchPriority="high"/>}
-    <div className="post-body project-body"><HtmlContent html={project.content} blog highlight={false}/></div>
+    <div className="post-body project-body"><HtmlContent html={project.content} blog/></div>
     <nav className="post-navigation" aria-label="Project navigation"><a href="/projects/">All Projects</a></nav>
   </article>;
 }

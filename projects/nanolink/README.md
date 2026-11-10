@@ -4,7 +4,7 @@ A URL-shortening API built for Hack Club’s RaspAPI program. It runs on Bun and
 
 ## Link Lifecycle
 
-Links can use a generated slug or a supplied custom slug. Expiration timestamps and maximum-click limits allow links to stop working after a time or usage threshold.
+Links can use a generated slug or a supplied custom slug. **Expiration timestamps and maximum-click limits** allow links to stop working after a time or usage threshold.
 
 Redirect handling records browser, operating-system, and device information derived from the request. Optional Discord webhook notifications report redirects, and the service can generate QR codes for shortened links.
 

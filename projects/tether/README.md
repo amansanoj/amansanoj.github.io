@@ -4,7 +4,7 @@ A watch-party server that keeps participants on a shared playback timeline, with
 
 ## One Playback Clock
 
-Each room has an authoritative server-side playback clock. Participants send heartbeat messages containing their current playback position. The server compares those positions with the room clock and sends rate adjustments when drift exceeds the configured threshold.
+Each room has an **authoritative server-side playback clock**. Participants send heartbeat messages containing their current playback position. The server compares those positions with the room clock and sends rate adjustments when drift exceeds the configured threshold.
 
 The default implementation starts correcting drift beyond three seconds and returns the playback rate to normal once drift falls below half a second. Small corrections can converge through playback-rate changes rather than repeatedly jumping the video.
 
@@ -19,7 +19,7 @@ These are correction thresholds, not a measured guarantee that every combination
 
 Rooms hold playback state, participants, and chat history. A disconnected participant keeps a slot for 60 seconds, while empty rooms have a separate cleanup grace period.
 
-Linked rooms can use different video sources while sharing a timeline. Playback commands propagate between them, so a seek or pause applies to the linked session.
+**Linked rooms can use different video sources while sharing a timeline.** Playback commands propagate between them, so a seek or pause applies to the linked session.
 
 The embedded player supports HLS, YouTube, and Vimeo sources. Provider behavior and buffering can differ, which is why the dashboard exposes participant state instead of treating every connected player as healthy.
 

@@ -1,6 +1,6 @@
 # Cardputer Now Playing
 
-An Apple Music display and playback controller for the M5Stack Cardputer-Adv. A macOS companion sends track metadata and album art to the device, and the physical keyboard sends playback commands back.
+An Apple Music display and playback controller for the M5Stack Cardputer-Adv. A macOS companion sends **track metadata and album art** to the device, and the physical keyboard sends playback commands back.
 
 ![Cardputer Now Playing demonstration](demo.gif)
 
@@ -18,7 +18,7 @@ The bridge supplies metadata and artwork, while the device remains responsible f
 
 ## Rendering on a Small Display
 
-Artwork is converted to 72×72 RGB565 data rather than sending a full desktop-sized image. The firmware caches it on microSD, or LittleFS when no card is available, so replaying an album doesn’t require fetching the same artwork again.
+Artwork is converted to **72×72 RGB565 data** rather than sending a full desktop-sized image. The firmware caches it on microSD, or LittleFS when no card is available, so replaying an album doesn’t require fetching the same artwork again.
 
 The layout reserves two lines for the song title and fixed positions for artist and album. Keeping those regions stable avoids moving the rest of the interface when the title changes length.
 

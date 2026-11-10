@@ -22,25 +22,19 @@ export function Home() { return <>
       <div className="project-heading"><h3><a href="/projects/neon-os/">NeonOS</a></h3><span>C++ · ESP32</span></div>
       <p>Connects a Bluetooth RGB light to Apple Home through an ESP32, with a small OLED and button controls. I’ve also implemented signed firmware updates and rollback; hardware testing for the updater is still pending.</p>
     </article>
-    <article className="project">
-      <div className="project-heading"><h3><a href="/projects/cardputer-now-playing/">Cardputer Now Playing</a></h3><span>C++ · Python</span></div>
-      <p>An Apple Music display for the M5Stack Cardputer. It gets track information and album art from a Mac over Bluetooth, with playback controls on the device’s keyboard.</p>
-    </article>
-    <div className="other-projects">
-      <h3>Other Projects</h3>
-      <ul>
-        <li><a href="/projects/terminal-portfolio/">Terminal Portfolio</a> - a Go portfolio you can open over SSH.</li>
-        <li><a href="/projects/nanolink/">NanoLink</a> - a URL shortener with expiry, click limits, and analytics.</li>
-        <li><a href="/projects/ui-components/">UI Components</a> - shared React components for my projects.</li>
-      </ul>
-      <div className="project-directory-links"><a href="/projects/">All Projects</a><a href="https://github.com/amansanoj?tab=repositories">GitHub Repositories</a></div>
-    </div>
+    <div className="project-directory-links"><a href="/projects/">All Projects</a></div>
   </section>
 
   <section id="about">
     <h2>About</h2>
     <p>I’m from Kerala and live in the UAE. I started programming at 12, initially with web development. Since then I’ve been working with Go, Swift, and C++ alongside JavaScript.</p>
-    <p>I also play chess and listen to music.</p>
+    <p>I’m studying for a Bachelor of Computer Science in Cyber Security at the University of Wollongong in Dubai. I also build web applications, macOS tools, and firmware, and write about the work on my blog.</p>
+    <p>At school, I co-built GardenX for the farm’s produce sales and Falak Academy for student-led courses. Outside programming, I play chess and listen to music.</p>
+    <h3>Education</h3>
+    <div className="education-list">
+      <article><h4>University of Wollongong in Dubai</h4><p>Bachelor of Computer Science, Cyber Security</p><p className="education-period">September 2026 - 2029</p></article>
+      <article><h4>GEMS Our Own Indian School</h4><p>Senior Secondary (CBSE)</p><p>Physics, Chemistry, Mathematics, Computer Science, and English</p><p className="education-period">2024 - 2026</p></article>
+    </div>
   </section>
 
   <section id="contact"><h2>Contact</h2><p>You can reach me at <a href="mailto:me@amansanoj.com">me@amansanoj.com</a>.</p></section>
