@@ -15,23 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: oven-sh/setup-bun@v2
         with:
-          python-version: '3.12'
-          cache: pip
-      - run: pip install -r requirements.txt
-      - run: python scripts/build_blog.py
-      - name: Assemble Public Site
-        run: |
-          mkdir _site
-          cp index.html 404.html styles.css site.js theme.js CNAME .nojekyll google*.html _site/
-          cp -r assets blog .well-known _site/
+          bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run test
       - uses: actions/configure-pages@v5
         with:
           enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: dist
   deploy:
     needs: build
     runs-on: ubuntu-latest

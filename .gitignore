@@ -2,3 +2,11 @@
 .venv/
 __pycache__/
 _site/
+
+node_modules/
+dist/
+src/generated/
+public/blog/
+
+playwright-report/
+test-results/

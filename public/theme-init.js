@@ -1,0 +1,1 @@
+(() => { let theme = 'system'; try { theme = localStorage.getItem('theme') || 'system'; } catch {} if (!['system','light','dark'].includes(theme)) theme = 'system'; document.documentElement.dataset.theme = theme; document.documentElement.classList.toggle('dark', theme === 'dark' || (theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches)); })();

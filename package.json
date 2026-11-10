@@ -1,17 +1,38 @@
 {
-  "name": "amansanoj.github.io",
-  "version": "1.0.0",
-  "description": "",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AmanSanoj/amansanoj.github.io.git"
+  "name": "portfolio",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "packageManager": "bun@1.4.4",
+  "scripts": {
+    "dev": "bun scripts/prepare.ts && vite --host 0.0.0.0",
+    "build": "bun scripts/prepare.ts && vite build && bun scripts/prerender.tsx",
+    "preview": "vite preview --host 0.0.0.0",
+    "check": "bun scripts/prepare.ts && tsc --noEmit",
+    "test": "bun run build && bun test tests/build.test.ts",
+    "test:e2e": "bun run build && playwright test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/AmanSanoj/amansanoj.github.io/issues"
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "clsx": "^2.1.1",
+    "html-react-parser": "^6.1.9",
+    "motion": "^14.11.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "rough-notation": "^0.5.1",
+    "tailwind-merge": "^3.7.0"
   },
-  "homepage": "https://github.com/AmanSanoj/amansanoj.github.io#readme"
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/bun": "^1.4.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "marked": "^18.2.0",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.7"
+  }
 }

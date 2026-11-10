@@ -1,0 +1,1 @@
+export interface Post { slug: string; title: string; date: string; content: string; summary: string; cover?: string; dimensions: { width:number; height:number; thumbnailWidth:number; thumbnailHeight:number } | null }
