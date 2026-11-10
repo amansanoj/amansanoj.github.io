@@ -46,7 +46,7 @@ initializer to avoid a theme flash. Icons use Phosphor duotone.
 
 Magic UI components are installed as React source from upstream commit
 `1ac985adca3cdfab9b1739253fd14209687c4e9c` in `src/components/magicui/`:
-Highlighter, Blur Fade, Progressive Blur, and Scroll Progress. Their MIT license
+Highlighter, Blur Fade, Progressive Blur, Scroll Progress, and Animated Theme Toggler. Their MIT license
 is retained in `public/assets/vendor/magicui-LICENSE.md`. Local adjustments keep
 our token colors, multiline highlights, article-based reading progress, and
 non-replaying resize behavior. Image blur uses inline wrappers so Markdown
@@ -66,3 +66,5 @@ metadata. Public files include `CNAME`, `.nojekyll`, `.well-known/`, and the Goo
 verification file. Preserve these when changing domains or deployment settings.
 
 Browser regression tests: run `bunx playwright install chromium`, then `bun run test:e2e` against a production build. Tests cover theme persistence, hydration, image zoom, post routes, highlights, and the 404 game.
+
+The theme control uses a top-to-bottom View Transition only when the resolved theme changes. Reduced motion and unsupported browsers switch instantly; System mode still follows the operating system.

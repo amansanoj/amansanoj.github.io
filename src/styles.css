@@ -210,3 +210,18 @@ body:has(.image-viewer[open]) .bottom-blur { opacity: 0; }
 @media (max-width: 550px) { .image-view-trigger.screenshot { padding: 8px; } .image-viewer { padding: 12px; } }
 
 .image-entrance { display: block; }
+
+/* Theme-only view transition. Pin the first frame to prevent an unclipped flash. */
+html[data-magicui-theme-vt="active"]::view-transition-old(root),
+html[data-magicui-theme-vt="active"]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html[data-magicui-theme-vt="active"]::view-transition-group(root) {
+  animation-duration: var(--theme-wipe-duration, 400ms);
+}
+html[data-magicui-theme-vt="active"]::view-transition-old(root) { z-index: 1; }
+html[data-magicui-theme-vt="active"]::view-transition-new(root) {
+  z-index: 2;
+  clip-path: inset(0 0 100% 0);
+}

@@ -4,7 +4,7 @@ for(const width of [390,1440])test(`theme, hydration, dialog, blog and 404 at ${
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
  page.on('console',message=>{if(message.type()==='error'&&!message.text().includes('Failed to load resource'))errors.push(message.text());});
  await page.goto('/');await expect(page.getByRole('heading',{name:'Aman Sanoj',exact:true})).toBeVisible();
- for(const mode of ['light','dark','system']){await page.locator('#theme').click();await expect(page.locator('html')).toHaveAttribute('data-theme',mode);}
+ for(const mode of ['light','dark','system']){await page.locator('#theme').click();await expect(page.locator('html')).toHaveAttribute('data-theme',mode);await expect(page.locator('html')).not.toHaveAttribute('data-magicui-theme-vt','active');}
  await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','system');
  await page.getByRole('button',{name:/Enlarge image/}).first().click();const dialog=page.getByRole('dialog');await expect(dialog).toBeVisible();
  await dialog.locator('img').evaluate(async(image:HTMLImageElement)=>image.decode());const before=await dialog.locator('img').boundingBox();await page.getByRole('button',{name:'Zoom In',exact:true}).click();const after=await dialog.locator('img').boundingBox();expect(after!.width).toBeCloseTo(before!.width*2,0);await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);
@@ -38,4 +38,19 @@ test('highlights stay attached through magnetic movement, scrolling and reflow',
  const scrolled=await alignment();expect(Math.abs(scrolled.dy-baseline.dy)).toBeLessThan(2);
  await page.setViewportSize({width:390,height:900});await strong.evaluate(element=>element.scrollIntoView({block:'center',behavior:'instant'}));await page.waitForTimeout(700);
  const resized=await alignment();expect(Math.abs(resized.dx)).toBeLessThan(15);expect(Math.abs(resized.dy)).toBeLessThan(20);
+});
+
+test('theme wipe respects reduced motion, browser support and live system mode',async({page})=>{
+ await page.emulateMedia({colorScheme:'light',reducedMotion:'reduce'});await page.goto('/');
+ await page.locator('#theme').click();await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ await page.locator('#theme').click();await expect(page.locator('html')).toHaveClass('dark');
+ await expect(page.locator('html')).not.toHaveAttribute('data-magicui-theme-vt','active');
+ await page.locator('#theme').click();await expect(page.locator('html')).toHaveAttribute('data-theme','system');
+ await page.emulateMedia({colorScheme:'dark'});await expect(page.locator('html')).toHaveClass('dark');
+ await page.emulateMedia({colorScheme:'light'});await expect(page.locator('html')).not.toHaveClass('dark');
+ await page.emulateMedia({reducedMotion:'no-preference'});
+ await page.evaluate(()=>Object.defineProperty(document,'startViewTransition',{value:undefined,configurable:true}));
+ await page.locator('#theme').click();await page.locator('#theme').click();await expect(page.locator('html')).toHaveClass('dark');
+ await expect(page.locator('html')).not.toHaveAttribute('data-magicui-theme-vt','active');
+ await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
 });
