@@ -14,7 +14,6 @@ export function ImageViewerProvider({children}:{children:ReactNode}) {
   return <Context.Provider value={open}>{children}{image&&createPortal(<dialog ref={dialog} className="image-viewer" aria-label="Image viewer" onClose={close} onClick={event=>{if(event.target===event.currentTarget){const r=event.currentTarget.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.current?.close();}}}>
     <div className="viewer-toolbar"><button className="viewer-close" type="button" autoFocus onPointerUp={event=>{if(event.pointerType==='touch'){event.preventDefault();dialog.current?.close();}}} onClick={()=>dialog.current?.close()}>Close</button></div>
     <div className="viewer-viewport"><Suspense fallback={<img src={image.src} alt={image.alt}/>}><DialogLens src={image.src} alt={image.alt}/></Suspense></div>
-    <p className="viewer-help">Hover to magnify, drag on touch screens, or focus the image and use arrow keys.</p>
     <p className="viewer-caption">{image.alt}</p>
   </dialog>,document.body)}</Context.Provider>;
 }

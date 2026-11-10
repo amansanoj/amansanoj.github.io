@@ -112,3 +112,17 @@ test('thumbnail opens the original image and supports touch lens dragging',async
  expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
  await page.getByRole('button',{name:'Close',exact:true}).tap();await expect(dialog).toHaveCount(0);await context.close();
 });
+
+test('only the dialog Lens magnifies images, with no legacy click zoom or hint',async({page})=>{
+ await page.goto('/');const trigger=page.locator('.image-view-trigger').first();
+ await trigger.hover();await expect(page.getByRole('region',{name:/Magnify:/})).toHaveCount(0);
+ expect(await trigger.evaluate(e=>getComputedStyle(e).cursor)).toBe('pointer');
+ await trigger.click();const dialog=page.getByRole('dialog');
+ const lens=dialog.getByRole('region',{name:/Magnify:/});await expect(lens).toBeVisible();
+ await expect(dialog.locator('.viewer-zoom,.viewer-help')).toHaveCount(0);
+ await expect(dialog.getByText('Hover to magnify, drag on touch screens, or focus the image and use arrow keys.')).toHaveCount(0);
+ const base=lens.locator('img').first();await base.evaluate(async(image:HTMLImageElement)=>image.decode());
+ const before=await base.boundingBox();await lens.click();const after=await base.boundingBox();
+ expect(after!.width).toBeCloseTo(before!.width,0);expect(after!.height).toBeCloseTo(before!.height,0);
+ await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);
+});
