@@ -225,3 +225,7 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   z-index: 2;
   clip-path: inset(0 0 100% 0);
 }
+
+.image-backlight, .backlight-content { display: block; }
+.backlight-filter { position: absolute; pointer-events: none; }
+@media (forced-colors: active), print { .backlight-content { filter: none !important; } }

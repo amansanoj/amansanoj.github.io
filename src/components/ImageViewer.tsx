@@ -2,6 +2,7 @@ import { createContext, useContext, useRef, useState, useEffect, type ImgHTMLAtt
 import { createPortal } from 'react-dom';
 import { useReducedMotion } from 'motion/react';
 import { BlurFade } from './magicui/blur-fade';
+import { Backlight } from './magicui/backlight';
 const Context = createContext<(src:string,alt:string,opener:HTMLElement)=>void>(()=>{});
 export function ImageViewerProvider({children}:{children:ReactNode}) {
   const [image,setImage]=useState<{src:string;alt:string}|null>(null), [zoom,setZoom]=useState<number|null>(null);
@@ -24,5 +25,5 @@ export function SafeBlurFade({children}:{children:ReactNode}) {
 }
 export function ViewableImage({screenshot=false,...props}:ImgHTMLAttributes<HTMLImageElement>&{screenshot?:boolean}) {
   const open=useContext(Context); const isCover=props.className==='post-cover';
-  return <SafeBlurFade><button className={`image-view-trigger${screenshot?' screenshot':''}${isCover?' is-cover':''}`} type="button" aria-haspopup="dialog" aria-label={`Enlarge image: ${props.alt||'Post image'}`} onClick={e=>open(String(props.src||''),props.alt||'',e.currentTarget)}><img {...props}/></button></SafeBlurFade>;
+  return <SafeBlurFade><button className={`image-view-trigger${screenshot?' screenshot':''}${isCover?' is-cover':''}`} type="button" aria-haspopup="dialog" aria-label={`Enlarge image: ${props.alt||'Post image'}`} onClick={e=>open(String(props.src||''),props.alt||'',e.currentTarget)}><Backlight><img {...props}/></Backlight></button></SafeBlurFade>;
 }
