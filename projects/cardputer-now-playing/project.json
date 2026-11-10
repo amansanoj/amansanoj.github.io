@@ -1,0 +1,21 @@
+{
+  "order": 4,
+  "kind": "Hardware & macOS Bridge",
+  "stack": [
+    "C++",
+    "Python",
+    "ESP32-S3",
+    "BLE",
+    "PlatformIO"
+  ],
+  "links": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/amansanoj/cardputer-nowplaying"
+    },
+    {
+      "label": "Releases",
+      "url": "https://github.com/amansanoj/cardputer-nowplaying/releases"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "order": 6,
+  "kind": "School Course Platform",
+  "period": "June 2024 - August 2024",
+  "stack": [
+    "Next.js",
+    "Supabase"
+  ],
+  "links": [
+    {
+      "label": "Original Project Notes",
+      "url": "https://github.com/amansanoj/portfolio-v1/blob/main/src/content/projects/academy.mdx"
+    }
+  ]
+}

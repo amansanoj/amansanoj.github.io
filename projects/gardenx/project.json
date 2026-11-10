@@ -1,0 +1,19 @@
+{
+  "order": 5,
+  "kind": "School Farm Marketplace",
+  "period": "December 2024 - March 2025",
+  "stack": [
+    "Next.js",
+    "Supabase"
+  ],
+  "links": [
+    {
+      "label": "Build Write-Up",
+      "url": "/blog/2025-06-07-building-gardenx-for-a-school-farm/"
+    },
+    {
+      "label": "Gulf News Coverage",
+      "url": "https://gulfnews.com/uae/dubai-school-grows-100000kg-of-fruits-and-vegetables-in-a-year-1.500153182"
+    }
+  ]
+}

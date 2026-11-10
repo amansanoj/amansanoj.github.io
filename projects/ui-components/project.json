@@ -1,0 +1,17 @@
+{
+  "order": 9,
+  "kind": "React Library",
+  "stack": [
+    "React",
+    "TypeScript",
+    "Base UI",
+    "Bun",
+    "Changesets"
+  ],
+  "links": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/amansanoj/ui"
+    }
+  ]
+}

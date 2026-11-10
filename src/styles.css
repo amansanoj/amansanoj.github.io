@@ -238,3 +238,10 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
 .viewer-lens-surface { width: fit-content; max-width: 100%; touch-action: none; }
 .viewer-lens-surface > div { border-radius: var(--radius); }
 .viewer-lens-surface > div:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* Project pages share the article and responsive directory layout. */
+.project-kind { margin: 0; color: var(--muted-foreground); font-size: 14px; line-height: 1.6; }
+.project-stack, .project-period { color: var(--muted-foreground); font-size: 15px; }
+.project-resources { margin-top: 20px; }
+.project-directory-links { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 15px; }
+.project-detail .image-view-trigger.is-cover, .project-cover { max-width: 100%; }

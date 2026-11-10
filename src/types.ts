@@ -1,1 +1,2 @@
 export interface Post { slug: string; title: string; date: string; content: string; summary: string; cover?: string; dimensions: { width:number; height:number; thumbnailWidth:number; thumbnailHeight:number } | null }
+export interface Project { slug:string; title:string; content:string; summary:string; kind:string; period:string; stack:string[]; links:Array<{label:string;url:string}>; order:number; cover?:string; dimensions:Post['dimensions'] }

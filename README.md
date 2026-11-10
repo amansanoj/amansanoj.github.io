@@ -19,7 +19,7 @@ bun run test
 
 The portfolio content is in `src/components/Home.tsx`, React pages in `src/App.tsx`,
 and styles in `src/styles.css`. Existing page URLs and the design are preserved.
-After changing posts during development, restart `bun run dev` to regenerate content.
+After changing posts or projects during development, restart `bun run dev` to regenerate content.
 
 ## Publishing Posts
 
@@ -59,7 +59,7 @@ reading-progress bar, bottom blur, and 404 paddle game are retained.
 ## Deployment
 
 The Action uses Bun with its frozen lockfile, checks TypeScript, builds with Vite,
-and prerenders `/`, `/blog/`, each post, and `404.html` before deploying `dist/`.
+and prerenders `/`, `/blog/`, `/projects/`, each post and project, and `404.html` before deploying `dist/`.
 GitHub Pages must use **GitHub Actions** as its deployment source.
 Posts remain readable without JavaScript, and social crawlers receive per-page
 metadata. Public files include `CNAME`, `.nojekyll`, `.well-known/`, and the Google
@@ -74,3 +74,24 @@ Content images and covers use Magic UI Backlight with a 20px blur and 22% glow i
 
 
 Cursors are native, with `zoom-in` on clickable images. Magnification stays inside the image dialog.
+
+## Publishing Projects
+
+Each project lives in `projects/project-slug/README.md`, beginning with `# Project Title`.
+Use Markdown for the overview, implementation details, and images. Optional `cover.jpg`,
+`cover.png`, or `cover.webp` files receive the same thumbnail and OG variants as blog covers.
+
+An optional `project.json` controls the directory order and project details:
+
+```json
+{
+  "order": 1,
+  "kind": "macOS App & Firmware",
+  "stack": ["SwiftUI", "C++", "ESP32"],
+  "links": [{"label": "GitHub", "url": "https://github.com/amansanoj/macro-pad"}]
+}
+```
+
+`period` can provide a date range for older projects. Push changes to `master` to
+publish `/projects/project-slug/`. Generated files in `public/projects/` are ignored.
+The homepage contains a selection; `/projects/` contains all project entries.

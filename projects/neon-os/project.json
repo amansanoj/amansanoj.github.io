@@ -1,0 +1,21 @@
+{
+  "order": 3,
+  "kind": "Embedded Systems",
+  "stack": [
+    "C++",
+    "ESP32",
+    "HomeSpan",
+    "NimBLE",
+    "Mbed TLS"
+  ],
+  "links": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/amansanoj/neon-os"
+    },
+    {
+      "label": "OTA Design",
+      "url": "https://github.com/amansanoj/neon-os/blob/main/docs/OTA.md"
+    }
+  ]
+}

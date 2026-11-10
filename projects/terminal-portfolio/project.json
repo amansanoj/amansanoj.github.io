@@ -1,0 +1,17 @@
+{
+  "order": 7,
+  "kind": "Terminal Application",
+  "stack": [
+    "Go",
+    "Bubble Tea",
+    "Wish",
+    "Lip Gloss",
+    "Notion API"
+  ],
+  "links": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/amansanoj/tui-portfolio"
+    }
+  ]
+}

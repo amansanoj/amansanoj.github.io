@@ -158,3 +158,29 @@ test('covered blog entries align across screen widths and image proportions',asy
   }
  }
 });
+
+test('project directory and detail pages work across screen sizes',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
+ const slugs=['macro-pad','tether','neon-os','cardputer-now-playing','gardenx','falak-academy','terminal-portfolio','nanolink','ui-components'];
+ for(const width of [320,390,768,1440]){
+  await page.setViewportSize({width,height:900});
+  await page.goto('/projects/');
+  await expect(page.locator('h1')).toHaveText('Projects');
+  await expect(page.locator('.post-entry h2 a')).toHaveCount(slugs.length);
+  await expect(page.locator('header nav a').first()).toHaveAttribute('aria-current','page');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
+  for(const slug of slugs){
+   await page.goto(`/projects/${slug}/`);
+   await expect(page.locator('.project-body')).toBeVisible();
+   await expect(page.locator('.project-resources a').first()).toBeVisible();
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
+   expect(await page.locator('.rough-annotation').count()).toBe(0);
+  }
+ }
+ await page.goto('/projects/macro-pad/');
+ await page.getByRole('button',{name:/Enlarge image/}).first().click();
+ await expect(page.getByRole('dialog')).toBeVisible();
+ await page.keyboard.press('Escape');
+ await expect(page.getByRole('dialog')).toHaveCount(0);
+ expect(errors).toEqual([]);
+});

@@ -1,0 +1,16 @@
+{
+  "order": 2,
+  "kind": "Web Application",
+  "stack": [
+    "TypeScript",
+    "Bun",
+    "WebSockets",
+    "HLS"
+  ],
+  "links": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/amansanoj/tether"
+    }
+  ]
+}

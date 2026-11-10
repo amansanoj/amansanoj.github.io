@@ -1,0 +1,21 @@
+{
+  "order": 1,
+  "kind": "macOS App & Firmware",
+  "stack": [
+    "SwiftUI",
+    "AppKit",
+    "CoreBluetooth",
+    "C++",
+    "ESP32"
+  ],
+  "links": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/amansanoj/macro-pad"
+    },
+    {
+      "label": "Releases",
+      "url": "https://github.com/amansanoj/macro-pad/releases"
+    }
+  ]
+}

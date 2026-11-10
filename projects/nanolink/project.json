@@ -1,0 +1,17 @@
+{
+  "order": 8,
+  "kind": "Web API",
+  "stack": [
+    "TypeScript",
+    "Bun",
+    "Hono",
+    "SQLite",
+    "Zod"
+  ],
+  "links": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/amansanoj/nanolink-api"
+    }
+  ]
+}

@@ -10,30 +10,30 @@ export function Home() { return <>
   <section id="projects" aria-labelledby="projects-title">
     <h2 id="projects-title">Selected Projects</h2>
     <article className="featured">
-      <div className="project-heading"><h3><a href="https://github.com/amansanoj/macro-pad">Macro Pad</a></h3><span>Swift · C++</span></div>
+      <div className="project-heading"><h3><a href="/projects/macro-pad/">Macro Pad</a></h3><span>Swift · C++</span></div>
       <p>A four-button Bluetooth controller and its macOS app. Each button can run a shortcut, open an app, or perform a different action depending on which application you’re using.</p>
       <ViewableImage screenshot src="assets/projects/macro-pad.png" alt="Macro Pad settings on macOS, showing four button assignments and application profiles" width="1500" height="621"/>
     </article>
     <article className="project">
-      <div className="project-heading"><h3><a href="https://github.com/amansanoj/tether">Tether</a></h3><span>TypeScript · Bun</span></div>
+      <div className="project-heading"><h3><a href="/projects/tether/">Tether</a></h3><span>TypeScript · Bun</span></div>
       <p>A server for watching videos together. It keeps playback in sync, supports linked rooms and chat, and lets the host see who’s buffering or falling behind.</p>
     </article>
     <article className="project">
-      <div className="project-heading"><h3><a href="https://github.com/amansanoj/neon-os">NeonOS</a></h3><span>C++ · ESP32</span></div>
+      <div className="project-heading"><h3><a href="/projects/neon-os/">NeonOS</a></h3><span>C++ · ESP32</span></div>
       <p>Connects a Bluetooth RGB light to Apple Home through an ESP32, with a small OLED and button controls. I’ve also implemented signed firmware updates and rollback; hardware testing for the updater is still pending.</p>
     </article>
     <article className="project">
-      <div className="project-heading"><h3><a href="https://github.com/amansanoj/cardputer-nowplaying">Cardputer Now Playing</a></h3><span>C++ · Python</span></div>
+      <div className="project-heading"><h3><a href="/projects/cardputer-now-playing/">Cardputer Now Playing</a></h3><span>C++ · Python</span></div>
       <p>An Apple Music display for the M5Stack Cardputer. It gets track information and album art from a Mac over Bluetooth, with playback controls on the device’s keyboard.</p>
     </article>
     <div className="other-projects">
       <h3>Other Projects</h3>
       <ul>
-        <li><a href="https://github.com/amansanoj/tui-portfolio">Terminal Portfolio</a> - a Go portfolio you can open over SSH.</li>
-        <li><a href="https://github.com/amansanoj/nanolink-api">NanoLink</a> - a URL shortener with expiry, click limits, and analytics.</li>
-        <li><a href="https://github.com/amansanoj/ui">UI Components</a> - shared React components for my projects.</li>
+        <li><a href="/projects/terminal-portfolio/">Terminal Portfolio</a> - a Go portfolio you can open over SSH.</li>
+        <li><a href="/projects/nanolink/">NanoLink</a> - a URL shortener with expiry, click limits, and analytics.</li>
+        <li><a href="/projects/ui-components/">UI Components</a> - shared React components for my projects.</li>
       </ul>
-      <a href="https://github.com/amansanoj?tab=repositories">All Repositories</a>
+      <div className="project-directory-links"><a href="/projects/">All Projects</a><a href="https://github.com/amansanoj?tab=repositories">GitHub Repositories</a></div>
     </div>
   </section>
 

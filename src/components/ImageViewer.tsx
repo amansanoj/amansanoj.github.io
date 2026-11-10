@@ -24,7 +24,7 @@ export function SafeBlurFade({children}:{children:ReactNode}) {
   return <span ref={ref} className="image-entrance">{enabled&&!reduce?<BlurFade className="block" inView inViewMargin="40px" duration={.5} blur="4px" offset={4} direction="up">{children}</BlurFade>:children}</span>;
 }
 export function ViewableImage({screenshot=false,thumbnail=false,fullSrc,...props}:ImgHTMLAttributes<HTMLImageElement>&{screenshot?:boolean;thumbnail?:boolean;fullSrc?:string}) {
-  const open=useContext(Context); const isCover=props.className==='post-cover';
+  const open=useContext(Context); const isCover=props.className?.split(' ').includes('post-cover');
   if(thumbnail)return <button className="image-view-trigger post-cover-link" type="button" aria-haspopup="dialog" aria-label={`Enlarge image: ${props.alt||'Post image'}`} onClick={event=>open(fullSrc||String(props.src||''),props.alt||'',event.currentTarget)}><img {...props}/></button>;
   return <SafeBlurFade><button className={`image-view-trigger${screenshot?' screenshot':''}${isCover?' is-cover':''}`} type="button" aria-haspopup="dialog" aria-label={`Enlarge image: ${props.alt||'Post image'}`} onClick={e=>open(fullSrc||String(props.src||''),props.alt||'',e.currentTarget)}><Backlight><img {...props}/></Backlight></button></SafeBlurFade>;
 }

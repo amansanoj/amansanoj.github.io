@@ -14,7 +14,8 @@ export function BottomBlur() {
       // Start clearing just before the footer enters and finish when it is
       // fully visible. Reverse the same curve when scrolling upward.
       const distance=bounds.top-(innerHeight-bounds.height);
-      const linear=Math.max(0,Math.min(1,distance/fadeDistance));
+      // Browsers round the final scroll offset to a device pixel.
+      const linear=distance<=1?0:Math.max(0,Math.min(1,distance/fadeDistance));
       const smooth=linear*linear*(3-2*linear);
       setStrength(document.documentElement.scrollHeight>innerHeight+80?smooth:0);
     };
