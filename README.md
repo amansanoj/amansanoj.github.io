@@ -41,7 +41,7 @@ The original cover opens in the image dialog. Generated content lives in
 
 Colors, fonts, and radius tokens come from `@amansanoj/brand` in
 `public/assets/vendor/brand-globals.css`. No palette substitutions are applied.
-System, Light, and Dark preferences are saved locally, with a synchronous theme
+Light and Dark preferences are saved locally, with a synchronous theme
 initializer to avoid a theme flash. Icons use Phosphor duotone.
 
 Magic UI components are installed as React source from upstream commit
@@ -67,7 +67,7 @@ verification file. Preserve these when changing domains or deployment settings.
 
 Browser regression tests: run `bunx playwright install chromium`, then `bun run test:e2e` against a production build. Tests cover theme persistence, hydration, image zoom, post routes, highlights, and the 404 game.
 
-The theme control uses a top-to-bottom View Transition only when the resolved theme changes. Reduced motion and unsupported browsers switch instantly; System mode still follows the operating system.
+The theme control uses a top-to-bottom View Transition only when the resolved theme changes. Reduced motion and unsupported browsers switch instantly; First load follows the operating system; the control then switches between Light and Dark.
 
 Content images and covers use Magic UI Backlight with a 20px blur and 22% glow intensity. The source image stays crisp; list thumbnails and the zoom dialog do not receive a glow.
 

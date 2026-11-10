@@ -1,1 +1,9 @@
-(() => { let theme = 'system'; try { theme = localStorage.getItem('theme') || 'system'; } catch {} if (!['system','light','dark'].includes(theme)) theme = 'system'; document.documentElement.dataset.theme = theme; document.documentElement.classList.toggle('dark', theme === 'dark' || (theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches)); })();
+(() => {
+  let preference = 'system';
+  try { preference = localStorage.getItem('theme') || 'system'; } catch {}
+  if (!['system', 'light', 'dark'].includes(preference)) preference = 'system';
+  const dark = preference === 'dark' || (preference === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.themePreference = preference;
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  document.documentElement.classList.toggle('dark', dark);
+})();

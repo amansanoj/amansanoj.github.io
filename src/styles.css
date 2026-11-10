@@ -67,7 +67,7 @@ h1, h2, h3 { font-family: var(--font-display); }
 .icon { width: 1.25em; height: 1.25em; vertical-align: -.22em; flex-shrink: 0; }
 .links a { display: inline-flex; align-items: center; gap: 7px; }
 .theme-icon { display: none; }
-[data-theme="system"] .theme-system, [data-theme="light"] .theme-light, [data-theme="dark"] .theme-dark { display: inline-flex; }
+[data-theme="light"] .theme-light, [data-theme="dark"] .theme-dark { display: inline-flex; }
 footer { flex-wrap: wrap; align-items: center; }
 
 /* Neutral surfaces and copy anchor the page. Primary identifies headings;
