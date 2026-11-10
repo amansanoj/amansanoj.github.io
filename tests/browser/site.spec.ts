@@ -117,7 +117,7 @@ test('thumbnail opens the original image and supports touch lens dragging',async
 test('only the dialog Lens magnifies images, with no legacy click zoom or hint',async({page})=>{
  await page.goto('/');const trigger=page.locator('.image-view-trigger').first();
  await trigger.hover();await expect(page.getByRole('region',{name:/Magnify:/})).toHaveCount(0);
- expect(await trigger.evaluate(e=>getComputedStyle(e).cursor)).toBe('none');await expect(page.locator('.magnify-pointer')).toBeVisible();
+ expect(await trigger.evaluate(e=>getComputedStyle(e).cursor)).toBe('zoom-in');await expect(page.locator('.magnify-pointer')).toHaveCount(0);
  await trigger.click();const dialog=page.getByRole('dialog');
  const lens=dialog.getByRole('region',{name:/Magnify:/});await expect(lens).toBeVisible();
  await expect(dialog.locator('.viewer-zoom,.viewer-help')).toHaveCount(0);
@@ -128,27 +128,12 @@ test('only the dialog Lens magnifies images, with no legacy click zoom or hint',
  await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);
 });
 
-test('custom magnifier cursor follows the mouse in the page and modal',async({page})=>{
- await page.setViewportSize({width:1440,height:900});await page.goto('/');
- const trigger=page.locator('.image-view-trigger').first();await trigger.scrollIntoViewIfNeeded();
- const bounds=await trigger.boundingBox();const x=bounds!.x+bounds!.width*.4,y=bounds!.y+bounds!.height*.4;
- await page.mouse.move(x,y);const cursor=page.locator('body > .magnify-pointer');await expect(cursor).toBeVisible();
- await page.waitForTimeout(150);const pointer=await cursor.boundingBox();expect(pointer!.x+pointer!.width/2).toBeCloseTo(x,0);expect(pointer!.y+pointer!.height/2).toBeCloseTo(y,0);
- await trigger.click();const dialog=page.getByRole('dialog');const lens=dialog.getByRole('region',{name:/Magnify:/});await lens.hover();
- await expect(dialog.locator(':scope > .magnify-pointer')).toBeVisible();
- expect(await dialog.locator('.magnify-pointer').evaluate(e=>getComputedStyle(e).pointerEvents)).toBe('none');
- await dialog.getByRole('button',{name:'Close',exact:true}).hover();await expect(dialog.locator('.magnify-pointer')).toHaveCount(0);
- await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);
-});
-
-test('bare Phosphor cursors follow the theme without a circular badge',async({page})=>{
+test('native cursors remain in both themes with zoom-in only on image triggers',async({page})=>{
  for(const theme of ['light','dark']){
   await page.goto('/');await page.evaluate(theme=>localStorage.setItem('theme',theme),theme);await page.reload();
-  await expect.poll(()=>page.locator('html').getAttribute('data-theme')).toBe(theme);
-  expect(await page.locator('html').evaluate(e=>getComputedStyle(e).cursor)).toContain(`cursor-${theme}.svg`);
-  const asset=await page.request.get(`/assets/cursors/cursor-${theme}.svg`);expect(asset.ok()).toBe(true);expect(await asset.text()).toContain('<svg');
+  expect(await page.locator('html').evaluate(e=>getComputedStyle(e).cursor)).toBe('auto');
+  expect(await page.locator('#theme').evaluate(e=>getComputedStyle(e).cursor)).toBe('pointer');
+  expect(await page.locator('.image-view-trigger').first().evaluate(e=>getComputedStyle(e).cursor)).toBe('zoom-in');
+  await expect(page.locator('.magnify-pointer')).toHaveCount(0);
  }
- const trigger=page.locator('.image-view-trigger').first();await trigger.hover();const icon=page.locator('.magnify-pointer-icon');await expect(icon).toBeVisible();
- expect(await icon.evaluate(e=>getComputedStyle(e).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
- expect(await icon.evaluate(e=>getComputedStyle(e).borderTopWidth)).toBe('0px');
 });

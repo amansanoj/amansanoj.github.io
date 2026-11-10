@@ -2,15 +2,7 @@ import { readdir, readFile, writeFile, mkdir, rm, cp } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import { marked } from 'marked';
-import { createElement } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
-import { CursorIcon } from '@phosphor-icons/react';
 import tokens from '../public/assets/vendor/brand-tokens.json';
-await mkdir('public/assets/cursors', { recursive: true });
-for (const theme of ['light','dark'] as const) {
-  const svg = renderToStaticMarkup(createElement(CursorIcon, { size:28, weight:'duotone', color:tokens.color.hex[theme].base.text }));
-  await writeFile(`public/assets/cursors/cursor-${theme}.svg`, svg);
-}
 const out = 'public/blog';
 await rm(out, { recursive: true, force: true });
 await mkdir(out, { recursive: true });
