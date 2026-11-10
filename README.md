@@ -72,3 +72,5 @@ The theme control uses a top-to-bottom View Transition only when the resolved th
 Content images and covers use Magic UI Backlight with a 20px blur and 22% glow intensity. The source image stays crisp; list thumbnails and the zoom dialog do not receive a glow.
 
 Magic UI Pointer supplies a Phosphor duotone MagnifyingGlassPlus cursor for clickable images and the dialog Lens. It is portaled into the body or modal to avoid offset/clipping under image effects, and disabled for touch pointers.
+
+The normal cursor is the bare Phosphor duotone Cursor icon, generated per theme from brand text tokens. Image pointers use a bare MagnifyingGlassPlus icon without a background or border. Text-selection cursors remain native.

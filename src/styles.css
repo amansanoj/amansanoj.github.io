@@ -122,7 +122,7 @@ footer { flex-wrap: wrap; align-items: center; }
 }
 
 nav { align-items: center; }
-.theme-toggle { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 8px; margin: -8px; border: 0; border-radius: var(--radius); background: transparent; color: var(--foreground); cursor: pointer; }
+.theme-toggle { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 8px; margin: -8px; border: 0; border-radius: var(--radius); background: transparent; color: var(--foreground); cursor: var(--site-cursor, pointer); }
 .theme-toggle .theme-icon { color: inherit; }
 .theme-toggle .icon { width: 21px; height: 21px; }
 .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -160,7 +160,7 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
 }
 
 .lost-game { margin-top: 32px; border-top: 1px solid var(--border); padding-top: 22px; }
-.lost-game summary { color: var(--secondary); cursor: pointer; width: fit-content; padding: 8px 0; }
+.lost-game summary { color: var(--secondary); cursor: var(--site-cursor, pointer); width: fit-content; padding: 8px 0; }
 .lost-game summary:hover { color: var(--accent); }
 .lost-game summary:focus-visible, #game-court:focus-visible, #game-start:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 #game-help { font-size: 14px; }
@@ -170,7 +170,7 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
 #game-ball { fill: var(--secondary); }
 #game-paddle { fill: var(--primary); }
 .game-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 16px; font-size: 14px; }
-#game-start { min-height: 44px; padding: 8px 18px; border: 1px solid var(--border); border-radius: var(--radius); color: var(--foreground); background: var(--muted); font: inherit; cursor: pointer; }
+#game-start { min-height: 44px; padding: 8px 18px; border: 1px solid var(--border); border-radius: var(--radius); color: var(--foreground); background: var(--muted); font: inherit; cursor: var(--site-cursor, pointer); }
 #game-start:hover { color: var(--accent); }
 
 /* Magic UI Highlighter: Rough Notation draws behind the semantic bold text. */
@@ -191,7 +191,7 @@ body:has(:focus-visible) .bottom-blur, body:has(.lost-game[open]) .bottom-blur {
 .post-body .rough-annotation { opacity: .22; }
 
 
-.image-view-trigger { display: block; border: 0; padding: 0; background: transparent; color: inherit; cursor: pointer; border-radius: var(--radius); max-width: 100%; }
+.image-view-trigger { display: block; border: 0; padding: 0; background: transparent; color: inherit; cursor: var(--site-cursor, pointer); border-radius: var(--radius); max-width: 100%; }
 .image-view-trigger.screenshot { padding: 18px; background: var(--muted); width: 100%; }
 .image-view-trigger.is-cover { width: 100%; max-width: 480px; margin: 0 auto 36px; }
 .image-view-trigger .post-cover { margin: 0; }
@@ -199,7 +199,7 @@ body:has(:focus-visible) .bottom-blur, body:has(.lost-game[open]) .bottom-blur {
 .image-viewer { width: min(1200px, 94vw); max-width: 94vw; max-height: 94dvh; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--background); color: var(--foreground); }
 .image-viewer::backdrop { background: var(--background); opacity: .9; }
 .viewer-toolbar { display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 12px; }
-.image-viewer button { min-height: 44px; padding: 8px 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--muted); color: var(--foreground); font: inherit; cursor: pointer; }
+.image-viewer button { min-height: 44px; padding: 8px 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--muted); color: var(--foreground); font: inherit; cursor: var(--site-cursor, pointer); }
 .image-viewer button:hover { color: var(--accent); }
 .viewer-viewport { display: grid; place-items: center; overflow: auto; max-height: 68dvh; overscroll-behavior: contain; }
 .viewer-viewport img { display: block; max-width: 100%; max-height: 68dvh; width: auto; height: auto; }
@@ -234,5 +234,12 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
 .viewer-lens-surface > div:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
 .magnify-pointer { translate: -50% -50%; }
-.magnify-pointer-icon { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 50%; background: var(--background); color: var(--primary); }
+.magnify-pointer-icon { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; color: var(--foreground); filter: drop-shadow(0 0 1px var(--background)); }
 @media (hover: none), (pointer: coarse), print { .magnify-pointer { display: none; } }
+
+@media (hover: hover) and (pointer: fine) {
+  :root { --site-cursor: url("/assets/cursors/cursor-light.svg") 4 4, auto; }
+  :root.dark { --site-cursor: url("/assets/cursors/cursor-dark.svg") 4 4, auto; }
+  html, a { cursor: var(--site-cursor); }
+  p, li, h1, h2, h3, pre, code { cursor: text; }
+}

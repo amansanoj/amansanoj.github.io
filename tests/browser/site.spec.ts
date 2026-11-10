@@ -140,3 +140,15 @@ test('custom magnifier cursor follows the mouse in the page and modal',async({pa
  await dialog.getByRole('button',{name:'Close',exact:true}).hover();await expect(dialog.locator('.magnify-pointer')).toHaveCount(0);
  await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);
 });
+
+test('bare Phosphor cursors follow the theme without a circular badge',async({page})=>{
+ for(const theme of ['light','dark']){
+  await page.goto('/');await page.evaluate(theme=>localStorage.setItem('theme',theme),theme);await page.reload();
+  await expect.poll(()=>page.locator('html').getAttribute('data-theme')).toBe(theme);
+  expect(await page.locator('html').evaluate(e=>getComputedStyle(e).cursor)).toContain(`cursor-${theme}.svg`);
+  const asset=await page.request.get(`/assets/cursors/cursor-${theme}.svg`);expect(asset.ok()).toBe(true);expect(await asset.text()).toContain('<svg');
+ }
+ const trigger=page.locator('.image-view-trigger').first();await trigger.hover();const icon=page.locator('.magnify-pointer-icon');await expect(icon).toBeVisible();
+ expect(await icon.evaluate(e=>getComputedStyle(e).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
+ expect(await icon.evaluate(e=>getComputedStyle(e).borderTopWidth)).toBe('0px');
+});
