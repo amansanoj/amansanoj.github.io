@@ -24,6 +24,17 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Use GitHub Actions as Pages Source
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const site = await github.rest.repos.getPages({ ...context.repo });
+            if (site.data.build_type !== 'workflow') {
+              await github.rest.repos.updateInformationAboutPagesSite({
+                ...context.repo,
+                build_type: 'workflow'
+              });
+            }
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
