@@ -3,6 +3,7 @@
 // Magic UI Theme Toggler adaptation: vertical reveal with a controlled theme.
 import { useEffect, useRef, useState, type ComponentPropsWithoutRef } from "react"
 import { flushSync } from "react-dom"
+import { preserveTransitionBlur } from "@/lib/themeTransitionBlur"
 
 type AnimatedThemeTogglerProps = Omit<ComponentPropsWithoutRef<"button">, "onClick"> & {
   onToggle: () => void
@@ -21,10 +22,12 @@ export function AnimatedThemeToggler({
   const [transitioning, setTransitioning] = useState(false)
   const activeTransition = useRef<ViewTransition | null>(null)
   const activeAnimation = useRef<Animation | null>(null)
+  const restoreBlur = useRef<(() => void) | null>(null)
 
   useEffect(() => () => {
     activeTransition.current?.skipTransition()
     activeAnimation.current?.cancel()
+    restoreBlur.current?.()
     delete document.documentElement.dataset.magicuiThemeVt
     document.documentElement.style.removeProperty("--theme-wipe-duration")
   }, [])
@@ -42,9 +45,12 @@ export function AnimatedThemeToggler({
     setTransitioning(true)
     root.dataset.magicuiThemeVt = "active"
     root.style.setProperty("--theme-wipe-duration", `${duration}ms`)
+    restoreBlur.current = preserveTransitionBlur()
     let applied = false
     const apply = () => { applied = true; flushSync(onToggle) }
     const cleanup = () => {
+      restoreBlur.current?.()
+      restoreBlur.current = null
       busy.current = false
       setTransitioning(false)
       activeAnimation.current?.cancel()

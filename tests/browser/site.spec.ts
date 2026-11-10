@@ -54,3 +54,26 @@ test('theme wipe respects reduced motion, browser support and live system mode',
  await expect(page.locator('html')).not.toHaveAttribute('data-magicui-theme-vt','active');
  await page.reload();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
 });
+
+test('bottom blur remains unchanged while the theme wipe is in flight',async({page})=>{
+ await page.setViewportSize({width:1000,height:800});
+ await page.addInitScript(()=>{
+  const animate=Element.prototype.animate;
+  Element.prototype.animate=function(keyframes,options){
+   return animate.call(this,keyframes,typeof options==='object'&&options?.pseudoElement==='::view-transition-new(root)'?{...options,duration:10000}:options);
+  };
+ });
+ await page.goto('/');await page.evaluate(()=>document.fonts.ready);
+ await page.locator('.screenshot img').evaluate(async(image:HTMLImageElement)=>image.decode());
+ await expect(page.locator('.bottom-blur')).toHaveClass(/is-visible/);
+ const clip={x:0,y:744,width:1000,height:56};
+ const before=await page.screenshot({clip});
+ await page.locator('#theme').click();await page.locator('#theme').click();
+ await expect.poll(()=>page.evaluate(()=>getComputedStyle(document.documentElement,'::view-transition-group(theme-edge-blur-7)').backdropFilter)).toBe('blur(8px)');
+ const during=await page.screenshot({clip});
+ const {default:sharp}=await import('sharp');
+ expect((await sharp(before).raw().toBuffer()).equals(await sharp(during).raw().toBuffer())).toBe(true);
+ await page.evaluate(()=>document.getAnimations().forEach(animation=>animation.finish()));
+ await expect(page.locator('html')).not.toHaveAttribute('data-magicui-theme-vt','active');
+ await expect(page.locator('[style*="view-transition-name: theme-edge-blur"]')).toHaveCount(0);
+});
