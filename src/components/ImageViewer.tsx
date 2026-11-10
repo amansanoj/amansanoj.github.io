@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useReducedMotion } from 'motion/react';
 import { BlurFade } from './magicui/blur-fade';
 import { Backlight } from './magicui/backlight';
+import { MagnifyPointer } from './MagnifyPointer';
 const DialogLens = lazy(() => import('./DialogLens').then(module => ({ default: module.DialogLens })));
 const Context = createContext<(src:string,alt:string,opener:HTMLElement)=>void>(()=>{});
 export function ImageViewerProvider({children}:{children:ReactNode}) {
@@ -25,6 +26,6 @@ export function SafeBlurFade({children}:{children:ReactNode}) {
 }
 export function ViewableImage({screenshot=false,thumbnail=false,fullSrc,...props}:ImgHTMLAttributes<HTMLImageElement>&{screenshot?:boolean;thumbnail?:boolean;fullSrc?:string}) {
   const open=useContext(Context); const isCover=props.className==='post-cover';
-  if(thumbnail)return <button className="image-view-trigger post-cover-link" type="button" aria-haspopup="dialog" aria-label={`Enlarge image: ${props.alt||'Post image'}`} onClick={event=>open(fullSrc||String(props.src||''),props.alt||'',event.currentTarget)}><img {...props}/></button>;
-  return <SafeBlurFade><button className={`image-view-trigger${screenshot?' screenshot':''}${isCover?' is-cover':''}`} type="button" aria-haspopup="dialog" aria-label={`Enlarge image: ${props.alt||'Post image'}`} onClick={e=>open(fullSrc||String(props.src||''),props.alt||'',e.currentTarget)}><Backlight><img {...props}/></Backlight></button></SafeBlurFade>;
+  if(thumbnail)return <button className="image-view-trigger post-cover-link" type="button" aria-haspopup="dialog" aria-label={`Enlarge image: ${props.alt||'Post image'}`} onClick={event=>open(fullSrc||String(props.src||''),props.alt||'',event.currentTarget)}><img {...props}/><MagnifyPointer/></button>;
+  return <SafeBlurFade><button className={`image-view-trigger${screenshot?' screenshot':''}${isCover?' is-cover':''}`} type="button" aria-haspopup="dialog" aria-label={`Enlarge image: ${props.alt||'Post image'}`} onClick={e=>open(fullSrc||String(props.src||''),props.alt||'',e.currentTarget)}><Backlight><img {...props}/></Backlight><MagnifyPointer/></button></SafeBlurFade>;
 }

@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { useReducedMotion } from 'motion/react';
 import { Lens } from './magicui/lens';
+import { MagnifyPointer } from './MagnifyPointer';
 export function DialogLens({src,alt}:{src:string;alt:string}) {
   const surface=useRef<HTMLDivElement>(null);
   const reduce=useReducedMotion();
@@ -25,5 +26,6 @@ export function DialogLens({src,alt}:{src:string;alt:string}) {
     <Lens isStatic={touch||keyboard} position={position} duration={reduce?0:.1} ariaLabel={`Magnify: ${alt||'Image'}`}>
       <img src={src} alt={alt} onLoad={center}/>
     </Lens>
+    <MagnifyPointer/>
   </div>;
 }

@@ -232,3 +232,7 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
 .viewer-lens-surface { width: fit-content; max-width: 100%; touch-action: none; }
 .viewer-lens-surface > div { border-radius: var(--radius); }
 .viewer-lens-surface > div:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.magnify-pointer { translate: -50% -50%; }
+.magnify-pointer-icon { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 50%; background: var(--background); color: var(--primary); }
+@media (hover: none), (pointer: coarse), print { .magnify-pointer { display: none; } }

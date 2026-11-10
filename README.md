@@ -70,3 +70,5 @@ Browser regression tests: run `bunx playwright install chromium`, then `bun run 
 The theme control uses a top-to-bottom View Transition only when the resolved theme changes. Reduced motion and unsupported browsers switch instantly; System mode still follows the operating system.
 
 Content images and covers use Magic UI Backlight with a 20px blur and 22% glow intensity. The source image stays crisp; list thumbnails and the zoom dialog do not receive a glow.
+
+Magic UI Pointer supplies a Phosphor duotone MagnifyingGlassPlus cursor for clickable images and the dialog Lens. It is portaled into the body or modal to avoid offset/clipping under image effects, and disabled for touch pointers.

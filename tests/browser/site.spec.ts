@@ -110,13 +110,14 @@ test('thumbnail opens the original image and supports touch lens dragging',async
  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
  await expect.poll(()=>mask.evaluate(e=>getComputedStyle(e).maskImage)).not.toBe(before);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
+ await expect(page.locator('.magnify-pointer')).toHaveCount(0);
  await page.getByRole('button',{name:'Close',exact:true}).tap();await expect(dialog).toHaveCount(0);await context.close();
 });
 
 test('only the dialog Lens magnifies images, with no legacy click zoom or hint',async({page})=>{
  await page.goto('/');const trigger=page.locator('.image-view-trigger').first();
  await trigger.hover();await expect(page.getByRole('region',{name:/Magnify:/})).toHaveCount(0);
- expect(await trigger.evaluate(e=>getComputedStyle(e).cursor)).toBe('pointer');
+ expect(await trigger.evaluate(e=>getComputedStyle(e).cursor)).toBe('none');await expect(page.locator('.magnify-pointer')).toBeVisible();
  await trigger.click();const dialog=page.getByRole('dialog');
  const lens=dialog.getByRole('region',{name:/Magnify:/});await expect(lens).toBeVisible();
  await expect(dialog.locator('.viewer-zoom,.viewer-help')).toHaveCount(0);
@@ -124,5 +125,18 @@ test('only the dialog Lens magnifies images, with no legacy click zoom or hint',
  const base=lens.locator('img').first();await base.evaluate(async(image:HTMLImageElement)=>image.decode());
  const before=await base.boundingBox();await lens.click();const after=await base.boundingBox();
  expect(after!.width).toBeCloseTo(before!.width,0);expect(after!.height).toBeCloseTo(before!.height,0);
+ await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);
+});
+
+test('custom magnifier cursor follows the mouse in the page and modal',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});await page.goto('/');
+ const trigger=page.locator('.image-view-trigger').first();await trigger.scrollIntoViewIfNeeded();
+ const bounds=await trigger.boundingBox();const x=bounds!.x+bounds!.width*.4,y=bounds!.y+bounds!.height*.4;
+ await page.mouse.move(x,y);const cursor=page.locator('body > .magnify-pointer');await expect(cursor).toBeVisible();
+ await page.waitForTimeout(150);const pointer=await cursor.boundingBox();expect(pointer!.x+pointer!.width/2).toBeCloseTo(x,0);expect(pointer!.y+pointer!.height/2).toBeCloseTo(y,0);
+ await trigger.click();const dialog=page.getByRole('dialog');const lens=dialog.getByRole('region',{name:/Magnify:/});await lens.hover();
+ await expect(dialog.locator(':scope > .magnify-pointer')).toBeVisible();
+ expect(await dialog.locator('.magnify-pointer').evaluate(e=>getComputedStyle(e).pointerEvents)).toBe('none');
+ await dialog.getByRole('button',{name:'Close',exact:true}).hover();await expect(dialog.locator('.magnify-pointer')).toHaveCount(0);
  await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);
 });
