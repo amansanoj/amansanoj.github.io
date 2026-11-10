@@ -6,7 +6,7 @@ import { Highlighter } from './magicui/highlighter';
 function Emphasis({children}:{children:React.ReactNode}) {
   const reduce=useReducedMotion();const [ready,setReady]=useState(false);
   useEffect(()=>{let alive=true;document.fonts.ready.then(()=>{if(alive)setReady(true);});return()=>{alive=false;};},[]);
-  return ready?<Highlighter color="var(--secondary)" animationDuration={500} isView={!reduce} animate={!reduce} multiline><strong>{children}</strong></Highlighter>:<strong>{children}</strong>;
+  return ready?<Highlighter color="var(--secondary-200)" iterations={1} animationDuration={500} isView={!reduce} animate={!reduce} multiline><strong>{children}</strong></Highlighter>:<strong>{children}</strong>;
 }
 export function HtmlContent({html,blog=false,highlight=blog}:{html:string;blog?:boolean;highlight?:boolean}) {
  const options:HTMLReactParserOptions={replace(node){

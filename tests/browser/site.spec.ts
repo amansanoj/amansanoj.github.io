@@ -233,3 +233,26 @@ test('homepage links meet AA contrast in both themes, including hover',async({pa
   }
  }
 });
+
+test('emphasis draws one bright marker stroke per line and keeps text readable',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});
+ for(const theme of ['light','dark']){
+  await page.goto('/projects/tether/');
+  await page.evaluate(theme=>{document.documentElement.dataset.theme=theme;document.documentElement.classList.toggle('dark',theme==='dark');},theme);
+  const strong=page.locator('.post-body strong').first();await strong.scrollIntoViewIfNeeded();
+  await expect(page.locator('.rough-annotation').first()).toBeAttached();
+  const marker=await strong.evaluate(element=>{
+   const host=element.closest('.highlight-host')!,svg=host.querySelector('svg')!;
+   const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const context=canvas.getContext('2d')!;
+   const rgb=(color:string)=>{context.fillStyle=color;context.fillRect(0,0,1,1);return [...context.getImageData(0,0,1,1).data].slice(0,3);};
+   const foreground=rgb(getComputedStyle(element).color),background=rgb(getComputedStyle(document.body).backgroundColor),color=rgb(getComputedStyle(svg.querySelector('path')!).stroke),opacity=Number(getComputedStyle(svg).opacity);
+   const lum=(values:number[])=>values.reduce((sum,value,index)=>{const c=value/255;return sum+[.2126,.7152,.0722][index]*(c<=.04045?c/12.92:((c+.055)/1.055)**2.4);},0);
+   const text=lum(foreground),fill=lum(background.map((value,index)=>value*(1-opacity)+color[index]*opacity));
+   return {paths:svg.querySelectorAll('path').length,lines:element.getClientRects().length,opacity,stroke:svg.querySelector('path')!.getAttribute('stroke'),contrast:(Math.max(text,fill)+.05)/(Math.min(text,fill)+.05)};
+  });
+  expect(marker.paths).toBe(marker.lines);
+  expect(marker.stroke).toBe('var(--secondary-200)');
+  expect(marker.opacity).toBe(theme==='light'?.85:.45);
+  expect(marker.contrast).toBeGreaterThanOrEqual(4.5);
+ }
+});

@@ -174,7 +174,7 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
 #game-start:hover { color: var(--accent); }
 
 /* Magic UI Highlighter: Rough Notation draws behind the semantic bold text. */
-.post-body strong { font-weight: 700; }
+.post-body strong { font-weight: 700; color: var(--foreground); }
 
 /* Magic UI progressive blur, reduced to a shallow bottom edge. */
 .bottom-blur { position: fixed; inset: auto 0 0; height: 56px; z-index: 5; pointer-events: none; opacity: 0; }
@@ -189,8 +189,9 @@ body:has(:focus-visible) .bottom-blur, body:has(.lost-game[open]) .bottom-blur {
 
 /* Keep the marker translucent so unchanged text stays readable in both themes. */
 /* Paths overflow visibly; the empty SVG viewport must not widen narrow pages. */
-.post-body .rough-annotation { opacity: .22; width: 1px !important; height: 1px !important; }
+.post-body .rough-annotation { opacity: .85; width: 1px !important; height: 1px !important; }
 
+.dark .post-body .rough-annotation { opacity: .45; }
 
 .image-view-trigger { display: block; border: 0; padding: 0; background: transparent; color: inherit; cursor: zoom-in; border-radius: var(--radius); max-width: 100%; }
 .image-view-trigger.screenshot { padding: 18px; background: var(--muted); width: 100%; }

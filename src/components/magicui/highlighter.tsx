@@ -31,10 +31,10 @@ interface HighlighterProps {
 export function Highlighter({
   children,
   action = "highlight",
-  color = "var(--secondary)",
+  color = "var(--secondary-200)",
   strokeWidth = 1.5,
   animationDuration = 600,
-  iterations = 2,
+  iterations = 1,
   padding = 2,
   multiline = true,
   isView = false,

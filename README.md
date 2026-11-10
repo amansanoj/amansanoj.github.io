@@ -120,3 +120,8 @@ copy. Both CSS and JSON update together; the site has no local palette overrides
 A daily scheduled build picks up published brand updates automatically. A push
 or manual run of **Build and Deploy Site** also checks for a newer release.
 Local development uses the checked-in copy without needing registry access.
+
+Blog and project emphasis uses one Rough Notation stroke per text line in
+`--secondary-200`. Marker opacity is 85% in light mode and 45% in dark mode.
+Bold text always uses `--foreground`; its color does not switch when the marker
+appears. Browser tests check stroke counts, alignment, and AA text contrast.
