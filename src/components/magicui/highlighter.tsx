@@ -72,13 +72,20 @@ export function Highlighter({
       currentAnnotation.show()
       currentAnnotation.animate = false
 
-      resizeObserver = new ResizeObserver(() => {
-        currentAnnotation.hide()
-        currentAnnotation.show()
-      })
-
-      resizeObserver.observe(element)
-      resizeObserver.observe(document.body)
+      // The annotation SVG is a sibling of the target. A positioned host keeps
+      // both in the same coordinate system while ancestors translate on hover.
+      // Redraw only for actual wrapping changes, not position-only movement.
+      const container = element.closest(".post-body")
+      if (container) {
+        let width = container.getBoundingClientRect().width
+        resizeObserver = new ResizeObserver(() => {
+          const nextWidth = container.getBoundingClientRect().width
+          if (Math.abs(nextWidth - width) < 0.5) return
+          width = nextWidth
+          currentAnnotation.show()
+        })
+        resizeObserver.observe(container)
+      }
     }
 
     return () => {
@@ -100,8 +107,10 @@ export function Highlighter({
   ])
 
   return (
-    <span ref={elementRef} className="relative bg-transparent">
-      {children}
+    <span className="highlight-host relative">
+      <span ref={elementRef} className="relative bg-transparent">
+        {children}
+      </span>
     </span>
   )
 }

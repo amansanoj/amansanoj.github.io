@@ -14,3 +14,28 @@ for(const width of [390,1440])test(`theme, hydration, dialog, blog and 404 at ${
  await page.goto('/404.html');await page.locator('summary').click();await page.getByRole('button',{name:'Play',exact:true}).click();await expect(page.getByRole('button',{name:'Pause',exact:true})).toBeVisible();await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Resume',exact:true})).toBeVisible();
  expect(errors).toEqual([]);
 });
+
+test('highlights stay attached through magnetic movement, scrolling and reflow',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});
+ await page.goto('/blog/');await page.locator('.post-entry h2 a').first().click();
+ await page.evaluate(()=>document.fonts.ready);
+ const strong=page.locator('.post-body strong').first();
+ await strong.evaluate(element=>element.scrollIntoView({block:'center',behavior:'instant'}));
+ await expect(page.locator('.rough-annotation path').first()).toBeAttached();
+ await page.waitForTimeout(700);
+ const alignment=()=>strong.evaluate(element=>{
+  const text=element.getBoundingClientRect();
+  const marker=element.closest('.highlight-host')!.querySelector('path')!.getBoundingClientRect();
+  return {dx:marker.x-text.x,dy:marker.y-text.y,width:marker.width,height:marker.height};
+ });
+ const baseline=await alignment();expect(Math.abs(baseline.dx)).toBeLessThan(15);expect(Math.abs(baseline.dy)).toBeLessThan(20);
+ const text=await strong.boundingBox();
+ for(const point of [{x:text!.x+text!.width,y:text!.y+10},{x:text!.x-50,y:text!.y+20},{x:10,y:10}]){
+  await page.mouse.move(point.x,point.y);await page.waitForTimeout(250);
+  const current=await alignment();expect(Math.abs(current.dx-baseline.dx)).toBeLessThan(2);expect(Math.abs(current.dy-baseline.dy)).toBeLessThan(2);
+ }
+ await page.evaluate(()=>scrollBy({top:100,behavior:'instant'}));await page.waitForTimeout(200);
+ const scrolled=await alignment();expect(Math.abs(scrolled.dy-baseline.dy)).toBeLessThan(2);
+ await page.setViewportSize({width:390,height:900});await strong.evaluate(element=>element.scrollIntoView({block:'center',behavior:'instant'}));await page.waitForTimeout(700);
+ const resized=await alignment();expect(Math.abs(resized.dx)).toBeLessThan(15);expect(Math.abs(resized.dy)).toBeLessThan(20);
+});
