@@ -232,64 +232,62 @@ if (postBody) {
   updateProgress();
 }
 
-// Magic UI Lens adaptation for detailed screenshots and post covers.
-for (const image of document.querySelectorAll('.screenshot img, img.post-cover')) {
-  const surface = document.createElement('span');
-  surface.className = 'image-lens' + (image.matches('.post-cover') ? ' is-cover' : '');
-  image.before(surface);
-  surface.append(image);
-  const glass = document.createElement('span');
-  glass.className = 'lens-glass';
-  glass.setAttribute('aria-hidden', 'true');
-  surface.append(glass);
-  const control = surface.closest('a') || surface;
-  const isLink = control !== surface;
-  const originalLabel = control.getAttribute('aria-label');
-  if (!isLink) control.setAttribute('role', 'region');
-  let x = 0, y = 0;
-  function hideLens() { surface.classList.remove('is-magnified'); }
-  function showLens(nextX, nextY) {
-    if (!finePointer.matches || !image.complete || !image.naturalWidth) return;
-    const rect = image.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    x = Math.max(0, Math.min(rect.width, nextX));
-    y = Math.max(0, Math.min(rect.height, nextY));
-    const diameter = Math.min(170, rect.width, rect.height);
-    const radius = diameter / 2;
-    const left = Math.max(0, Math.min(rect.width - diameter, x - radius));
-    const top = Math.max(0, Math.min(rect.height - diameter, y - radius));
-    glass.style.width = glass.style.height = `${diameter}px`;
-    glass.style.left = `${left}px`;
-    glass.style.top = `${top}px`;
-    glass.style.backgroundImage = `url("${image.currentSrc || image.src}")`;
-    glass.style.backgroundSize = `${rect.width * 1.8}px ${rect.height * 1.8}px`;
-    glass.style.backgroundPosition = `${radius - x * 1.8}px ${radius - y * 1.8}px`;
-    surface.classList.add('is-magnified');
+// Open original images in a native modal, with optional 2x zoom and panning.
+const viewableImages = [...document.querySelectorAll('.screenshot img, img.post-cover, .post-body img')];
+if (viewableImages.length && typeof HTMLDialogElement !== 'undefined') {
+  const viewer = document.createElement('dialog');
+  viewer.className = 'image-viewer';
+  viewer.setAttribute('aria-label', 'Image viewer');
+  viewer.innerHTML = `<div class="viewer-toolbar"><button type="button" class="viewer-zoom" aria-pressed="false">Zoom In</button><button type="button" class="viewer-close" autofocus>Close</button></div><div class="viewer-viewport" tabindex="0" aria-label="Image. Scroll to pan when zoomed."><img alt=""></div><p class="viewer-caption"></p>`;
+  document.body.append(viewer);
+  const displayed = viewer.querySelector('img');
+  const viewport = viewer.querySelector('.viewer-viewport');
+  const zoom = viewer.querySelector('.viewer-zoom');
+  let opener, fittedWidth = 0;
+  function resetZoom() {
+    viewer.classList.remove('is-zoomed');
+    displayed.style.width = '';
+    zoom.textContent = 'Zoom In';
+    zoom.setAttribute('aria-pressed', 'false');
+    viewport.scrollTo(0, 0);
   }
-  function configureLens() {
-    hideLens();
-    if (!isLink) control.tabIndex = finePointer.matches ? 0 : -1;
-    if (finePointer.matches) control.setAttribute('aria-label',
-      `${originalLabel || image.alt}. Arrow keys move the magnifier; Escape closes it.`);
-    else if (originalLabel) control.setAttribute('aria-label', originalLabel);
-    else control.setAttribute('aria-label', image.alt);
+  function toggleZoom() {
+    if (viewer.classList.contains('is-zoomed')) { resetZoom(); return; }
+    fittedWidth = displayed.getBoundingClientRect().width;
+    viewer.classList.add('is-zoomed');
+    displayed.style.width = `${fittedWidth * 2}px`;
+    zoom.textContent = 'Fit Image';
+    zoom.setAttribute('aria-pressed', 'true');
   }
-  configureLens();
-  finePointer.addEventListener('change', configureLens);
-  surface.addEventListener('pointermove', event => {
-    if (event.pointerType !== 'mouse') return;
-    const rect = image.getBoundingClientRect();
-    showLens(event.clientX - rect.left, event.clientY - rect.top);
+  zoom.addEventListener('click', toggleZoom);
+  displayed.addEventListener('click', toggleZoom);
+  viewer.querySelector('.viewer-close').addEventListener('click', () => viewer.close());
+  viewer.addEventListener('click', event => {
+    if (event.target !== viewer) return;
+    const rect = viewer.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) viewer.close();
   });
-  surface.addEventListener('pointerleave', hideLens);
-  control.addEventListener('focus', () => showLens(image.clientWidth / 2, image.clientHeight / 2));
-  control.addEventListener('blur', hideLens);
-  control.addEventListener('keydown', event => {
-    if (event.key === 'Escape') { hideLens(); return; }
-    if (!finePointer.matches || !event.key.startsWith('Arrow')) return;
-    event.preventDefault();
-    showLens(x + (event.key === 'ArrowRight' ? 24 : event.key === 'ArrowLeft' ? -24 : 0),
-      y + (event.key === 'ArrowDown' ? 24 : event.key === 'ArrowUp' ? -24 : 0));
-  });
-  window.addEventListener('resize', hideLens, { passive: true });
+  viewer.addEventListener('close', () => { resetZoom(); opener?.focus({ preventScroll: true }); });
+  window.addEventListener('resize', () => { if (viewer.open) resetZoom(); }, { passive: true });
+  for (const image of viewableImages) {
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'image-view-trigger' + (image.matches('.post-cover') ? ' is-cover' : '');
+    trigger.setAttribute('aria-haspopup', 'dialog');
+    trigger.setAttribute('aria-label', `Enlarge image: ${image.alt || 'Post image'}`);
+    const projectLink = image.closest('a.screenshot');
+    if (projectLink) {
+      trigger.classList.add('screenshot');
+      projectLink.replaceWith(trigger);
+    } else image.before(trigger);
+    trigger.append(image);
+    trigger.addEventListener('click', () => {
+      opener = trigger;
+      resetZoom();
+      displayed.src = image.currentSrc || image.src;
+      displayed.alt = image.alt;
+      viewer.querySelector('.viewer-caption').textContent = image.alt;
+      viewer.showModal();
+    });
+  }
 }

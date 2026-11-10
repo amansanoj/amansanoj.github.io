@@ -72,4 +72,5 @@ Image entrances adapt Magic UI’s [Blur Fade](https://github.com/magicuidesign/
 
 Bold blog text uses Magic UI’s Highlighter approach with vendored Rough Notation. Its version and integrity are recorded in `assets/vendor/sources.json`, with its MIT license alongside the script.
 
-Detailed project screenshots and post covers adapt [Magic UI Lens](https://github.com/magicuidesign/magicui/blob/main/apps/www/registry/magicui/lens.tsx): a 1.8× magnifier on hover-capable devices, with arrow-key positioning and Escape to dismiss. Touch layouts keep their normal images. The reading-progress bar uses the accent token.
+
+Project screenshots, post covers, and inline blog images open in a native image dialog. Zoom In doubles the fitted size; scroll or swipe to pan. Close, Escape, or clicking outside dismisses it and restores focus.

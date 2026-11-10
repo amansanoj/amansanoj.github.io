@@ -192,11 +192,22 @@ body:has(:focus-visible) .bottom-blur, body:has(.lost-game[open]) .bottom-blur {
 /* Keep the marker translucent so unchanged text stays readable in both themes. */
 .post-body .rough-annotation { opacity: .22; }
 
-/* Magic UI Lens: local magnification without moving the page. */
-.image-lens { display: block; position: relative; overflow: hidden; border-radius: var(--radius); }
-.image-lens.is-cover { width: 100%; max-width: 480px; margin: 0 auto 36px; }
-.image-lens .post-cover { margin: 0; }
-.lens-glass { display: none; position: absolute; width: 170px; height: 170px; border-radius: 50%; border: 2px solid var(--primary); background-color: var(--background); background-repeat: no-repeat; pointer-events: none; z-index: 1; }
-.image-lens.is-magnified .lens-glass { display: block; }
-.image-lens:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-@media (hover: none), (pointer: coarse), print { .lens-glass { display: none !important; } }
+
+.image-view-trigger { display: block; border: 0; padding: 0; background: transparent; color: inherit; cursor: zoom-in; border-radius: var(--radius); max-width: 100%; }
+.image-view-trigger.screenshot { padding: 18px; background: var(--muted); width: 100%; }
+.image-view-trigger.is-cover { width: 100%; max-width: 480px; margin: 0 auto 36px; }
+.image-view-trigger .post-cover { margin: 0; }
+.image-view-trigger:focus-visible, .image-viewer button:focus-visible, .viewer-viewport:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.image-viewer { width: min(1200px, 94vw); max-width: 94vw; max-height: 94dvh; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--background); color: var(--foreground); }
+.image-viewer::backdrop { background: var(--background); opacity: .9; }
+.viewer-toolbar { display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 12px; }
+.image-viewer button { min-height: 44px; padding: 8px 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--muted); color: var(--foreground); font: inherit; cursor: pointer; }
+.image-viewer button:hover { color: var(--accent); }
+.viewer-viewport { display: grid; place-items: center; overflow: auto; max-height: 68dvh; overscroll-behavior: contain; }
+.viewer-viewport img { display: block; max-width: 100%; max-height: 68dvh; width: auto; height: auto; cursor: zoom-in; }
+.is-zoomed .viewer-viewport { display: block; }
+.is-zoomed .viewer-viewport img { max-width: none; max-height: none; margin: 0 auto; cursor: zoom-out; }
+.viewer-caption { font-size: 13px; margin: 12px 0 0; }
+html:has(.image-viewer[open]) { overflow: hidden; }
+body:has(.image-viewer[open]) .bottom-blur { opacity: 0; }
+@media (max-width: 550px) { .image-view-trigger.screenshot { padding: 8px; } .image-viewer { padding: 12px; } }
