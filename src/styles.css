@@ -144,23 +144,24 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
   header { align-items: flex-start; }
   header nav { width: 100%; justify-content: space-between; }
 }
-.post-entry-text { min-width: 0; }
+.post-entry-text, .post-entry-heading { min-width: 0; }
 .post-entry h2 { overflow-wrap: anywhere; text-wrap: pretty; }
 @media (max-width: 640px) {
   .post-list .has-cover {
     grid-template-columns: clamp(72px, 22vw, 104px) minmax(0, 1fr);
-    grid-template-areas: "date date" "image title" "summary summary";
+    grid-template-areas: "image heading" "summary summary";
     gap: 10px 16px;
     align-items: center;
   }
   .has-cover .post-entry-text { display: contents; }
   .has-cover .post-cover-link { grid-area: image; align-self: center; }
-  .has-cover .post-date { grid-area: date; }
-  .has-cover h2 { grid-area: title; margin: 0; }
+  .has-cover .post-entry-heading { grid-area: heading; }
+  .has-cover .post-date { display: block; line-height: 1.6; }
+  .has-cover h2 { margin: 6px 0 0; }
   .has-cover .post-summary { grid-area: summary; margin: 0; }
 }
 @media (max-width: 319px) {
-  .post-list .has-cover { grid-template-columns: minmax(0, 1fr); grid-template-areas: "date" "image" "title" "summary"; }
+  .post-list .has-cover { grid-template-columns: minmax(0, 1fr); grid-template-areas: "image" "heading" "summary"; }
   .has-cover .post-cover-link { width: 104px; }
 }
 

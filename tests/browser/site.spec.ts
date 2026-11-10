@@ -147,12 +147,12 @@ test('covered blog entries align across screen widths and image proportions',asy
    },{w,h});
    const box=await card.evaluate(element=>{
     const rect=(selector:string)=>{const r=element.querySelector(selector)!.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
-    const r=element.getBoundingClientRect();return {card:{x:r.x,y:r.y,width:r.width},image:rect('.post-cover-link'),title:rect('h2'),date:rect('.post-date'),summary:rect('.post-summary'),text:rect('.post-entry-text'),overflow:document.documentElement.scrollWidth>innerWidth,fit:getComputedStyle(element.querySelector('img')!).objectFit};
+    const r=element.getBoundingClientRect();return {card:{x:r.x,y:r.y,width:r.width},image:rect('.post-cover-link'),title:rect('h2'),date:rect('.post-date'),summary:rect('.post-summary'),text:rect('.post-entry-text'),heading:rect('.post-entry-heading'),overflow:document.documentElement.scrollWidth>innerWidth,fit:getComputedStyle(element.querySelector('img')!).objectFit};
    });
    expect(box.overflow,`${width}px ${w}x${h}`).toBe(false);expect(box.fit).toBe('contain');expect(box.image.height).toBeLessThanOrEqual(180);
    if(width<=640){
-    expect(Math.abs(box.date.x-box.card.x)).toBeLessThan(1);expect(Math.abs(box.summary.x-box.card.x)).toBeLessThan(1);expect(box.summary.width).toBeCloseTo(box.card.width,0);
-    if(width>=320){expect(box.title.x-box.image.x-box.image.width).toBeCloseTo(16,0);expect(Math.abs(box.image.y+box.image.height/2-box.title.y-box.title.height/2)).toBeLessThan(1);}
+    expect(Math.abs(box.date.x-box.title.x)).toBeLessThan(1);expect(box.date.y+box.date.height).toBeLessThanOrEqual(box.title.y);expect(Math.abs(box.summary.x-box.card.x)).toBeLessThan(1);expect(box.summary.width).toBeCloseTo(box.card.width,0);
+    if(width>=320){expect(box.title.x-box.image.x-box.image.width).toBeCloseTo(16,0);expect(Math.abs(box.image.y+box.image.height/2-box.heading.y-box.heading.height/2)).toBeLessThan(1);}
     else {expect(Math.abs(box.image.x-box.card.x)).toBeLessThan(1);expect(box.title.y).toBeGreaterThanOrEqual(box.image.y+box.image.height);}
    }else expect(Math.abs(box.image.y+box.image.height/2-box.text.y-box.text.height/2)).toBeLessThan(1);
   }
