@@ -135,3 +135,26 @@ test('native cursors remain in both themes with zoom-in only on image triggers',
   await expect(page.locator('.magnify-pointer')).toHaveCount(0);
  }
 });
+
+test('covered blog entries align across screen widths and image proportions',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/blog/');await page.evaluate(()=>document.fonts.ready);
+ const card=page.locator('.post-entry.has-cover').first();
+ for(const width of [240,280,319,320,350,351,360,375,390,414,430,550,640,641,768,1024,1440,1920]){
+  await page.setViewportSize({width,height:900});
+  for(const [w,h] of [[270,337],[400,225],[300,300],[100,400],[400,100]]){
+   await card.locator('img').evaluate(async(element:HTMLImageElement,{w,h})=>{
+    element.width=w;element.height=h;element.src='data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"/>`);await element.decode();
+   },{w,h});
+   const box=await card.evaluate(element=>{
+    const rect=(selector:string)=>{const r=element.querySelector(selector)!.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
+    const r=element.getBoundingClientRect();return {card:{x:r.x,y:r.y,width:r.width},image:rect('.post-cover-link'),title:rect('h2'),date:rect('.post-date'),summary:rect('.post-summary'),text:rect('.post-entry-text'),overflow:document.documentElement.scrollWidth>innerWidth,fit:getComputedStyle(element.querySelector('img')!).objectFit};
+   });
+   expect(box.overflow,`${width}px ${w}x${h}`).toBe(false);expect(box.fit).toBe('contain');expect(box.image.height).toBeLessThanOrEqual(180);
+   if(width<=640){
+    expect(Math.abs(box.date.x-box.card.x)).toBeLessThan(1);expect(Math.abs(box.summary.x-box.card.x)).toBeLessThan(1);expect(box.summary.width).toBeCloseTo(box.card.width,0);
+    if(width>=320){expect(box.title.x-box.image.x-box.image.width).toBeCloseTo(16,0);expect(Math.abs(box.image.y+box.image.height/2-box.title.y-box.title.height/2)).toBeLessThan(1);}
+    else {expect(Math.abs(box.image.x-box.card.x)).toBeLessThan(1);expect(box.title.y).toBeGreaterThanOrEqual(box.image.y+box.image.height);}
+   }else expect(Math.abs(box.image.y+box.image.height/2-box.text.y-box.text.height/2)).toBeLessThan(1);
+  }
+ }
+});
