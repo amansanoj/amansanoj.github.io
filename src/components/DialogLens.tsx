@@ -25,6 +25,6 @@ export function DialogLens({src,alt}:{src:string;alt:string}) {
     <Lens isStatic={touch||keyboard} position={position} duration={reduce?0:.1} ariaLabel={`Magnify: ${alt||'Image'}`}>
       <img src={src} alt={alt} onLoad={center}/>
     </Lens>
-    
+
   </div>;
 }
