@@ -248,3 +248,6 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
 .education-list .education-period { font-size: 13px; }
 
 .home-project-list { margin-bottom: 24px; }
+.home-project-list li { border-top: 0; }
+.home-project-list .post-entry { padding-block: 20px; }
+.home-project-list .post-entry:first-child { padding-top: 10px; }
