@@ -3,6 +3,7 @@ import path from 'node:path';
 import sharp from 'sharp';
 import { marked } from 'marked';
 import { prepareAssets } from './lib/content-images';
+import { prepareSiteOg } from './lib/site-og';
 
 type ProjectMetadata = { order?: number; kind?: string; period?: string; stack?: string[]; links?: Array<{label:string;url:string}> };
 
@@ -63,3 +64,5 @@ for(const entry of await directories('projects')) {
 projects.sort((a,b)=>a.order-b.order||a.title.localeCompare(b.title));
 await writeFile('src/generated/projects.json',JSON.stringify(projects,null,2));
 console.log(`Prepared ${posts.length} posts and ${projects.length} projects with image variants`);
+
+await prepareSiteOg();

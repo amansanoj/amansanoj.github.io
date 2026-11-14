@@ -64,17 +64,23 @@ test('all projects have readable static pages, navigation, resources and sharing
  expect(home).toContain('All Projects');
 });
 
-test('homepage shows three selected projects and current education',async()=>{
+test('homepage shows three thumbnail previews and About has its own page',async()=>{
  const html=await readFile('dist/index.html','utf8');
- const selection=html.split('id="projects"')[1].split('id="about"')[0];
- expect(selection.match(/<article /g)?.length).toBe(3);
+ const selection=html.split('id="projects"')[1].split('id="contact"')[0];
+ expect(selection.match(/class="post-entry(?: has-cover)?"/g)?.length).toBe(3);
+ expect(selection.match(/src="\/projects\/[^"]+\/thumbnail\.webp"/g)?.length).toBe(3);
+ expect(html).not.toContain('assets/projects/macro-pad.png');
+ expect(html).not.toContain('id="about"');
+ const about=await readFile('dist/about/index.html','utf8');
+ expect(about).toContain('<h1>About</h1>');
+ expect(about).toContain('href="/about/" aria-current="page"');
  expect(selection).not.toContain('Other Projects');
  for(const name of ['Terminal Portfolio','NanoLink','UI Components','Cardputer Now Playing'])expect(selection).not.toContain(name);
  expect(selection).toContain('All Projects');
- expect(html).toContain('University of Wollongong in Dubai');
- expect(html).toContain('Bachelor of Computer Science, Cyber Security');
- expect(html).toContain('September 2026 - 2029');
- expect(html).toContain('GEMS Our Own Indian School');
+ expect(about).toContain('University of Wollongong in Dubai');
+ expect(about).toContain('Bachelor of Computer Science, Cyber Security');
+ expect(about).toContain('September 2026 - 2029');
+ expect(about).toContain('GEMS Our Own Indian School');
  const navigation=html.split('aria-label="Main navigation"')[1].split('</nav>')[0];
  expect(navigation.indexOf('>About<')).toBeLessThan(navigation.indexOf('>Projects<'));
  expect(navigation.indexOf('>Projects<')).toBeLessThan(navigation.indexOf('>Blog<'));
@@ -127,5 +133,24 @@ test('every prerendered page links to existing local routes, images and anchors'
     expect(destination,`${relative('dist',target)}: ${url.hash}`).toContain(`id="${decodeURIComponent(url.hash.slice(1))}"`);
    }
   }
+ }
+});
+
+test('all pages use the shared OG image unless they have a cover',async()=>{
+ const {default:projects}=await import('../src/generated/projects.json');
+ const pages=[...['','about/','blog/','projects/','404.html'].map(path=>({path,cover:false})),...posts.map(post=>({path:`blog/${post.slug}/`,cover:Boolean(post.cover)})),...projects.map(project=>({path:`projects/${project.slug}/`,cover:Boolean(project.cover)}))];
+ const fallback='https://amansanoj.is-a.dev/assets/og/site.jpg';
+ const size=await sharp('dist/assets/og/site.jpg').metadata();
+ expect([size.width,size.height]).toEqual([1200,630]);
+ for(const page of pages){
+  const file=page.path.endsWith('.html')?page.path:`${page.path}index.html`;
+  const html=await readFile(`dist/${file}`,'utf8');
+  const expected=page.cover?`https://amansanoj.is-a.dev/${page.path}og.jpg`:fallback;
+  expect(html.match(/property="og:image"/g)?.length).toBe(1);
+  expect(html).toContain(`<meta property="og:image" content="${expected}">`);
+  expect(html).toContain(`<meta name="twitter:image" content="${expected}">`);
+  expect(html).toContain('<meta name="twitter:card" content="summary_large_image">');
+  expect(html).toContain('<meta property="og:image:width" content="1200">');
+  expect(html).toContain('<meta property="og:image:height" content="630">');
  }
 });

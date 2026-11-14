@@ -102,11 +102,11 @@ footer { flex-wrap: wrap; align-items: center; }
 
 .post-list .post-entry { display: grid; gap: 24px; align-items: center; padding: 28px 0; }
 .post-list .has-cover { grid-template-columns: 144px minmax(0, 1fr); }
-.post-entry h2 { font-size: 22px; line-height: 1.45; margin: 8px 0 0; }
-.post-entry h2 a { text-decoration: none; }
-.post-entry h2 a:hover { text-decoration: underline; }
+.post-entry :is(h2, h3) { font-size: 22px; line-height: 1.45; margin: 8px 0 0; }
+.post-entry :is(h2, h3) a { text-decoration: none; }
+.post-entry :is(h2, h3) a:hover { text-decoration: underline; }
 @media (max-width: 550px) {
-  .post-entry h2 { font-size: 18px; }
+  .post-entry :is(h2, h3) { font-size: 18px; }
   .post-entry .post-date { font-size: 12px; }
 }
 
@@ -139,7 +139,7 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
   header nav { width: 100%; justify-content: space-between; }
 }
 .post-entry-text, .post-entry-heading { min-width: 0; }
-.post-entry h2 { overflow-wrap: anywhere; text-wrap: pretty; }
+.post-entry :is(h2, h3) { overflow-wrap: anywhere; text-wrap: pretty; }
 @media (max-width: 640px) {
   .post-list .has-cover {
     grid-template-columns: clamp(72px, 22vw, 104px) minmax(0, 1fr);
@@ -151,7 +151,7 @@ article > .blog-intro h1 { font-size: clamp(30px, 4.5vw, 44px); margin-top: 20px
   .has-cover .post-cover-link { grid-area: image; align-self: center; }
   .has-cover .post-entry-heading { grid-area: heading; }
   .has-cover .post-date { display: block; line-height: 1.6; }
-  .has-cover h2 { margin: 6px 0 0; }
+  .has-cover :is(h2, h3) { margin: 6px 0 0; }
   .has-cover .post-summary { grid-area: summary; margin: 0; }
 }
 @media (max-width: 319px) {
@@ -243,6 +243,8 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
 .project-directory-links { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 15px; }
 
 .education-list { display: grid; gap: 24px; margin-top: 20px; }
-.education-list h4 { margin: 0 0 6px; font-size: 16px; }
+.education-list :is(h3, h4) { margin: 0 0 6px; font-size: 16px; }
 .education-list p { margin: 4px 0; font-size: 15px; }
 .education-list .education-period { font-size: 13px; }
+
+.home-project-list { margin-bottom: 24px; }
